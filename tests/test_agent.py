@@ -38,3 +38,32 @@ def test_agent_step_paper():
     df = synthetic_ohlcv(1200, seed=2)
     ag = TradingAgent(PaperBroker(), "x", "SYN", fetch=lambda *a: df)
     assert ag.step() in {"enter", "wait", "hold", "exit", "risk-halt"}
+
+
+def test_alpaca_bracket_order_and_stop_update(monkeypatch):
+    import requests
+    from trading_agent.broker import AlpacaBroker
+    monkeypatch.setenv("ALPACA_API_KEY", "k")
+    monkeypatch.setenv("ALPACA_SECRET", "s")
+    monkeypatch.delenv("LIVE_TRADING", raising=False)
+    calls = []
+
+    class R:
+        content = b"1"
+        def __init__(self, data): self.data = data
+        def raise_for_status(self): pass
+        def json(self): return self.data
+
+    def fake(method, url, **kw):
+        calls.append((method, url, kw.get("json")))
+        if url.endswith("/v2/orders") and method == "GET":
+            return R([{"id": "p", "type": "limit", "legs": [{"id": "s1", "type": "stop"}]}])
+        return R({})
+    monkeypatch.setattr(requests, "request", fake)
+    b = AlpacaBroker()
+    assert "paper-api" in b.base and b.normalize_qty(3.9) == 3.0
+    b.buy("AAPL", 3, 100, 98.5, 105)
+    body = calls[0][2]
+    assert body["order_class"] == "bracket" and body["stop_loss"]["stop_price"] == "98.50"
+    b.update_stop("AAPL", 101)
+    assert any(c[0] == "PATCH" and c[1].endswith("/s1") for c in calls)

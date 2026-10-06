@@ -19,6 +19,17 @@ LIVE_TRADING=yes BINANCE_API_KEY=... BINANCE_SECRET=... python main.py live   # 
 pytest
 ```
 
+## الأسهم الأمريكية (Alpaca)
+```bash
+export ALPACA_API_KEY=... ALPACA_SECRET=...
+python main.py backtest --exchange alpaca --symbol AAPL --timeframe 1h
+python main.py live --exchange alpaca --symbol AAPL   # حساب Alpaca التجريبي (paper) افتراضياً
+LIVE_TRADING=yes python main.py live --exchange alpaca --symbol AAPL   # أموال حقيقية
+```
+- الدخول بأمر bracket: وقف الخسارة وجني الربح يُحفظان **على خوادم Alpaca**، فيحميان الصفقة حتى لو توقف البرنامج.
+- الوقف المتحرك يُحدَّث على المنصة، والوكيل لا يتداول والسوق مغلق، والكمية أسهم صحيحة.
+- أنشئ حساباً تجريبياً مجانياً من alpaca.markets للبدء.
+
 ## تحذير مهم — لا يوجد "تداول بدون خسارة"
 - لا يمكن لأي وكيل ضمان عدم الخسارة. وقف الخسارة يحدّ الخسارة لكنه لا يلغيها (فجوات السعر والانزلاق تتجاوزه).
 - نقل الوقف للتعادل يقلل الخسائر لكنه يقتطع أيضاً صفقات رابحة كانت ستعود للصعود.
