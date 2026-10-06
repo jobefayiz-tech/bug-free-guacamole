@@ -4,17 +4,26 @@ import time
 from .data import fetch_any
 from .features import FEATURES, add_features, add_label
 from .model import LogisticModel
-from .risk import Position, RiskConfig, RiskManager
+from .risk import Portfolio, Position, RiskConfig
 
 log = logging.getLogger("agent")
 HORIZON = 12
 
 
 class TradingAgent:
-    def __init__(self, broker, exchange_id, symbol, timeframe="1h", cfg=None, fetch=fetch_any):
+    """Trades one symbol. Several agents can share one Portfolio (account-wide limits)."""
+
+    def __init__(self, broker, exchange_id, symbol, timeframe="1h", cfg=None,
+                 fetch=fetch_any, portfolio=None):
         self.broker, self.ex_id, self.symbol, self.tf = broker, exchange_id, symbol, timeframe
-        self.cfg, self.fetch = cfg or RiskConfig(), fetch
-        self.pos, self.model, self.rm, self.last_train = None, None, None, 0
+        self.cfg = cfg or RiskConfig()
+        self.fetch = fetch
+        self.pf = portfolio or Portfolio(self.cfg)
+        self.model, self.last_train = None, 0
+
+    @property
+    def pos(self):
+        return self.pf.positions.get(self.symbol)
 
     def _train(self, d):
         d = d.dropna(subset=FEATURES + ["label"])
@@ -27,53 +36,77 @@ class TradingAgent:
         raw = self.fetch(self.ex_id, self.symbol, self.tf, 1000)
         d = add_label(add_features(raw), HORIZON)
         last, price = d.iloc[-2], float(d["close"].iloc[-1])   # last *closed* bar
+        self.broker.mark(self.symbol, price)
         eq = self.broker.equity(price)
-        if self.rm is None:
-            self.rm = RiskManager(self.cfg, eq)
-        self.rm.on_equity(d.index[-1], eq)
+        self.pf.start(d.index[-1], eq)
+        rm = self.pf.rm
         if self.model is None or len(d) - self.last_train >= 200:
             self._train(d.iloc[:-HORIZON - 1])
             self.last_train = len(d)
 
-        if self.pos:
+        pos = self.pos
+        if pos:
             held = self.broker.position_qty(self.symbol)
             if held is not None and held <= 0:  # closed server-side (stop/target hit)
                 log.info("EXIT %s closed by broker order", self.symbol)
-                self.pos = None
+                del self.pf.positions[self.symbol]
                 return "exit"
             bar = d.iloc[-1]
-            old_stop = self.pos.stop
-            self.pos.update(float(bar["high"]))
-            if self.pos.stop > old_stop and hasattr(self.broker, "update_stop"):
-                self.broker.update_stop(self.symbol, self.pos.stop)
-            ex = self.pos.check_exit(float(bar["open"]), float(bar["high"]), float(bar["low"]))
-            if ex is not None or not self.rm.can_trade(eq) and price < self.pos.entry:
-                self.broker.sell(self.symbol, self.pos.qty, price)
-                log.info("EXIT %s @ %.4f (entry %.4f)", self.symbol, price, self.pos.entry)
-                self.pos = None
+            old_stop = pos.stop
+            pos.update(float(bar["high"]))
+            if pos.stop > old_stop and hasattr(self.broker, "update_stop"):
+                self.broker.update_stop(self.symbol, pos.stop)
+            ex = pos.check_exit(float(bar["open"]), float(bar["high"]), float(bar["low"]))
+            if ex is not None or (not rm.can_trade(eq) and price < pos.entry):
+                self.broker.sell(self.symbol, pos.qty, price)
+                log.info("EXIT %s @ %.4f (entry %.4f)", self.symbol, price, pos.entry)
+                del self.pf.positions[self.symbol]
                 return "exit"
             return "hold"
-        if not self.rm.can_trade(eq):
+        if not rm.can_trade(eq):
             return "risk-halt"
         p = float(self.model.predict_proba(last[FEATURES].to_numpy(float)[None])[0])
-        if p >= self.cfg.entry_threshold:
-            qty = self.broker.normalize_qty(self.rm.size(eq, price, float(last["atr"])))
-            if qty > 0:
-                pos = Position(price, qty, float(last["atr"]), self.cfg)
-                if getattr(self.broker, "supports_bracket", False):
-                    fill = self.broker.buy(self.symbol, qty, price, pos.stop, pos.take_profit)
-                else:
-                    fill = self.broker.buy(self.symbol, qty, price)
-                self.pos = pos
-                log.info("ENTER %s qty=%.6f @ %.4f p=%.2f stop=%.4f tp=%.4f",
-                         self.symbol, qty, fill, p, self.pos.stop, self.pos.take_profit)
-                return "enter"
-        return "wait"
+        if p < self.cfg.entry_threshold:
+            return "wait"
+        atr = float(last["atr"])
+        stop = price - self.cfg.stop_atr * atr
+        qty = rm.size(eq, price, atr)
+        qty = self.pf.cap_qty(self.symbol, qty, price, stop, eq, self.broker.buying_power())
+        qty = self.broker.normalize_qty(qty)
+        if qty <= 0:
+            return "limit"  # portfolio limits or no cash
+        pos = Position(price, qty, atr, self.cfg)
+        if getattr(self.broker, "supports_bracket", False):
+            fill = self.broker.buy(self.symbol, qty, price, pos.stop, pos.take_profit)
+        else:
+            fill = self.broker.buy(self.symbol, qty, price)
+        self.pf.positions[self.symbol] = pos
+        log.info("ENTER %s qty=%.6f @ %.4f p=%.2f stop=%.4f tp=%.4f",
+                 self.symbol, qty, fill, p, pos.stop, pos.take_profit)
+        return "enter"
+
+
+class PortfolioRunner:
+    """Runs one agent per symbol under shared account-wide risk limits."""
+
+    def __init__(self, broker, exchange_id, symbols, timeframe="1h", cfg=None, fetch=fetch_any):
+        self.cfg = cfg or RiskConfig()
+        self.pf = Portfolio(self.cfg)
+        self.agents = [TradingAgent(broker, exchange_id, s, timeframe, self.cfg, fetch, self.pf)
+                       for s in symbols]
+
+    def step(self):
+        """Manage open positions first, so exits free risk budget before new entries."""
+        results = {}
+        for a in sorted(self.agents, key=lambda a: a.pos is None):
+            try:
+                results[a.symbol] = a.step()
+            except Exception:
+                log.exception("%s step failed; will retry", a.symbol)
+                results[a.symbol] = "error"
+        return results
 
     def run(self, interval=60):
         while True:
-            try:
-                log.info("step -> %s", self.step())
-            except Exception:
-                log.exception("step failed; will retry")
+            log.info("cycle -> %s", self.step())
             time.sleep(interval)

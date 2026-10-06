@@ -5,13 +5,19 @@ class PaperBroker:
     """Simulated account. No real money."""
 
     def __init__(self, cash=10_000.0, fee_rate=0.001):
-        self.cash, self.qty, self.fee = cash, 0.0, fee_rate
+        self.cash, self.holdings, self.marks, self.fee = cash, {}, {}, fee_rate
 
-    def equity(self, price):
-        return self.cash + self.qty * price
+    def mark(self, symbol, price):
+        self.marks[symbol] = price
+
+    def equity(self, price=None):
+        return self.cash + sum(q * self.marks.get(s, 0.0) for s, q in self.holdings.items())
+
+    def buying_power(self):
+        return self.cash
 
     def position_qty(self, symbol):
-        return self.qty
+        return self.holdings.get(symbol, 0.0)
 
     def normalize_qty(self, qty):
         return qty
@@ -21,12 +27,12 @@ class PaperBroker:
 
     def buy(self, symbol, qty, price):
         self.cash -= qty * price * (1 + self.fee)
-        self.qty += qty
+        self.holdings[symbol] = self.holdings.get(symbol, 0.0) + qty
         return price
 
     def sell(self, symbol, qty, price):
         self.cash += qty * price * (1 - self.fee)
-        self.qty -= qty
+        self.holdings[symbol] = self.holdings.get(symbol, 0.0) - qty
         return price
 
 
@@ -44,6 +50,12 @@ class CcxtBroker:
             "enableRateLimit": True})
         self.quote = quote
 
+    marks = None
+
+    def mark(self, symbol, price):
+        self.marks = self.marks or {}
+        self.marks[symbol] = price
+
     def is_open(self):
         return True
 
@@ -53,9 +65,15 @@ class CcxtBroker:
     def position_qty(self, symbol):
         return None  # unknown; agent-side monitoring only
 
-    def equity(self, price):
-        bal = self.ex.fetch_balance()
-        return float(bal["total"].get(self.quote, 0.0))
+    def equity(self, price=None):
+        total = self.ex.fetch_balance()["total"]
+        eq = float(total.get(self.quote, 0.0))
+        for sym, px in (self.marks or {}).items():  # add value of held coins
+            eq += float(total.get(sym.split("/")[0], 0.0)) * px
+        return eq
+
+    def buying_power(self):
+        return float(self.ex.fetch_balance()["free"].get(self.quote, 0.0))
 
     def buy(self, symbol, qty, price):
         o = self.ex.create_market_buy_order(symbol, self.ex.amount_to_precision(symbol, qty))
@@ -91,8 +109,14 @@ class AlpacaBroker:
     def normalize_qty(self, qty):
         return float(int(qty))  # whole shares (required for bracket orders)
 
-    def equity(self, price):
+    def mark(self, symbol, price):
+        pass
+
+    def equity(self, price=None):
         return float(self._req("GET", "/v2/account")["equity"])
+
+    def buying_power(self):
+        return float(self._req("GET", "/v2/account")["buying_power"])
 
     def position_qty(self, symbol):
         try:

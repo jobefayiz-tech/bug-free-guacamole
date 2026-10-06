@@ -15,6 +15,9 @@ class RiskConfig:
     daily_loss_limit: float = 0.03    # stop trading for the day
     max_drawdown: float = 0.15        # kill switch: stop trading entirely
     entry_threshold: float = 0.60     # min model probability to enter
+    max_positions: int = 5            # portfolio: max simultaneous open positions
+    max_portfolio_risk: float = 0.04  # portfolio: max total equity at risk (entry-to-stop)
+    max_exposure: float = 0.8         # portfolio: max total notional as fraction of equity
 
 
 class Position:
@@ -63,3 +66,33 @@ class RiskManager:
         risk_per_unit = c.stop_atr * atr
         qty = equity * c.risk_per_trade / risk_per_unit
         return min(qty, equity * c.max_position_frac / entry)
+
+
+class Portfolio:
+    """Shared state for many symbols: open positions plus account-wide risk limits."""
+
+    def __init__(self, cfg: RiskConfig):
+        self.cfg, self.rm, self.positions = cfg, None, {}
+
+    def start(self, ts, equity):
+        if self.rm is None:
+            self.rm = RiskManager(self.cfg, equity)
+        self.rm.on_equity(ts, equity)
+
+    def open_risk(self):
+        return sum(max(p.entry - p.stop, 0) * p.qty for p in self.positions.values())
+
+    def exposure(self):
+        return sum(p.entry * p.qty for p in self.positions.values())
+
+    def cap_qty(self, symbol, qty, entry, stop, equity, cash=None):
+        """Shrink qty so the new trade respects portfolio limits (0 = not allowed)."""
+        c = self.cfg
+        if symbol in self.positions or len(self.positions) >= c.max_positions:
+            return 0.0
+        qty = min(qty, (equity * c.max_exposure - self.exposure()) / entry)
+        if entry > stop:
+            qty = min(qty, (equity * c.max_portfolio_risk - self.open_risk()) / (entry - stop))
+        if cash is not None:
+            qty = min(qty, cash / (entry * (1 + c.fee_rate)))
+        return max(qty, 0.0)

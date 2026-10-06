@@ -67,3 +67,28 @@ def test_alpaca_bracket_order_and_stop_update(monkeypatch):
     assert body["order_class"] == "bracket" and body["stop_loss"]["stop_price"] == "98.50"
     b.update_stop("AAPL", 101)
     assert any(c[0] == "PATCH" and c[1].endswith("/s1") for c in calls)
+
+
+def test_portfolio_limits_and_multi_symbol():
+    from trading_agent.agent import PortfolioRunner
+    from trading_agent.risk import Portfolio
+    cfg = RiskConfig(max_positions=2, max_portfolio_risk=0.02, max_exposure=0.5)
+    pf = Portfolio(cfg)
+    pf.start(__import__("pandas").Timestamp("2024-01-01"), 10_000)
+    # risk budget 2% = 200 -> at 5 risk/unit, max 40 units even if 1000 requested
+    assert pf.cap_qty("A", 1000, 100, 95, 10_000) == 40
+    pf.positions["A"] = Position(100, 40, 3.33, cfg)
+    assert pf.cap_qty("A", 10, 100, 95, 10_000) == 0          # already held
+    pf.positions["B"] = Position(100, 1, 3.33, cfg)
+    assert pf.cap_qty("C", 10, 100, 95, 10_000) == 0          # max_positions
+    assert Portfolio(cfg).cap_qty("X", 1000, 100, 95, 10_000, cash=500) < 5.1  # cash cap
+
+    data = {s: synthetic_ohlcv(1200, seed=i) for i, s in enumerate(["A", "B", "C"])}
+    broker = PaperBroker()
+    runner = PortfolioRunner(broker, "x", list(data), cfg=cfg,
+                             fetch=lambda ex, sym, tf, n: data[sym])
+    for _ in range(3):
+        res = runner.step()
+    assert set(res) == {"A", "B", "C"}
+    assert len(runner.pf.positions) <= 2
+    assert broker.cash > -1e-6
