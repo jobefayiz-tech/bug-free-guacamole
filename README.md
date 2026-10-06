@@ -30,6 +30,14 @@ LIVE_TRADING=yes python main.py live --exchange alpaca --symbol AAPL   # أمو�
 - الوقف المتحرك يُحدَّث على المنصة، والوكيل لا يتداول والسوق مغلق، والكمية أسهم صحيحة.
 - أنشئ حساباً تجريبياً مجانياً من alpaca.markets للبدء.
 
+## خطة التجربة (4-8 أسابيع على الحساب التجريبي)
+```bash
+cp .env.example .env   # ضع مفاتيح Alpaca التجريبية ثم: set -a; . ./.env; set +a
+nohup python main.py live --exchange alpaca --symbols AAPL,MSFT,NVDA,AMZN,GOOGL --interval 300 &
+python main.py report --benchmark SPY   # يقارن رصيد الوكيل (journal.csv) بمؤشر SPY
+```
+يجب أن يعمل على جهازك أو خادم دائم (حاوية السحابة مؤقتة). لا تنتقل للمال الحقيقي إلا إذا تفوق الوكيل على SPY بعد أسابيع.
+
 ## عدة رموز معاً (محفظة)
 ```bash
 python main.py paper --exchange alpaca --symbols AAPL,MSFT,NVDA

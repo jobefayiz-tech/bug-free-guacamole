@@ -1,5 +1,8 @@
+import csv
 import logging
+import os
 import time
+from datetime import datetime, timezone
 
 from .data import fetch_any
 from .features import FEATURES, add_features, add_label
@@ -106,7 +109,21 @@ class PortfolioRunner:
                 results[a.symbol] = "error"
         return results
 
+    def journal(self, path="journal.csv"):
+        """Append account equity to a CSV so the run can be compared with a benchmark."""
+        eq = self.agents[0].broker.equity()
+        new = not os.path.exists(path)
+        with open(path, "a", newline="") as f:
+            w = csv.writer(f)
+            if new:
+                w.writerow(["utc", "equity", "open_positions"])
+            w.writerow([datetime.now(timezone.utc).isoformat(), round(eq, 2), len(self.pf.positions)])
+
     def run(self, interval=60):
         while True:
             log.info("cycle -> %s", self.step())
+            try:
+                self.journal()
+            except Exception:
+                log.exception("journal failed")
             time.sleep(interval)

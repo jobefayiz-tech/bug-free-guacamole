@@ -54,5 +54,6 @@ def run_backtest(df, cfg: RiskConfig = None, cash=10_000.0, warmup=500,
         "total_return": float(eq.iloc[-1] / eq.iloc[0] - 1),
         "max_drawdown": float(dd),
         "worst_trade": float(t.min()) if len(t) else 0.0,
+        "buy_and_hold": float(c[-1] / c[warmup] - 1),  # benchmark: just hold the asset
         "final_equity": float(eq.iloc[-1]),
     }
