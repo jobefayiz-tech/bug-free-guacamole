@@ -128,3 +128,30 @@ def test_alpaca_pagination(monkeypatch):
         def json(self): return self.j
     monkeypatch.setattr(requests, "get", lambda *a, **k: R(pages.pop(0)))
     assert len(data.fetch_alpaca_bars("alpaca", "AAPL")) == 2
+
+
+def test_team_vetoes_and_lead_logic():
+    from trading_agent.team import LeadAgent, Team
+    team, lead = Team(), LeadAgent()
+    good = dict(trend=0.05, trend_slope=0.01, vol_ratio=0.8, r20=0.04, ema_ratio=0.01)
+    ops = team.opinions(good)
+    assert not any(o.veto for o in ops)
+    down = dict(good, trend=-0.03)
+    d = lead.decide(team.opinions(down))
+    assert not d.enter and "regime" in d.reason          # downtrend veto
+    panic = dict(good, vol_ratio=3.5)
+    assert "volatility" in lead.decide(team.opinions(panic)).reason
+    assert not lead.decide(ops, account_ok=False).enter  # risk officer
+    w0 = lead.w["momentum"]
+    lead.learn({"momentum": 0.5}, -10)
+    assert lead.w["momentum"] < w0                        # backers of a loser lose weight
+
+
+def test_team_backtest_and_live_step():
+    from trading_agent.portfolio_backtest import run_portfolio_backtest
+    dfs = {s: synthetic_ohlcv(2500, seed=i) for i, s in enumerate("ABC")}
+    for strat in ("team", "ml"):
+        r = run_portfolio_backtest(dfs, strategy=strat)
+        assert r["final_equity"] > 0
+    ag = TradingAgent(PaperBroker(), "x", "SYN", fetch=lambda *a: synthetic_ohlcv(1500, seed=3))
+    assert ag.step() in {"enter", "wait", "hold", "exit", "risk-halt", "limit"}

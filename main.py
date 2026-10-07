@@ -60,10 +60,10 @@ def main():
         for sym, d in dfs.items():
             print(f"{sym}: {len(d)} bars, {d.index[0]} -> {d.index[-1]}")
         w = min(500, min(len(d) for d in dfs.values()) // 3)
-        loose = RiskConfig(max_positions=len(symbols), max_portfolio_risk=1.0, max_exposure=1.0)
-        for title, cfg in (("WITH shared limits (default)", RiskConfig()), ("NO portfolio limits", loose)):
+        for title, strat in (("TEAM: specialists + lead agent", "team"),
+                             ("SINGLE ML model only (old)", "ml")):
             print(f"== {title}")
-            for k, v in run_portfolio_backtest(dfs, cfg, warmup=w).items():
+            for k, v in run_portfolio_backtest(dfs, RiskConfig(), warmup=w, strategy=strat).items():
                 print(f"{k:28s} {v}")
         return
     if a.mode == "backtest":

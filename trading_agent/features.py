@@ -23,6 +23,10 @@ def add_features(df: pd.DataFrame) -> pd.DataFrame:
     d["atr_pct"] = d["atr"] / c
     lo, hi = d["low"].rolling(48).min(), d["high"].rolling(48).max()
     d["range_pos"] = (c - lo) / (hi - lo + 1e-12)
+    ema200 = c.ewm(span=200, adjust=False).mean()
+    d["trend"] = c / ema200 - 1                       # regime: price vs long-term average
+    d["trend_slope"] = ema200.pct_change(20)          # regime: is the long-term average rising?
+    d["vol_ratio"] = d["vol"] / d["vol"].rolling(200).mean()  # volatility spike detector
     return d
 
 

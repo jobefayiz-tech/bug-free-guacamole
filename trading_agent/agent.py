@@ -6,8 +6,8 @@ from datetime import datetime, timezone
 
 from .data import fetch_any
 from .features import FEATURES, add_features, add_label
-from .model import LogisticModel
 from .risk import Portfolio, Position, RiskConfig
+from .team import LeadAgent, Team
 
 log = logging.getLogger("agent")
 HORIZON = 12
@@ -17,12 +17,12 @@ class TradingAgent:
     """Trades one symbol. Several agents can share one Portfolio (account-wide limits)."""
 
     def __init__(self, broker, exchange_id, symbol, timeframe="1h", cfg=None,
-                 fetch=fetch_any, portfolio=None):
+                 fetch=fetch_any, portfolio=None, lead=None):
         self.broker, self.ex_id, self.symbol, self.tf = broker, exchange_id, symbol, timeframe
         self.cfg = cfg or RiskConfig()
         self.fetch = fetch
         self.pf = portfolio or Portfolio(self.cfg)
-        self.model, self.last_train = None, 0
+        self.team, self.lead, self.last_train = Team(), lead or LeadAgent(), 0
 
     @property
     def pos(self):
@@ -30,7 +30,7 @@ class TradingAgent:
 
     def _train(self, d):
         d = d.dropna(subset=FEATURES + ["label"])
-        self.model = LogisticModel().fit(d[FEATURES].to_numpy(), d["label"].to_numpy())
+        self.team.ml.fit_arrays(d[FEATURES].to_numpy(), d["label"].to_numpy())
 
     def step(self):
         """One decision cycle. Returns a short description of what happened."""
@@ -43,7 +43,7 @@ class TradingAgent:
         eq = self.broker.equity(price)
         self.pf.start(d.index[-1], eq)
         rm = self.pf.rm
-        if self.model is None or len(d) - self.last_train >= 200:
+        if self.team.ml.model is None or len(d) - self.last_train >= 200:
             self._train(d.iloc[:-HORIZON - 1])
             self.last_train = len(d)
 
@@ -63,17 +63,20 @@ class TradingAgent:
             if ex is not None or (not rm.can_trade(eq) and price < pos.entry):
                 self.broker.sell(self.symbol, pos.qty, price)
                 log.info("EXIT %s @ %.4f (entry %.4f)", self.symbol, price, pos.entry)
+                self.lead.learn(pos.opinions, price - pos.entry)
                 del self.pf.positions[self.symbol]
                 return "exit"
             return "hold"
         if not rm.can_trade(eq):
             return "risk-halt"
-        p = float(self.model.predict_proba(last[FEATURES].to_numpy(float)[None])[0])
-        if p < self.cfg.entry_threshold:
+        ops = self.team.opinions(last.to_dict())
+        dec = self.lead.decide(ops)
+        if not dec.enter:
+            log.info("SKIP %s: %s", self.symbol, dec.reason)
             return "wait"
         atr = float(last["atr"])
         stop = price - self.cfg.stop_atr * atr
-        qty = rm.size(eq, price, atr)
+        qty = rm.size(eq, price, atr) * dec.size_mult
         qty = self.pf.cap_qty(self.symbol, qty, price, stop, eq, self.broker.buying_power())
         qty = self.broker.normalize_qty(qty)
         if qty <= 0:
@@ -83,9 +86,10 @@ class TradingAgent:
             fill = self.broker.buy(self.symbol, qty, price, pos.stop, pos.take_profit)
         else:
             fill = self.broker.buy(self.symbol, qty, price)
+        pos.opinions = {o.name: o.score for o in ops}
         self.pf.positions[self.symbol] = pos
-        log.info("ENTER %s qty=%.6f @ %.4f p=%.2f stop=%.4f tp=%.4f",
-                 self.symbol, qty, fill, p, pos.stop, pos.take_profit)
+        log.info("ENTER %s qty=%.6f @ %.4f %s stop=%.4f tp=%.4f",
+                 self.symbol, qty, fill, dec.reason, pos.stop, pos.take_profit)
         return "enter"
 
 
@@ -95,7 +99,8 @@ class PortfolioRunner:
     def __init__(self, broker, exchange_id, symbols, timeframe="1h", cfg=None, fetch=fetch_any):
         self.cfg = cfg or RiskConfig()
         self.pf = Portfolio(self.cfg)
-        self.agents = [TradingAgent(broker, exchange_id, s, timeframe, self.cfg, fetch, self.pf)
+        self.lead = LeadAgent()  # one lead agent supervises every symbol's specialists
+        self.agents = [TradingAgent(broker, exchange_id, s, timeframe, self.cfg, fetch, self.pf, self.lead)
                        for s in symbols]
 
     def step(self):
