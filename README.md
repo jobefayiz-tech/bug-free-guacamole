@@ -30,6 +30,11 @@ LIVE_TRADING=yes python main.py live --exchange alpaca --symbol AAPL   # أمو�
 - الوقف المتحرك يُحدَّث على المنصة، والوكيل لا يتداول والسوق مغلق، والكمية أسهم صحيحة.
 - أنشئ حساباً تجريبياً مجانياً من alpaca.markets للبدء.
 
+## Windows (بدون أوامر)
+1. ثبّت Python من python.org/downloads مع تفعيل خيار **Add python.exe to PATH**.
+2. نزّل المشروع (GitHub: Code ثم Download ZIP) وفك الضغط.
+3. اضغط مرتين: `1_setup.bat` (تثبيت + لصق المفتاحين) ثم `2_test.bat` ثم `3_start.bat`، وبعد أسابيع `4_report.bat`.
+
 ## خطة التجربة (4-8 أسابيع على الحساب التجريبي)
 ```bash
 cp .env.example .env   # ضع مفاتيح Alpaca التجريبية ثم: set -a; . ./.env; set +a

@@ -1,5 +1,6 @@
 import argparse
 import logging
+import os
 
 from trading_agent.agent import PortfolioRunner
 from trading_agent.backtest import run_backtest
@@ -9,7 +10,20 @@ from trading_agent.risk import RiskConfig
 from trading_agent.data import fetch_any, synthetic_ohlcv
 
 
+def load_env(path=".env"):
+    """Read KEY=VALUE lines from .env into the environment (no extra packages needed)."""
+    if not os.path.exists(path):
+        return
+    for line in open(path, encoding="utf-8"):
+        line = line.strip()
+        if line and not line.startswith("#") and "=" in line:
+            k, v = line.split("=", 1)
+            if v.strip():
+                os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
+
 def main():
+    load_env()
     ap = argparse.ArgumentParser()
     ap.add_argument("mode", choices=["backtest", "paper", "live", "report"])
     ap.add_argument("--exchange", default="binance", help="ccxt exchange id, or 'alpaca' for US stocks")
