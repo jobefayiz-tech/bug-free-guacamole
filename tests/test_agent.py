@@ -155,3 +155,19 @@ def test_team_backtest_and_live_step():
         assert r["final_equity"] > 0
     ag = TradingAgent(PaperBroker(), "x", "SYN", fetch=lambda *a: synthetic_ohlcv(1500, seed=3))
     assert ag.step() in {"enter", "wait", "hold", "exit", "risk-halt", "limit"}
+
+
+def test_trend_portfolio_cuts_crash_drawdown():
+    import numpy as np, pandas as pd
+    from trading_agent.trend import run_trend_backtest
+    n = 1800
+    idx = pd.date_range("2018-01-01", periods=n, freq="B")
+    rng = np.random.default_rng(0)
+    drift = np.where((np.arange(n) > 900) & (np.arange(n) < 1100), -0.0035, 0.0006)
+    def mk(seed):
+        r = drift + np.random.default_rng(seed).normal(0, 0.008, n)
+        c = 100 * np.exp(np.cumsum(r))
+        return pd.DataFrame({"close": c}, index=idx)
+    res = run_trend_backtest({"A": mk(1), "B": mk(2)}, benchmark="A")
+    assert res["strategy"]["max_drawdown"] > res["A buy&hold"]["max_drawdown"]
+    assert "allocation_now" in res and res["yearly"]

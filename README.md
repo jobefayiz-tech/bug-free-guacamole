@@ -42,6 +42,11 @@ LIVE_TRADING=yes python main.py live --exchange alpaca --symbol AAPL   # أمو�
 المقارنة على بياناتك:  `python main.py backtest --shared --exchange alpaca --symbols AAPL,MSFT,NVDA,AMZN,GOOGL`
 تطبع نتيجة الفريق ونتيجة النموذج المفرد القديم. لا تفترض أن الفريق أفضل قبل رؤية الأرقام.
 
+## محفظة الاتجاه البطيئة (الإطار اليومي)
+`python main.py backtest --trend --exchange alpaca` (أو `5_trend_test.bat`): SPY وQQQ وTLT (سندات) وGLD (ذهب).
+أصل يدخل فقط فوق متوسطه 200 يوم، توزيع بعكس التقلب، تخفيض التعرض عند ارتفاع التقلب، والباقي نقد، وإعادة توازن شهرية.
+يطبع العائد والتراجع وSharpe مقابل الاحتفاظ بـ SPY، ونتائج كل سنة، وما كان سيحمله الآن.
+
 ## Windows (بدون أوامر)
 1. ثبّت Python من python.org/downloads مع تفعيل خيار **Add python.exe to PATH**.
 2. نزّل المشروع (GitHub: Code ثم Download ZIP) وفك الضغط.

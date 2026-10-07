@@ -5,6 +5,7 @@ import os
 from trading_agent.agent import PortfolioRunner
 from trading_agent.backtest import run_backtest
 from trading_agent.broker import AlpacaBroker, CcxtBroker, PaperBroker
+from trading_agent.trend import run_trend_backtest
 from trading_agent.portfolio_backtest import run_portfolio_backtest
 from trading_agent.risk import RiskConfig
 from trading_agent.data import fetch_any, synthetic_ohlcv
@@ -31,6 +32,8 @@ def main():
     ap.add_argument("--symbols", help="comma-separated list, e.g. AAPL,MSFT,NVDA (overrides --symbol)")
     ap.add_argument("--timeframe", default="1h")
     ap.add_argument("--synthetic", action="store_true", help="backtest on fake data (offline)")
+    ap.add_argument("--trend", action="store_true",
+                    help="backtest: slow DAILY trend portfolio vs buy-and-hold (default SPY,QQQ,TLT,GLD)")
     ap.add_argument("--shared", action="store_true",
                     help="backtest: simulate ONE shared portfolio (cash pool + account-wide limits)")
     ap.add_argument("--benchmark", default="SPY", help="report: stock to compare against")
@@ -52,6 +55,24 @@ def main():
         print(f"{a.benchmark:12s} {b1 / b0 - 1:+.2%}")
         print("verdict      " + ("agent beat benchmark" if agent_ret > b1 / b0 - 1
                                  else "benchmark wins: do NOT go live"))
+        return
+    if a.mode == "backtest" and a.trend:
+        syms = [x.strip() for x in a.symbols.split(",")] if a.symbols else ["SPY", "QQQ", "TLT", "GLD"]
+        dfs = {sym: (synthetic_ohlcv(1800, seed=n, freq="1D") if a.synthetic
+                     else fetch_any(a.exchange, sym, "1d", 3000)) for n, sym in enumerate(syms)}
+        for sym, d in dfs.items():
+            print(f"{sym}: {len(d)} daily bars, {d.index[0]:%Y-%m-%d} -> {d.index[-1]:%Y-%m-%d}")
+        res = run_trend_backtest(dfs, benchmark=syms[0])
+        print("period", res["period"])
+        print(f"{'':24s}{'total':>9s}{'CAGR':>8s}{'vol':>8s}{'Sharpe':>8s}{'max DD':>9s}")
+        for k in ("strategy", f"{syms[0]} buy&hold", "equal-weight buy&hold"):
+            v = res[k]
+            print(f"{k:24s}{v['total_return']:>9.1%}{v['cagr']:>8.1%}{v['volatility']:>8.1%}"
+                  f"{v['sharpe']:>8.2f}{v['max_drawdown']:>9.1%}")
+        print("\nyear      strategy   " + syms[0])
+        for y, v in res["yearly"].items():
+            print(f"{y}   {v['strategy']:>9.1%}  {v[syms[0]]:>8.1%}")
+        print("\nallocation now:", res["allocation_now"], "cash:", res["cash_now"])
         return
     if a.mode == "backtest" and a.shared:
         bars = 4000 if a.exchange == "alpaca" else 1000
