@@ -92,3 +92,14 @@ def test_portfolio_limits_and_multi_symbol():
     assert set(res) == {"A", "B", "C"}
     assert len(runner.pf.positions) <= 2
     assert broker.cash > -1e-6
+
+
+def test_shared_portfolio_backtest_respects_limits():
+    from trading_agent.portfolio_backtest import run_portfolio_backtest
+    dfs = {s: synthetic_ohlcv(2500, seed=i) for i, s in enumerate(["A", "B", "C", "D"])}
+    cfg = RiskConfig(max_positions=2, max_exposure=0.5)
+    r = run_portfolio_backtest(dfs, cfg)
+    assert r["max_open_positions"] <= 2
+    assert r["avg_exposure"] <= 0.5 + 1e-9
+    assert r["final_equity"] > 0 and r["max_drawdown"] <= 0
+    assert set(r["pnl_by_symbol"]) == set(dfs)

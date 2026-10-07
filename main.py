@@ -4,6 +4,8 @@ import logging
 from trading_agent.agent import PortfolioRunner
 from trading_agent.backtest import run_backtest
 from trading_agent.broker import AlpacaBroker, CcxtBroker, PaperBroker
+from trading_agent.portfolio_backtest import run_portfolio_backtest
+from trading_agent.risk import RiskConfig
 from trading_agent.data import fetch_any, synthetic_ohlcv
 
 
@@ -15,6 +17,8 @@ def main():
     ap.add_argument("--symbols", help="comma-separated list, e.g. AAPL,MSFT,NVDA (overrides --symbol)")
     ap.add_argument("--timeframe", default="1h")
     ap.add_argument("--synthetic", action="store_true", help="backtest on fake data (offline)")
+    ap.add_argument("--shared", action="store_true",
+                    help="backtest: simulate ONE shared portfolio (cash pool + account-wide limits)")
     ap.add_argument("--benchmark", default="SPY", help="report: stock to compare against")
     ap.add_argument("--interval", type=int, default=60)
     a = ap.parse_args()
@@ -34,6 +38,16 @@ def main():
         print(f"{a.benchmark:12s} {b1 / b0 - 1:+.2%}")
         print("verdict      " + ("agent beat benchmark" if agent_ret > b1 / b0 - 1
                                  else "benchmark wins: do NOT go live"))
+        return
+    if a.mode == "backtest" and a.shared:
+        dfs = {sym: (synthetic_ohlcv(seed=n) if a.synthetic else fetch_any(a.exchange, sym, a.timeframe, 1000))
+               for n, sym in enumerate(symbols)}
+        w = min(500, min(len(d) for d in dfs.values()) // 3)
+        loose = RiskConfig(max_positions=len(symbols), max_portfolio_risk=1.0, max_exposure=1.0)
+        for title, cfg in (("WITH shared limits (default)", RiskConfig()), ("NO portfolio limits", loose)):
+            print(f"== {title}")
+            for k, v in run_portfolio_backtest(dfs, cfg, warmup=w).items():
+                print(f"{k:28s} {v}")
         return
     if a.mode == "backtest":
         for n, sym in enumerate(symbols):
