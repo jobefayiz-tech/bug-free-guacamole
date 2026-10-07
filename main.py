@@ -54,8 +54,11 @@ def main():
                                  else "benchmark wins: do NOT go live"))
         return
     if a.mode == "backtest" and a.shared:
-        dfs = {sym: (synthetic_ohlcv(seed=n) if a.synthetic else fetch_any(a.exchange, sym, a.timeframe, 1000))
+        bars = 4000 if a.exchange == "alpaca" else 1000
+        dfs = {sym: (synthetic_ohlcv(seed=n) if a.synthetic else fetch_any(a.exchange, sym, a.timeframe, bars))
                for n, sym in enumerate(symbols)}
+        for sym, d in dfs.items():
+            print(f"{sym}: {len(d)} bars, {d.index[0]} -> {d.index[-1]}")
         w = min(500, min(len(d) for d in dfs.values()) // 3)
         loose = RiskConfig(max_positions=len(symbols), max_portfolio_risk=1.0, max_exposure=1.0)
         for title, cfg in (("WITH shared limits (default)", RiskConfig()), ("NO portfolio limits", loose)):

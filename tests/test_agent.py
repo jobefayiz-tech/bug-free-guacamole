@@ -103,3 +103,28 @@ def test_shared_portfolio_backtest_respects_limits():
     assert r["avg_exposure"] <= 0.5 + 1e-9
     assert r["final_equity"] > 0 and r["max_drawdown"] <= 0
     assert set(r["pnl_by_symbol"]) == set(dfs)
+
+
+def test_portfolio_backtest_rejects_too_little_data():
+    import pytest
+    from trading_agent.portfolio_backtest import run_portfolio_backtest
+    with pytest.raises(ValueError, match="bars"):
+        run_portfolio_backtest({"A": synthetic_ohlcv(120), "B": synthetic_ohlcv(120, seed=1)})
+
+
+def test_alpaca_pagination(monkeypatch):
+    import requests
+    from trading_agent import data
+    monkeypatch.setenv("ALPACA_API_KEY", "k")
+    monkeypatch.setenv("ALPACA_SECRET", "s")
+    pages = [
+        {"bars": [{"t": "2024-01-02T14:00:00Z", "o": 1, "h": 2, "l": 1, "c": 2, "v": 5}], "next_page_token": "x"},
+        {"bars": [{"t": "2024-01-02T15:00:00Z", "o": 2, "h": 3, "l": 2, "c": 3, "v": 5}], "next_page_token": None},
+    ]
+
+    class R:
+        def __init__(self, j): self.j = j
+        def raise_for_status(self): pass
+        def json(self): return self.j
+    monkeypatch.setattr(requests, "get", lambda *a, **k: R(pages.pop(0)))
+    assert len(data.fetch_alpaca_bars("alpaca", "AAPL")) == 2

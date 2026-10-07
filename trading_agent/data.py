@@ -45,19 +45,30 @@ def _alpaca_headers():
 
 
 def fetch_alpaca_bars(_exchange_id, symbol, timeframe="1h", limit=1000):
-    """US stock candles from Alpaca (free IEX feed)."""
+    """US stock candles from Alpaca (free IEX feed). Follows pagination for long histories."""
     import requests
-    start = (pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=365 if timeframe == "1d" else 120))
-    r = requests.get(
-        f"https://data.alpaca.markets/v2/stocks/{symbol}/bars",
-        params={"timeframe": ALPACA_TF[timeframe], "limit": 10000, "feed": "iex",
-                "adjustment": "split", "start": start.isoformat()},
-        headers=_alpaca_headers(), timeout=20)
-    r.raise_for_status()
-    rows = r.json().get("bars") or []
+    days = 365 * 6 if timeframe == "1d" else 365 * 2
+    start = (pd.Timestamp.now(tz="UTC") - pd.Timedelta(days=days)).isoformat()
+    rows, token = [], None
+    while True:
+        params = {"timeframe": ALPACA_TF[timeframe], "limit": 10000, "feed": "iex",
+                  "adjustment": "split", "start": start}
+        if token:
+            params["page_token"] = token
+        r = requests.get(f"https://data.alpaca.markets/v2/stocks/{symbol}/bars",
+                         params=params, headers=_alpaca_headers(), timeout=30)
+        r.raise_for_status()
+        j = r.json()
+        rows += j.get("bars") or []
+        token = j.get("next_page_token")
+        if not token:
+            break
+    if not rows:
+        raise RuntimeError(f"Alpaca returned no bars for {symbol}")
     df = pd.DataFrame(rows).rename(columns={"o": "open", "h": "high", "l": "low",
                                             "c": "close", "v": "volume", "t": "ts"})
     df.index = pd.to_datetime(df.pop("ts"))
+    df = df[~df.index.duplicated()].sort_index()
     return df[["open", "high", "low", "close", "volume"]].tail(limit)
 
 

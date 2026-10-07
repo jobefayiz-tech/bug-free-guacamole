@@ -18,6 +18,10 @@ def run_portfolio_backtest(dfs, cfg: RiskConfig = None, cash=10_000.0, warmup=50
     for df in dfs.values():
         idx = df.index if idx is None else idx.intersection(df.index)
     syms = list(dfs)
+    if len(idx) < warmup + 100:
+        raise ValueError(f"Only {len(idx)} bars are shared by all symbols; need at least "
+                         f"{warmup + 100}. Per-symbol bars: "
+                         + ", ".join(f"{s}={len(d)}" for s, d in dfs.items()))
     D = {s: add_label(add_features(dfs[s].loc[idx]), HORIZON) for s in syms}
     A = {s: {k: D[s][k].to_numpy() for k in ("open", "high", "low", "close", "atr", "label")}
          for s in syms}
@@ -50,7 +54,8 @@ def run_portfolio_backtest(dfs, cfg: RiskConfig = None, cash=10_000.0, warmup=50
             for s in syms:
                 lo, hi = max(60, i - train_window), i - HORIZON
                 ok = ~np.isnan(X[s][lo:hi]).any(1) & ~np.isnan(A[s]["label"][lo:hi])
-                models[s] = LogisticModel().fit(X[s][lo:hi][ok], A[s]["label"][lo:hi][ok])
+                models[s] = (LogisticModel().fit(X[s][lo:hi][ok], A[s]["label"][lo:hi][ok])
+                             if ok.sum() >= 100 else None)
         if pf.rm is None:
             pf.start(idx[i], cash)
         # 1) positions held from earlier bars: stops / targets / trailing
@@ -80,7 +85,7 @@ def run_portfolio_backtest(dfs, cfg: RiskConfig = None, cash=10_000.0, warmup=50
         # 3) signals for the next bar
         if pf.rm.can_trade(eq):
             for s in syms:
-                if s not in pf.positions and not np.isnan(X[s][i]).any():
+                if s not in pf.positions and models[s] and not np.isnan(X[s][i]).any():
                     p = models[s].predict_proba(X[s][i:i + 1])[0]
                     if p >= cfg.entry_threshold:
                         pending[s] = p
