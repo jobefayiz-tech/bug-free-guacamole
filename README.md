@@ -1,5 +1,9 @@
 # AI Trading Agent (وكيل تداول بالذكاء الاصطناعي)
 
+> **الجديد: فريق Binance (`binance_team/` و`crypto.py`)** — وكلاء مستقلون (اتجاه، زخم، تقلب، سيولة، تأكيد BTC) + وكيل رئيسي، بيانات Binance العامة بدون حساب ولا مفاتيح، **تداول وهمي فقط**.
+> `A_crypto_test.bat` اختبار تاريخي، `B_crypto_status.bat` رأي كل وكيل الآن، `C_crypto_paper.bat` تداول وهمي، `D_crypto_report.bat` مقارنة مع الاحتفاظ بـ BTC.
+
+
 وكيل تداول آلي يعمل على أي منصة تدعمها مكتبة `ccxt` (Binance, Kraken, Bybit, OKX, ...).
 
 ## كيف يعمل
