@@ -30,6 +30,8 @@ def main():
     ap.add_argument("--cash", type=float, default=None, help="backtest default 20; paper default 1000 (fake money)")
     ap.add_argument("--bars", type=int, default=2500)
     ap.add_argument("--top", type=int, default=0, help="scan/paper: use the N most liquid USDT coins right now")
+    ap.add_argument("--rank", choices=["conviction", "per_risk"], default="conviction",
+                    help="order of entries when slots are limited: raw conviction, or conviction per unit of risk")
     ap.add_argument("--synthetic", action="store_true")
     ap.add_argument("--loop", type=int, default=0, help="paper: repeat every N seconds")
     a = ap.parse_args()
@@ -37,14 +39,14 @@ def main():
 
     if a.mode == "scan":
         syms = top_symbols(a.top or 25)
-        rows = scan(syms)
+        rows = scan(syms, rank=a.rank)
         buy = [r for r in rows if r["enter"]]
         print(f"Scanned {len(rows)} liquid coins. BTC is the market gauge. (Ranking by the team's rules, NOT a prediction.)\n")
         print("COINS THE TEAM WOULD ENTER TODAY:" if buy else "NO COIN PASSES THE TEAM'S RULES TODAY. Staying out is a valid result.")
         if buy:
-            print(f"{'coin':10s}{'conviction':>11s}{'size':>6s}{'price':>12s}{'stop':>12s}{'risk/coin':>10s}{'30d':>8s}{'90d':>8s}")
+            print(f"{'coin':10s}{'conviction':>11s}{'conv/risk':>10s}{'size':>6s}{'price':>12s}{'stop':>12s}{'risk/coin':>10s}{'30d':>8s}{'90d':>8s}")
             for r in buy:
-                print(f"{r['symbol']:10s}{r['score']:>11.2f}{r['size']:>6.2f}{r['price']:>12.4f}{r['stop']:>12.4f}"
+                print(f"{r['symbol']:10s}{r['score']:>11.2f}{r['per_risk']:>10.1f}{r['size']:>6.2f}{r['price']:>12.4f}{r['stop']:>12.4f}"
                       f"{r['risk_pct']:>10.1%}{r['r30']:>8.0%}{r['r90']:>8.0%}")
         print("\nREJECTED (reason):")
         for r in [r for r in rows if not r["enter"]]:
@@ -83,6 +85,11 @@ def main():
                 print(f"{k:26s}{pct(v['total_return'])}{pct(v['cagr'])}{v['sharpe']:>8.2f}{pct(v['max_drawdown'])}")
             print(f"trades {r['trades']} | win rate {r['win_rate']:.0%} | avg exposure {r['avg_exposure']:.0%} "
                   f"| orders too small for Binance minimum: {r['orders_too_small']}")
+            if cash == 1000.0:
+                print("ranking when slots are limited (max 5 open):")
+                for rk in ("conviction", "per_risk"):
+                    x = run_backtest(dfs, cash=cash, rank=rk)["team"]
+                    print(f"   {rk:11s} total {x['total_return']:>7.1%}  max DD {x['max_drawdown']:>7.1%}  Sharpe {x['sharpe']:.2f}")
             print("entries blocked by:", r["vetoes"], "| pnl by coin:", r["pnl_by_symbol"])
             print("year   team      " + r["bench"])
             for y, v in r["yearly"].items():
@@ -101,7 +108,7 @@ def main():
         return
 
     if a.mode == "paper":
-        t = PaperTrader(syms, cash=a.cash or 1000.0)
+        t = PaperTrader(syms, cash=a.cash or 1000.0, rank=a.rank)
         while True:
             if a.top:
                 t.symbols = list(dict.fromkeys(list(t.s["pos"]) + top_symbols(a.top)))

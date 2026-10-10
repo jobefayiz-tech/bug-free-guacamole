@@ -4,7 +4,7 @@ from .agents import LeadAgent, build_features, opinions
 from .data import fetch_klines
 
 
-def scan(symbols, fetch=fetch_klines, interval="1d", stop_atr=2.5):
+def scan(symbols, fetch=fetch_klines, interval="1d", stop_atr=2.5, rank="conviction"):
     mrow = build_features(fetch("BTCUSDT", interval, 400)).iloc[-2].to_dict()
     lead, rows = LeadAgent(), []
     for s in symbols:
@@ -19,9 +19,11 @@ def scan(symbols, fetch=fetch_klines, interval="1d", stop_atr=2.5):
                              price=price, stop=price - stop_atr * atr, risk_pct=stop_atr * atr / price,
                              r30=float(df["close"].iloc[-1] / df["close"].iloc[-31] - 1),
                              r90=float(df["close"].iloc[-1] / df["close"].iloc[-91] - 1),
-                             dollar_vol=float(row["dollar_vol"])))
+                             dollar_vol=float(row["dollar_vol"]),
+                             per_risk=d.score / (stop_atr * atr / price) if atr > 0 else 0.0))
         except Exception as e:
             rows.append(dict(symbol=s, enter=False, score=0.0, size=0.0, reason=f"error: {e}",
-                             price=0, stop=0, risk_pct=0, r30=0, r90=0, dollar_vol=0))
-    rows.sort(key=lambda x: (-x["enter"], -x["score"]))
+                             price=0, stop=0, risk_pct=0, r30=0, r90=0, dollar_vol=0, per_risk=0.0))
+    k = "score" if rank == "conviction" else "per_risk"
+    rows.sort(key=lambda x: (-x["enter"], -x[k]))
     return rows

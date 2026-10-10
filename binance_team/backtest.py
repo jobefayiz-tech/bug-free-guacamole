@@ -18,7 +18,7 @@ def stats(r, per=365):
 def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=0.02,
                  max_pos_frac=0.5, min_notional=5.0, stop_atr=2.5, trail_atr=3.0,
                  lock_start_atr=2.0, lock_frac=0.4, halt_drawdown=None, warmup=260,
-                 lead_threshold=None, max_positions=5):
+                 lead_threshold=None, max_positions=5, rank="conviction"):
     """Long-only spot portfolio sharing one cash pool. Decisions use data up to a bar's close;
     orders fill at the NEXT bar's open (no look-ahead)."""
     syms = list(dfs)
@@ -89,7 +89,8 @@ def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=
                 if not dec.hold:
                     pend_exit.add(s)
             elif dec.enter and not halted:
-                pend_entry[s] = (dec.size, A[s]["atr"][i], dec.score)
+                key = dec.score if rank == "conviction" else dec.score * A[s]["close"][i] / (stop_atr * A[s]["atr"][i])
+                pend_entry[s] = (dec.size, A[s]["atr"][i], key)
             elif not dec.enter and dec.reason.startswith("veto"):
                 name = dec.reason.split("->")[1].split(":")[0].strip()
                 vetoes[name] = vetoes.get(name, 0) + 1

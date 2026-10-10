@@ -92,3 +92,14 @@ def test_scan_and_position_cap():
     dfs = {s: synthetic(2500, seed=i) for i, s in enumerate(["BTCUSDT", "A", "B", "C", "D"])}
     r = run_backtest(dfs, cash=1000.0, max_positions=2)
     assert r["max_open"] <= 2
+
+
+def test_rank_modes():
+    from binance_team.scan import scan
+    frames = {s: synthetic(600, seed=i) for i, s in enumerate(["BTCUSDT", "ETHUSDT", "SOLUSDT"])}
+    f = lambda s, itv, n: frames[s]
+    for rk in ("conviction", "per_risk"):
+        assert len(scan(list(frames), fetch=f, rank=rk)) == 3
+    dfs = {s: synthetic(2500, seed=i) for i, s in enumerate(["BTCUSDT", "A", "B"])}
+    for rk in ("conviction", "per_risk"):
+        assert run_backtest(dfs, cash=1000.0, rank=rk)["final_cash"] > 0
