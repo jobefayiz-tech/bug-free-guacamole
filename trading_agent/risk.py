@@ -10,6 +10,7 @@ class RiskConfig:
     breakeven_atr: float = 1.0        # after this profit, stop moves to breakeven (+fees)
     trail_start_atr: float = 1.5
     trail_atr: float = 1.0
+    profit_lock: float = 0.5          # once in profit (>= trail_start), never give back more than half of the peak gain
     fee_rate: float = 0.001
     slippage: float = 0.0005
     daily_loss_limit: float = 0.03    # stop trading for the day
@@ -36,6 +37,7 @@ class Position:
             self.stop = max(self.stop, self.entry * (1 + 2 * (c.fee_rate + c.slippage)))
         if gain >= c.trail_start_atr * self.atr:
             self.stop = max(self.stop, self.highest - c.trail_atr * self.atr)
+            self.stop = max(self.stop, self.entry + c.profit_lock * gain)
 
     def check_exit(self, open_, high, low):
         """Return exit price or None. Stop is assumed hit before target within a bar."""

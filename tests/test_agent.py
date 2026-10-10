@@ -171,3 +171,30 @@ def test_trend_portfolio_cuts_crash_drawdown():
     res = run_trend_backtest({"A": mk(1), "B": mk(2)}, benchmark="A")
     assert res["strategy"]["max_drawdown"] > res["A buy&hold"]["max_drawdown"]
     assert "allocation_now" in res and res["yearly"]
+
+
+def test_profit_lock_and_market_confirmation():
+    from trading_agent.risk import Position
+    from trading_agent.team import LeadAgent, Team
+    cfg = RiskConfig()
+    p = Position(100, 1, 2, cfg)
+    p.update(110)                        # peak gain +10
+    assert p.stop >= 105                 # at least half of the peak gain is locked in
+    assert p.check_exit(108, 108, 104.5) is not None   # giving back > half exits
+    good = dict(trend=0.05, trend_slope=0.01, vol_ratio=0.8, r20=0.04, ema_ratio=0.01)
+    team, lead = Team(), LeadAgent()
+    assert "market" not in " ".join(o.name for o in team.opinions(good) if o.veto)
+    bad_mkt = dict(trend=-0.02, trend_slope=-0.01)
+    d = lead.decide(team.opinions(good, bad_mkt))
+    assert not d.enter and "market" in d.reason          # index not confirming -> reject
+    assert not lead.decide(team.opinions(good, {})).enter  # market data missing -> reject
+
+
+def test_backtest_and_live_with_market_reference():
+    from trading_agent.portfolio_backtest import run_portfolio_backtest
+    dfs = {s: synthetic_ohlcv(2500, seed=i) for i, s in enumerate("AB")}
+    r = run_portfolio_backtest(dfs, market=synthetic_ohlcv(2500, seed=9))
+    assert r["final_equity"] > 0
+    ag = TradingAgent(PaperBroker(), "x", "SYN", market_symbol="MKT",
+                      fetch=lambda ex, sym, tf, n: synthetic_ohlcv(1500, seed=4))
+    assert ag.step() in {"enter", "wait", "hold", "exit", "risk-halt", "limit"}

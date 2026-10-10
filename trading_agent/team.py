@@ -20,7 +20,7 @@ class TeamConfig:
     veto_vol_ratio: float = 2.0       # volatility this many times normal = panic, stay out
     size_floor: float = 0.5           # smallest fraction of the normal position size
     weights: dict = field(default_factory=lambda: {
-        "ml": 0.40, "momentum": 0.20, "regime": 0.25, "volatility": 0.15})
+        "ml": 0.40, "momentum": 0.20, "regime": 0.25, "volatility": 0.15, "market": 0.20})
 
 
 @dataclass
@@ -54,6 +54,20 @@ class RegimeAgent:
         if t < 0 or slope < 0:
             return Opinion(self.name, -1.0, True, "downtrend (price or long average falling)")
         return Opinion(self.name, float(min(1.0, 0.2 + 15 * t)), False, "uptrend")
+
+
+class MarketAgent:
+    """Market-confirmation specialist: the broad market (e.g. SPY) must agree with the trade.
+    A great-looking stock setup is rejected when the index is not confirming."""
+    name = "market"
+
+    def opine(self, mrow):
+        t, slope = mrow.get("trend"), mrow.get("trend_slope")
+        if _bad(t, slope):
+            return Opinion(self.name, 0.0, True, "no market data")
+        if t < 0 or slope < 0:
+            return Opinion(self.name, -1.0, True, "market not confirming (index in downtrend)")
+        return Opinion(self.name, float(min(1.0, 0.2 + 15 * t)), False, "market confirms")
 
 
 class VolatilityAgent:
@@ -113,9 +127,14 @@ class Team:
         self.cfg = cfg or TeamConfig()
         self.ml = MLAgent()
         self.members = [self.ml, MomentumAgent(), RegimeAgent(), VolatilityAgent(self.cfg)]
+        self.market = MarketAgent()
 
-    def opinions(self, row):
-        return [m.opine(row) for m in self.members]
+    def opinions(self, row, market_row=None):
+        """market_row=None disables market confirmation; {} (data missing) vetoes."""
+        ops = [m.opine(row) for m in self.members]
+        if market_row is not None:
+            ops.append(self.market.opine(market_row))
+        return ops
 
 
 class LeadAgent:

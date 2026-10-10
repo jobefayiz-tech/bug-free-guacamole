@@ -13,7 +13,7 @@ EXTRA = ["trend", "trend_slope", "vol_ratio", "r20", "ema_ratio"]
 
 def run_portfolio_backtest(dfs, cfg: RiskConfig = None, cash=10_000.0, warmup=500,
                            train_window=1500, retrain_every=200, strategy="team",
-                           tcfg: TeamConfig = None):
+                           tcfg: TeamConfig = None, market=None):
     """strategy="team": specialists + lead agent decide.  strategy="ml": single model + threshold."""
     """Walk-forward backtest of many symbols sharing ONE cash pool and the account-wide
     limits (max positions, total risk, total exposure, daily-loss, drawdown kill switch).
@@ -24,6 +24,8 @@ def run_portfolio_backtest(dfs, cfg: RiskConfig = None, cash=10_000.0, warmup=50
     idx = None
     for df in dfs.values():
         idx = df.index if idx is None else idx.intersection(df.index)
+    if market is not None:
+        idx = idx.intersection(market.index)
     syms = list(dfs)
     if len(idx) < warmup + 100:
         raise ValueError(f"Only {len(idx)} bars are shared by all symbols; need at least "
@@ -34,6 +36,10 @@ def run_portfolio_backtest(dfs, cfg: RiskConfig = None, cash=10_000.0, warmup=50
          for s in syms}
     X = {s: D[s][FEATURES].to_numpy() for s in syms}
     n = len(idx)
+    M = None
+    if market is not None:
+        md = add_features(market.loc[idx])
+        M = {k: md[k].to_numpy() for k in ("trend", "trend_slope")}
     F = {s: {k: D[s][k].to_numpy() for k in set(FEATURES + EXTRA)} for s in syms}
     teams = {s: Team(tcfg) for s in syms}
     lead = LeadAgent(tcfg)
@@ -109,7 +115,7 @@ def run_portfolio_backtest(dfs, cfg: RiskConfig = None, cash=10_000.0, warmup=50
                     if p is not None and p >= cfg.entry_threshold:
                         pending[s] = (p, 1.0, {})
                     continue
-                ops = teams[s].opinions(row)
+                ops = teams[s].opinions(row, {k: v[i] for k, v in M.items()} if M else None)
                 dec = lead.decide(ops)
                 if dec.enter:
                     pending[s] = (dec.score, dec.size_mult, {o.name: o.score for o in ops})

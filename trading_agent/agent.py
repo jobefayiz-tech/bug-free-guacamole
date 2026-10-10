@@ -17,9 +17,10 @@ class TradingAgent:
     """Trades one symbol. Several agents can share one Portfolio (account-wide limits)."""
 
     def __init__(self, broker, exchange_id, symbol, timeframe="1h", cfg=None,
-                 fetch=fetch_any, portfolio=None, lead=None):
+                 fetch=fetch_any, portfolio=None, lead=None, market_symbol=None):
         self.broker, self.ex_id, self.symbol, self.tf = broker, exchange_id, symbol, timeframe
         self.cfg = cfg or RiskConfig()
+        self.market_symbol = market_symbol
         self.fetch = fetch
         self.pf = portfolio or Portfolio(self.cfg)
         self.team, self.lead, self.last_train = Team(), lead or LeadAgent(), 0
@@ -69,7 +70,15 @@ class TradingAgent:
             return "hold"
         if not rm.can_trade(eq):
             return "risk-halt"
-        ops = self.team.opinions(last.to_dict())
+        mrow = None
+        if self.market_symbol:
+            try:
+                m = add_features(self.fetch(self.ex_id, self.market_symbol, self.tf, 1000))
+                mrow = m.iloc[-2].to_dict()
+            except Exception:
+                log.exception("market data unavailable; market agent will veto")
+                mrow = {}
+        ops = self.team.opinions(last.to_dict(), mrow)
         dec = self.lead.decide(ops)
         if not dec.enter:
             log.info("SKIP %s: %s", self.symbol, dec.reason)
@@ -96,11 +105,12 @@ class TradingAgent:
 class PortfolioRunner:
     """Runs one agent per symbol under shared account-wide risk limits."""
 
-    def __init__(self, broker, exchange_id, symbols, timeframe="1h", cfg=None, fetch=fetch_any):
+    def __init__(self, broker, exchange_id, symbols, timeframe="1h", cfg=None, fetch=fetch_any,
+                 market_symbol=None):
         self.cfg = cfg or RiskConfig()
         self.pf = Portfolio(self.cfg)
         self.lead = LeadAgent()  # one lead agent supervises every symbol's specialists
-        self.agents = [TradingAgent(broker, exchange_id, s, timeframe, self.cfg, fetch, self.pf, self.lead)
+        self.agents = [TradingAgent(broker, exchange_id, s, timeframe, self.cfg, fetch, self.pf, self.lead, market_symbol)
                        for s in symbols]
 
     def step(self):

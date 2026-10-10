@@ -32,6 +32,8 @@ def main():
     ap.add_argument("--symbols", help="comma-separated list, e.g. AAPL,MSFT,NVDA (overrides --symbol)")
     ap.add_argument("--timeframe", default="1h")
     ap.add_argument("--synthetic", action="store_true", help="backtest on fake data (offline)")
+    ap.add_argument("--market", default=None,
+                    help="reference index that must confirm every trade (default SPY for alpaca)")
     ap.add_argument("--trend", action="store_true",
                     help="backtest: slow DAILY trend portfolio vs buy-and-hold (default SPY,QQQ,TLT,GLD)")
     ap.add_argument("--shared", action="store_true",
@@ -40,6 +42,7 @@ def main():
     ap.add_argument("--interval", type=int, default=60)
     a = ap.parse_args()
     symbols = [x.strip() for x in a.symbols.split(",")] if a.symbols else [a.symbol]
+    market = a.market or ("SPY" if a.exchange == "alpaca" else None)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(message)s")
     if a.mode == "report":
         import pandas as pd
@@ -78,13 +81,18 @@ def main():
         bars = 4000 if a.exchange == "alpaca" else 1000
         dfs = {sym: (synthetic_ohlcv(seed=n) if a.synthetic else fetch_any(a.exchange, sym, a.timeframe, bars))
                for n, sym in enumerate(symbols)}
+        mdf = None
+        if market:
+            mdf = synthetic_ohlcv(seed=99) if a.synthetic else fetch_any(a.exchange, market, a.timeframe, bars)
+            print(f"market reference {market}: {len(mdf)} bars")
         for sym, d in dfs.items():
             print(f"{sym}: {len(d)} bars, {d.index[0]} -> {d.index[-1]}")
         w = min(500, min(len(d) for d in dfs.values()) // 3)
         for title, strat in (("TEAM: specialists + lead agent", "team"),
                              ("SINGLE ML model only (old)", "ml")):
             print(f"== {title}")
-            for k, v in run_portfolio_backtest(dfs, RiskConfig(), warmup=w, strategy=strat).items():
+            for k, v in run_portfolio_backtest(dfs, RiskConfig(), warmup=w, strategy=strat,
+                                                 market=mdf if strat == "team" else None).items():
                 print(f"{k:28s} {v}")
         return
     if a.mode == "backtest":
@@ -100,7 +108,7 @@ def main():
         broker = AlpacaBroker()  # Alpaca paper account unless LIVE_TRADING=yes
     else:
         broker = CcxtBroker(a.exchange)
-    PortfolioRunner(broker, a.exchange, symbols, a.timeframe).run(a.interval)
+    PortfolioRunner(broker, a.exchange, symbols, a.timeframe, market_symbol=market).run(a.interval)
 
 
 if __name__ == "__main__":
