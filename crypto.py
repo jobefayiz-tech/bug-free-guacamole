@@ -1,6 +1,6 @@
 """Binance team CLI (paper trading only).
   python crypto.py backtest [--cash 20] [--synthetic]
-  python crypto.py sweep             same team under 27 settings: is the result stable or a fluke?
+  python crypto.py sweep             same team under 54 settings (27 x 2 rankings): is the result stable or a fluke?
   python crypto.py scan --top 25     rank the most liquid coins by what the team would enter today
   python crypto.py status            today's decision of every specialist for every coin
   python crypto.py paper [--loop 3600]
@@ -57,11 +57,15 @@ def main():
         dfs = {s: (synthetic(a.bars, seed=i) if a.synthetic else fetch_klines(s, "1d", a.bars))
                for i, s in enumerate(syms)}
         rows, m = run_sweep(dfs, cash=a.cash or 1000.0)
-        print(f"{m['configs']} setting combinations (risk, threshold, stop) tested on the same data\n")
-        print(f"{'risk':>6s}{'thresh':>8s}{'stopATR':>9s}{'total':>9s}{'maxDD':>9s}{'Sharpe':>8s}{'trades':>8s}")
+        print(f"{m['configs']} setting combinations (risk, threshold, stop, ranking) tested on the same data\n")
+        print(f"{'risk':>6s}{'thresh':>8s}{'stopATR':>9s}{'ranking':>12s}{'total':>9s}{'maxDD':>9s}{'Sharpe':>8s}{'trades':>8s}")
         for x in sorted(rows, key=lambda x: -x["sharpe"]):
-            print(f"{x['risk']:>6.0%}{x['lead_threshold']:>8.1f}{x['stop_atr']:>9.1f}"
+            print(f"{x['risk']:>6.0%}{x['lead_threshold']:>8.1f}{x['stop_atr']:>9.1f}{x['rank']:>12s}"
                   f"{x['total']:>9.1%}{x['dd']:>9.1%}{x['sharpe']:>8.2f}{x['trades']:>8d}")
+        print("\nBy ranking method (median over its settings):")
+        for rk, v in m["by_rank"].items():
+            print(f"  {rk:11s} total {v['total_median']:>7.1%} | max DD {v['dd_median']:>7.1%} | Sharpe {v['sharpe_median']:.2f}"
+                  f" | beats {m['bench']} on Sharpe in {v['share_beating_bench_sharpe']:.0%} of its settings")
         b = m["bench"]
         print(f"\n{b} buy&hold: total {m['bench_total']:.1%}, max drawdown {m['bench_dd']:.1%}, Sharpe {m['bench_sharpe']:.2f}")
         print(f"Team total return: worst {m['total_min']:.1%} | median {m['total_median']:.1%} | best {m['total_max']:.1%}")
