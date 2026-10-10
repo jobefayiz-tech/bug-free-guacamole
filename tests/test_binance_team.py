@@ -65,3 +65,11 @@ def test_paper_trader_persists_and_respects_minimum(tmp_path):
     tiny = PaperTrader(["BTCUSDT"], cash=2.0, state=str(tmp_path / "t.json"),
                        journal=str(tmp_path / "tj.csv"), fetch=lambda s, i, n: frames[s])
     assert not tiny.step()["positions"]                         # 2 USDT can never meet the 5 USDT minimum
+
+
+def test_sweep_summary():
+    from binance_team.sweep import run_sweep
+    dfs = {s: synthetic(2500, seed=i) for i, s in enumerate(["BTCUSDT", "ETHUSDT"])}
+    rows, m = run_sweep(dfs, grid=dict(risk=[0.01, 0.03], lead_threshold=[0.3], stop_atr=[2.5]))
+    assert len(rows) == 2 == m["configs"]
+    assert 0 <= m["share_positive"] <= 1 and m["dd_worst"] <= m["dd_median"] <= 0

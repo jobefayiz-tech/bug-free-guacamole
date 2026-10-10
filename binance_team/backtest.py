@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from .agents import LeadAgent, build_features, opinions
+from .agents import LeadAgent, LeadConfig, build_features, opinions
 
 
 def stats(r, per=365):
@@ -17,7 +17,8 @@ def stats(r, per=365):
 
 def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=0.02,
                  max_pos_frac=0.5, min_notional=5.0, stop_atr=2.5, trail_atr=3.0,
-                 lock_start_atr=2.0, lock_frac=0.4, halt_drawdown=None, warmup=260):
+                 lock_start_atr=2.0, lock_frac=0.4, halt_drawdown=None, warmup=260,
+                 lead_threshold=None):
     """Long-only spot portfolio sharing one cash pool. Decisions use data up to a bar's close;
     orders fill at the NEXT bar's open (no look-ahead)."""
     syms = list(dfs)
@@ -31,7 +32,7 @@ def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=
     cols = ["px_vs_200", "gap", "slope200", "roc20", "roc60", "rsi", "vol20", "vol_ratio",
             "vol_x", "dollar_vol"]
     R = {s: {k: F[s][k].to_numpy() for k in cols} for s in syms}
-    lead = LeadAgent()
+    lead = LeadAgent(LeadConfig(threshold=lead_threshold) if lead_threshold else None)
     pos, cash0, peak = {}, cash, cash
     pend_entry, pend_exit = {}, set()
     eqs, trades, vetoes, small, exposure = [], [], {}, 0, []
