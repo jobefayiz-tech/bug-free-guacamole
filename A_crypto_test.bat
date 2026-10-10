@@ -1,7 +1,7 @@
 @echo off
 chcp 65001 >nul
 cd /d "%~dp0"
-where py >nul 2>nul && (set PY=py -3) || (set PY=python)
+call "%~dp0_find_python.bat" || exit /b 1
 %PY% -m pip install -q requests pandas numpy
 echo === Binance team: backtest on real public data (no account needed) ===
 %PY% crypto.py backtest
