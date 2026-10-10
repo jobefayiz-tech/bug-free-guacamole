@@ -1,6 +1,7 @@
 """Binance team CLI (paper trading only).
   python crypto.py backtest [--cash 20] [--synthetic]
   python crypto.py sweep             same team under 27 settings: is the result stable or a fluke?
+  python crypto.py scan --top 25     rank the most liquid coins by what the team would enter today
   python crypto.py status            today's decision of every specialist for every coin
   python crypto.py paper [--loop 3600]
   python crypto.py report            paper result vs just holding BTC
@@ -10,11 +11,12 @@ import time
 
 from binance_team.agents import LeadAgent, build_features, opinions
 from binance_team.backtest import run_backtest
-from binance_team.data import fetch_klines, synthetic
+from binance_team.data import fetch_klines, synthetic, top_symbols
+from binance_team.scan import scan
 from binance_team.paper import PaperTrader
 from binance_team.sweep import run_sweep
 
-DEFAULT = "BTCUSDT,ETHUSDT,BNBUSDT,SOLUSDT"
+DEFAULT = ("BTCUSDT,ETHUSDT,BNBUSDT,SOLUSDT,XRPUSDT,ADAUSDT,DOGEUSDT,AVAXUSDT,LINKUSDT,LTCUSDT")
 
 
 def pct(x):
@@ -23,14 +25,31 @@ def pct(x):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["backtest", "sweep", "status", "paper", "report"])
+    ap.add_argument("mode", choices=["backtest", "sweep", "scan", "status", "paper", "report"])
     ap.add_argument("--symbols", default=DEFAULT)
     ap.add_argument("--cash", type=float, default=None, help="backtest default 20; paper default 1000 (fake money)")
     ap.add_argument("--bars", type=int, default=2500)
+    ap.add_argument("--top", type=int, default=0, help="scan/paper: use the N most liquid USDT coins right now")
     ap.add_argument("--synthetic", action="store_true")
     ap.add_argument("--loop", type=int, default=0, help="paper: repeat every N seconds")
     a = ap.parse_args()
     syms = [s.strip().upper() for s in a.symbols.split(",")]
+
+    if a.mode == "scan":
+        syms = top_symbols(a.top or 25)
+        rows = scan(syms)
+        buy = [r for r in rows if r["enter"]]
+        print(f"Scanned {len(rows)} liquid coins. BTC is the market gauge. (Ranking by the team's rules, NOT a prediction.)\n")
+        print("COINS THE TEAM WOULD ENTER TODAY:" if buy else "NO COIN PASSES THE TEAM'S RULES TODAY. Staying out is a valid result.")
+        if buy:
+            print(f"{'coin':10s}{'conviction':>11s}{'size':>6s}{'price':>12s}{'stop':>12s}{'risk/coin':>10s}{'30d':>8s}{'90d':>8s}")
+            for r in buy:
+                print(f"{r['symbol']:10s}{r['score']:>11.2f}{r['size']:>6.2f}{r['price']:>12.4f}{r['stop']:>12.4f}"
+                      f"{r['risk_pct']:>10.1%}{r['r30']:>8.0%}{r['r90']:>8.0%}")
+        print("\nREJECTED (reason):")
+        for r in [r for r in rows if not r["enter"]]:
+            print(f"  {r['symbol']:10s}{r['reason']}")
+        return
 
     if a.mode == "sweep":
         dfs = {s: (synthetic(a.bars, seed=i) if a.synthetic else fetch_klines(s, "1d", a.bars))
@@ -84,6 +103,8 @@ def main():
     if a.mode == "paper":
         t = PaperTrader(syms, cash=a.cash or 1000.0)
         while True:
+            if a.top:
+                t.symbols = list(dict.fromkeys(list(t.s["pos"]) + top_symbols(a.top)))
             r = t.step()
             print(f"\n[{time.strftime('%Y-%m-%d %H:%M')}] equity {r['equity']:.2f} USDT"
                   f"{'  (HALTED: drawdown limit)' if r['halted'] else ''}")

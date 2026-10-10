@@ -12,7 +12,7 @@ class PaperTrader:
     def __init__(self, symbols, cash=20.0, market="BTCUSDT", interval="1d", state="paper_state.json",
                  journal="paper_journal.csv", fetch=fetch_klines, fee=0.001, slip=0.0005, risk=0.02,
                  max_pos_frac=0.5, min_notional=5.0, stop_atr=2.5, trail_atr=3.0,
-                 lock_start_atr=2.0, lock_frac=0.4, halt_drawdown=0.30):
+                 lock_start_atr=2.0, lock_frac=0.4, halt_drawdown=0.30, max_positions=5):
         self.__dict__.update(locals())
         self.lead = LeadAgent()
         self.s = {"cash": cash, "peak": cash, "pos": {}, "log": []}
@@ -59,10 +59,10 @@ class PaperTrader:
         eq = self.s["cash"] + sum(p["qty"] * price[s] for s, p in pos.items())
         self.s["peak"] = max(self.s["peak"], eq)
         halted = self.halt_drawdown is not None and eq < self.s["peak"] * (1 - self.halt_drawdown)
-        for s in self.symbols:                               # new entries
+        for s in sorted(self.symbols, key=lambda x: -decisions[x].score):  # new entries, best conviction first
             d = decisions[s]
             table.append((s, "HOLD" if s in pos else ("BUY" if d.enter else "no"), d.reason))
-            if s in pos or not d.enter or halted:
+            if s in pos or not d.enter or halted or len(pos) >= self.max_positions:
                 continue
             atr = float(feats[s].iloc[-2]["atr"])
             px, dist = price[s] * (1 + self.slip), self.stop_atr * atr

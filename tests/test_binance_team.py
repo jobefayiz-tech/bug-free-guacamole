@@ -73,3 +73,22 @@ def test_sweep_summary():
     rows, m = run_sweep(dfs, grid=dict(risk=[0.01, 0.03], lead_threshold=[0.3], stop_atr=[2.5]))
     assert len(rows) == 2 == m["configs"]
     assert 0 <= m["share_positive"] <= 1 and m["dd_worst"] <= m["dd_median"] <= 0
+
+
+def test_top_symbols_filters_stables_and_illiquid(monkeypatch):
+    t = [{"symbol": "BTCUSDT", "quoteVolume": "9e9"}, {"symbol": "USDCUSDT", "quoteVolume": "8e9"},
+         {"symbol": "ETHUSDT", "quoteVolume": "5e9"}, {"symbol": "TINYUSDT", "quoteVolume": "1e5"},
+         {"symbol": "ETHBTC", "quoteVolume": "7e9"}]
+    monkeypatch.setattr(data, "_get", lambda path, params: t)
+    assert data.top_symbols(10) == ["BTCUSDT", "ETHUSDT"]
+
+
+def test_scan_and_position_cap():
+    from binance_team.scan import scan
+    frames = {s: synthetic(600, seed=i) for i, s in enumerate(["BTCUSDT", "ETHUSDT", "SOLUSDT"])}
+    rows = scan(list(frames), fetch=lambda s, itv, n: frames[s])
+    assert len(rows) == 3 and all("reason" in r for r in rows)
+    assert [r["enter"] for r in rows] == sorted([r["enter"] for r in rows], reverse=True)
+    dfs = {s: synthetic(2500, seed=i) for i, s in enumerate(["BTCUSDT", "A", "B", "C", "D"])}
+    r = run_backtest(dfs, cash=1000.0, max_positions=2)
+    assert r["max_open"] <= 2

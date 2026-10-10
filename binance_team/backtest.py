@@ -18,7 +18,7 @@ def stats(r, per=365):
 def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=0.02,
                  max_pos_frac=0.5, min_notional=5.0, stop_atr=2.5, trail_atr=3.0,
                  lock_start_atr=2.0, lock_frac=0.4, halt_drawdown=None, warmup=260,
-                 lead_threshold=None):
+                 lead_threshold=None, max_positions=5):
     """Long-only spot portfolio sharing one cash pool. Decisions use data up to a bar's close;
     orders fill at the NEXT bar's open (no look-ahead)."""
     syms = list(dfs)
@@ -35,7 +35,7 @@ def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=
     lead = LeadAgent(LeadConfig(threshold=lead_threshold) if lead_threshold else None)
     pos, cash0, peak = {}, cash, cash
     pend_entry, pend_exit = {}, set()
-    eqs, trades, vetoes, small, exposure = [], [], {}, 0, []
+    eqs, trades, vetoes, small, exposure, max_open = [], [], {}, 0, [], 0
 
     def row(s, i):
         return {k: v[i] for k, v in R[s].items()}
@@ -53,7 +53,9 @@ def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=
             if s in pos:
                 close_pos(s, A[s]["open"][i])
         pend_exit.clear()
-        for s, (mult, atr) in list(pend_entry.items()):  # b) entries decided at yesterday's close
+        for s, (mult, atr, _sc) in sorted(pend_entry.items(), key=lambda kv: -kv[1][2]):  # b) best conviction first
+            if len(pos) >= max_positions:
+                break
             px = A[s]["open"][i] * (1 + slip)
             eq = cash + sum(p["qty"] * A[t]["open"][i] for t, p in pos.items())
             dist = stop_atr * atr
@@ -77,6 +79,7 @@ def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=
         eq = cash + sum(p["qty"] * A[s]["close"][i] for s, p in pos.items())
         eqs.append(eq)
         exposure.append(1 - cash / eq if eq > 0 else 0)
+        max_open = max(max_open, len(pos))
         peak = max(peak, eq)
         halted = halt_drawdown is not None and eq < peak * (1 - halt_drawdown)
         mrow = row(market, i) if market in R else None
@@ -86,7 +89,7 @@ def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=
                 if not dec.hold:
                     pend_exit.add(s)
             elif dec.enter and not halted:
-                pend_entry[s] = (dec.size, A[s]["atr"][i])
+                pend_entry[s] = (dec.size, A[s]["atr"][i], dec.score)
             elif not dec.enter and dec.reason.startswith("veto"):
                 name = dec.reason.split("->")[1].split(":")[0].strip()
                 vetoes[name] = vetoes.get(name, 0) + 1
@@ -105,6 +108,6 @@ def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=
             "final_cash": float(eq.iloc[-1]), "team": stats(strat),
             f"{bench_s} buy&hold": stats(bench), "equal-weight buy&hold": stats(equal),
             "trades": len(pnl), "win_rate": float((pnl > 0).mean()) if len(pnl) else 0.0,
-            "avg_exposure": float(np.mean(exposure)), "orders_too_small": small,
+            "avg_exposure": float(np.mean(exposure)), "max_open": max_open, "orders_too_small": small,
             "vetoes": vetoes, "yearly": yearly, "bench": bench_s,
             "pnl_by_symbol": {s: round(float(sum(t[1] for t in trades if t[0] == s)), 4) for s in syms}}

@@ -20,6 +20,18 @@ def _get(path, params):
     raise RuntimeError(f"Could not reach Binance public data ({last})")
 
 
+STABLES = {"USDC", "FDUSD", "TUSD", "USDP", "DAI", "BUSD", "USDD", "EUR", "EURI", "AEUR", "USD1", "XUSD"}
+
+
+def top_symbols(n=20, min_quote_volume=2e7):
+    """Most liquid USDT pairs right now (24h traded value), stablecoins excluded."""
+    rows = [x for x in _get("/api/v3/ticker/24hr", {})
+            if x["symbol"].endswith("USDT") and x["symbol"][:-4] not in STABLES
+            and float(x["quoteVolume"]) >= min_quote_volume]
+    rows.sort(key=lambda x: -float(x["quoteVolume"]))
+    return [x["symbol"] for x in rows[:n]]
+
+
 def fetch_klines(symbol, interval="1d", bars=2500):
     """Newest `bars` candles for e.g. BTCUSDT, paging backwards 1000 at a time."""
     rows, end = [], None
