@@ -44,10 +44,18 @@ def main():
         print(f"Scanned {len(rows)} liquid coins. BTC is the market gauge. (Ranking by the team's rules, NOT a prediction.)\n")
         print("COINS THE TEAM WOULD ENTER TODAY:" if buy else "NO COIN PASSES THE TEAM'S RULES TODAY. Staying out is a valid result.")
         if buy:
-            print(f"{'coin':10s}{'conviction':>11s}{'conv/risk':>10s}{'size':>6s}{'price':>12s}{'stop':>12s}{'risk/coin':>10s}{'30d':>8s}{'90d':>8s}")
+            acct = a.cash or 1000.0
+            print(f"(order sizes below assume an account of {acct:,.0f} USDT, 2% risk per trade, max 50% of account in one coin)")
+            print(f"{'coin':10s}{'conviction':>11s}{'conv/risk':>10s}{'size':>6s}{'price':>12s}{'stop':>12s}{'risk/coin':>10s}"
+                  f"{'30d':>6s}{'90d':>6s}{'order$':>9s}{'max loss$':>10s}")
             for r in buy:
+                dist = r["price"] - r["stop"]
+                qty = min(acct * 0.02 / dist * r["size"], acct * 0.5 / r["price"]) if dist > 0 else 0
+                order, loss = qty * r["price"], qty * dist
+                flag = "  <-- below 5 USDT Binance minimum" if order < 5 else ""
                 print(f"{r['symbol']:10s}{r['score']:>11.2f}{r['per_risk']:>10.1f}{r['size']:>6.2f}{r['price']:>12.4f}{r['stop']:>12.4f}"
-                      f"{r['risk_pct']:>10.1%}{r['r30']:>8.0%}{r['r90']:>8.0%}")
+                      f"{r['risk_pct']:>10.1%}{r['r30']:>6.0%}{r['r90']:>6.0%}{order:>9.2f}{loss:>10.2f}{flag}")
+            print("\nBEFORE ANY TRADE read TRADING_RULES_AR.md (checklist). The team does not read news.")
         print("\nREJECTED (reason):")
         for r in [r for r in rows if not r["enter"]]:
             print(f"  {r['symbol']:10s}{r['reason']}")
