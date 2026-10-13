@@ -512,7 +512,8 @@ function buildDashboard_(ss, et) {
     [cnt(ST.SUBMITTED)],
     [cnt(ST.RETURNED)],
     [cnt(ST.APPROVED)],
-    ['=COUNTIF(' + q + M + '2:' + M + ',">0")'],
+    // the missing-count cells are plain text ("14"), which COUNTIF(">0") does not count, so compare as text
+    ['=SUMPRODUCT(--(LEN(' + q + M + '2:' + M + ')>0),--(' + q + M + '2:' + M + '<>"0"),--(' + q + M + '2:' + M + '<>0))'],
     ['=COUNTIF(' + q + R + '2:' + R + ',"نعم")'],
     ['=IFERROR(B7/B2,0)']
   ];

@@ -132,6 +132,7 @@ test('dashboard: labels are text and only the count column holds formulas (no #N
   assert.equal(dash.cells['1:1'].v, 'المؤشر');
   assert.equal(dash.cells['1:2'].v, 'العدد');
   assert.equal(dash.cells['3:1'].v, 'لم يفتح');
+  assert.match(dash.cells['8:2'].formula, /^=SUMPRODUCT\(/, 'text-valued missing counts need a text-safe formula');
   for (let r = 2; r <= 10; r++) {
     assert.ok(!dash.cells[r + ':1'].formula, 'label row ' + r);
     assert.match(dash.cells[r + ':2'].formula, /^=/, 'formula row ' + r);
