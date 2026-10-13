@@ -120,6 +120,7 @@ class Sheet {
 class Spreadsheet {
   constructor() { this.sheets = []; this.toasts = []; this.active = null; this.id = 'ss-1'; }
   getId() { return this.id; }
+  getSpreadsheetTimeZone() { return 'Asia/Riyadh'; }
   getSheetByName(n) { return this.sheets.find((s) => s.name === n) || null; }
   insertSheet(n) { const s = new Sheet(n, this.sheets.length + 1); this.sheets.push(s); return s; }
   getActiveSheet() { return this.active || this.sheets[0]; }
@@ -207,11 +208,10 @@ class Env {
       ScriptApp: {getService: () => ({getUrl: () => env.url})},
       HtmlService: {
         XFrameOptionsMode: {ALLOWALL: 'ALLOWALL'},
-        createTemplateFromFile(name) {
-          if (name !== 'Index') throw new Error('no such file ' + name);
+        createTemplate(html) {
           const t = {boot: ''};
           t.evaluate = () => {
-            const out = {html: env.indexHtml.replace('<?!= boot ?>', () => t.boot), title: '', meta: []};
+            const out = {html: html.replace('<?!= boot ?>', () => t.boot), title: '', meta: []};
             out.setTitle = (x) => { out.title = x; return out; };
             out.addMetaTag = (a, b) => { out.meta.push([a, b]); return out; };
             out.setXFrameOptionsMode = () => out;

@@ -43,7 +43,8 @@ function ss_() {
   return ss;
 }
 
-function tz_() { return Session.getScriptTimeZone() || 'Asia/Riyadh'; }
+const TZ = 'Asia/Riyadh';
+function tz_() { return TZ; }
 
 function stamp_() { return Utilities.formatDate(new Date(), tz_(), 'yyyy-MM-dd HH:mm'); }
 
@@ -57,7 +58,11 @@ function colLetter_(n) {   // 1 -> A
 
 function cellText_(v) {
   if (v === null || v === undefined) return '';
-  if (Object.prototype.toString.call(v) === '[object Date]') return Utilities.formatDate(v, tz_(), 'yyyy-MM-dd');
+  if (Object.prototype.toString.call(v) === '[object Date]') {
+    let zone = TZ;
+    try { zone = ss_().getSpreadsheetTimeZone() || TZ; } catch (e) { zone = TZ; }
+    return Utilities.formatDate(v, zone, 'yyyy-MM-dd');
+  }
   return String(v).trim();
 }
 
@@ -233,7 +238,7 @@ function withLock_(fn) {
 // ------------------------------------------------------------------ web app
 function doGet(e) {
   const p = (e && e.parameter) || {};
-  const tpl = HtmlService.createTemplateFromFile('Index');
+  const tpl = HtmlService.createTemplate(INDEX_HTML);
   tpl.boot = bootJson_({token: String(p.t || ''), lang: String(p.lang || '')});
   return tpl.evaluate()
     .setTitle('بياناتي الوظيفية')

@@ -76,3 +76,10 @@ def test_page_scripts_are_valid_javascript(tmp_path):
     code = tmp_path / "code.js"
     code.write_text(read("Code.gs"), encoding="utf-8")
     assert subprocess.run([NODE, "--check", str(code)], capture_output=True, text=True).returncode == 0
+
+
+def test_code_gs_is_self_contained():
+    """Install = paste ONE file: the page is embedded, and nothing depends on Index.html or the manifest."""
+    code = read("Code.gs")
+    assert "const INDEX_HTML = " in code and "createTemplate(INDEX_HTML)" in code
+    assert "createTemplateFromFile" not in code and "getScriptTimeZone" not in code
