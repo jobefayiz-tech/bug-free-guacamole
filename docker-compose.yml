@@ -1,0 +1,23 @@
+# Usage:  cp .env.example .env   (edit DOMAIN)   then:  docker compose up -d
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      TRUST_PROXY: "1"      # we run behind Caddy
+      HTTPS: "1"            # secure cookies
+      BASE_URL: "https://${DOMAIN}"
+    volumes:
+      - ./data:/data
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    environment:
+      DOMAIN: ${DOMAIN}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on: [app]
+volumes:
+  caddy_data:

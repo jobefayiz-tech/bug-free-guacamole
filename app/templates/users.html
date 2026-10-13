@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}المستخدمون{% endblock %}
+{% block body %}
+<h1>مستخدمو النظام</h1>
+<div class="tablewrap"><table>
+  <tr><th>المستخدم</th><th>الصلاحية</th><th>الحالة</th><th>إجراءات</th></tr>
+  {% for u in rows %}
+  <tr><td class="mono">{{ u.username }}</td><td>{{ 'مدير' if u.role == 'admin' else 'موارد بشرية' }}</td>
+    <td>{{ 'فعّال' if u.active else 'معطّل' }}</td>
+    <td>
+      <form method="post" class="actions">
+        <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+        <input type="hidden" name="uid" value="{{ u.id }}">
+        <button class="btn sm sec" name="action" value="toggle" type="submit">{{ 'تعطيل' if u.active else 'تفعيل' }}</button>
+        <input type="password" name="password" class="ltr" placeholder="كلمة مرور جديدة (10+)" autocomplete="new-password">
+        <button class="btn sm" name="action" value="password" type="submit">تغيير كلمة المرور</button>
+      </form>
+    </td></tr>
+  {% endfor %}
+</table></div>
+<div class="card mt">
+  <h3>إضافة مستخدم</h3>
+  <form method="post">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <div class="grid cols">
+      <div class="field"><label>اسم المستخدم</label><input name="username" type="text" class="ltr" required></div>
+      <div class="field"><label>كلمة المرور (10 خانات فأكثر)</label><input name="password" type="password" class="ltr" autocomplete="new-password" required></div>
+      <div class="field"><label>الصلاحية</label>
+        <select name="role"><option value="hr">موارد بشرية</option><option value="admin">مدير (يدير المستخدمين)</option></select></div>
+    </div>
+    <button class="btn" name="action" value="create" type="submit">إنشاء</button>
+  </form>
+</div>
+{% endblock %}

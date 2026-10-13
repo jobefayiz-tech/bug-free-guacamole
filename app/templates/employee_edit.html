@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}تعديل {{ emp.emp_no }}{% endblock %}
+{% block body %}
+<p><a href="{{ url_for('admin.employee', emp_no=emp.emp_no) }}">← رجوع للسجل</a></p>
+<h1>تعديل بيانات {{ emp.data.get('name_ar', emp.emp_no) }} <span class="small mono">{{ emp.emp_no }}</span></h1>
+{% if errors or photo_errors %}<div class="flash err">بعض القيم غير صحيحة ولم تُحفظ. راجع الحقول المظللة.</div>{% endif %}
+<form method="post" enctype="multipart/form-data" data-vehicle='{{ VEHICLE_VALUES|tojson }}'>
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  <div class="card">
+    <label><input type="checkbox" name="is_rep" value="1" {% if emp.is_rep %}checked{% endif %}> هذا الموظف مندوب (تظهر حقول المناديب)</label>
+  </div>
+  {% for key, title, fs in sections %}
+  <div class="card">
+    <h3>{{ title }}</h3>
+    <div class="grid cols">
+    {% for f in fs if f.key not in ('consent', 'location_consent') %}
+      {{ field(f, values.get(f.key, ''), errors.get(f.key) or photo_errors.get(f.key),
+               photo_url=url_for('admin.photo', emp_no=emp.emp_no, key=f.key) if f.key in emp.photos else None) }}
+    {% endfor %}
+    </div>
+    {% if key == 'consent' %}<p class="small">الموافقات يمنحها الموظف بنفسه ولا يمكن تعديلها من هنا.</p>{% endif %}
+  </div>
+  {% endfor %}
+  <div class="actions sticky"><button class="btn" type="submit">حفظ</button>
+    <a class="btn sec" href="{{ url_for('admin.employee', emp_no=emp.emp_no) }}">إلغاء</a></div>
+</form>
+{% endblock %}

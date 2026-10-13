@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge %}
+{% block title %}{{ emp.data.get('name_ar', emp.emp_no) }}{% endblock %}
+{% block body %}
+<p><a href="{{ url_for('admin.employees') }}">← الموظفون</a></p>
+<h1>{{ emp.data.get('name_ar', '—') }} <span class="small mono">{{ emp.emp_no }}</span>
+  {{ badge(emp.status if emp.status != 'draft' else ('draft' if emp.opened_at else 'unopened'), status) }}</h1>
+
+<div class="actions mb">
+  <a class="btn" href="{{ url_for('admin.edit', emp_no=emp.emp_no) }}">تعديل البيانات</a>
+  {% if reveal %}<a class="btn sec" href="{{ url_for('admin.employee', emp_no=emp.emp_no) }}">إخفاء الأرقام الحساسة</a>
+  {% else %}<a class="btn sec" href="{{ url_for('admin.employee', emp_no=emp.emp_no, reveal=1) }}">إظهار الأرقام الحساسة (يُسجَّل)</a>{% endif %}
+  <form method="post" action="{{ url_for('admin.regen_link', emp_no=emp.emp_no) }}" data-confirm="سيتوقف الرابط الحالي عن العمل. متابعة؟">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <button class="btn sec" type="submit">إنشاء رابط جديد</button>
+  </form>
+</div>
+
+{% if emp.review_note %}<div class="note"><b>ملاحظة الإعادة:</b> {{ emp.review_note }}</div>{% endif %}
+{% if todo %}
+<div class="note"><b>حقول مطلوبة ناقصة ({{ todo|length }}):</b> {{ todo_labels|join("، ") }}</div>
+{% endif %}
+
+{% if emp.status in ('submitted', 'approved') %}
+<div class="card">
+  <h3>المراجعة</h3>
+  <form method="post" action="{{ url_for('admin.review', emp_no=emp.emp_no) }}">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <div class="field"><label for="note">ملاحظة للموظف (مطلوبة عند الإعادة)</label>
+      <textarea id="note" name="note" maxlength="500"></textarea></div>
+    <div class="actions">
+      {% if emp.status == 'submitted' %}<button class="btn ok" name="action" value="approve" type="submit">اعتماد</button>{% endif %}
+      <button class="btn danger" name="action" value="return" type="submit">إعادة للموظف للتعديل</button>
+    </div>
+  </form>
+</div>
+{% endif %}
+
+{% for key, title, fs in sections %}
+<div class="card">
+  <h3>{{ title }}</h3>
+  {% if key == 'photos' %}
+    <div class="photos">
+      {% for f in fs %}
+        <div><div class="small">{{ f.label }}</div>
+        {% if f.key in emp.photos %}
+          <a href="{{ url_for('admin.photo', emp_no=emp.emp_no, key=f.key) }}" target="_blank" rel="noopener">
+            <img src="{{ url_for('admin.photo', emp_no=emp.emp_no, key=f.key) }}" alt="{{ f.label }}" loading="lazy"></a>
+          <div class="small">{{ emp.photos[f.key]|local }}</div>
+        {% else %}<div class="photo-missing">لم تُرفع</div>{% endif %}</div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <dl class="kv">
+      {% for f in fs %}
+        <dt>{{ f.label }}</dt>
+        <dd>{% set v = emp.data.get(f.key, '') %}{% if f.key == 'consent' and emp.consent_at %}{{ v }} ({{ emp.consent_at|local }}){% else %}{% set shown = (v if reveal else (v|mask(f))) or '—' %}{% if f.kind in ('id', 'iban', 'phone', 'date') or f.sensitive %}<bdi dir="ltr">{{ shown }}</bdi>{% else %}{{ shown }}{% endif %}{% endif %}</dd>
+      {% endfor %}
+    </dl>
+  {% endif %}
+</div>
+{% endfor %}
+
+<div class="card">
+  <h3>سجل هذا السجل</h3>
+  <div class="tablewrap"><table>
+    <tr><th>الوقت</th><th>بواسطة</th><th>العملية</th><th>التفاصيل</th></tr>
+    {% for h in history %}<tr><td class="small">{{ h.ts|local }}</td><td>{{ h.actor }}</td><td>{{ h.action }}</td><td class="small">{{ h.detail }}</td></tr>
+    {% else %}<tr><td colspan="4" class="small center">لا يوجد</td></tr>{% endfor %}
+  </table></div>
+</div>
+{% endblock %}

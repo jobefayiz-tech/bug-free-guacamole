@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge %}
+{% block title %}الموظفون{% endblock %}
+{% block body %}
+<h1>الموظفون <span class="small">({{ total }})</span></h1>
+<form class="filters" method="get">
+  <input type="search" name="q" value="{{ q }}" placeholder="بحث: الرقم أو الاسم أو الجوال أو كود المندوب">
+  <select name="status">
+    {% for k, l in status_filters %}<option value="{{ k }}" {% if k == status %}selected{% endif %}>{{ l }}</option>{% endfor %}
+  </select>
+  <select name="kind">
+    <option value="">الكل</option>
+    <option value="staff" {% if kind == 'staff' %}selected{% endif %}>الموظفون فقط</option>
+    <option value="rep" {% if kind == 'rep' %}selected{% endif %}>المناديب فقط</option>
+    <option value="incomplete" {% if kind == 'incomplete' %}selected{% endif %}>السجلات الناقصة</option>
+  </select>
+  <button class="btn" type="submit">بحث</button>
+</form>
+<div class="tablewrap"><table>
+  <tr><th>الرقم</th><th>الاسم</th><th>النوع</th><th>الجوال</th><th>الحالة</th><th>حقول ناقصة</th><th>آخر تحديث</th></tr>
+  {% for it in items %}
+  <tr>
+    <td class="mono"><a href="{{ url_for('admin.employee', emp_no=it.e.emp_no) }}">{{ it.e.emp_no }}</a></td>
+    <td>{{ it.e.data.get('name_ar', '—') }}</td>
+    <td>{{ 'مندوب' if it.e.is_rep else 'موظف' }}</td>
+    <td class="mono">{{ it.e.data.get('mobile', '') }}</td>
+    <td>{{ badge(it.key, it.label) }}</td>
+    <td>{{ it.todo if it.todo else '✓' }}</td>
+    <td class="small">{{ it.e.updated_at|local }}</td>
+  </tr>
+  {% else %}<tr><td colspan="7" class="center small">لا توجد نتائج</td></tr>{% endfor %}
+</table></div>
+{% if pages > 1 %}
+<div class="pager">
+  {% if page > 1 %}<a href="{{ url_for('admin.employees', q=q, status=status, kind=kind, page=page-1) }}">السابق</a>{% endif %}
+  <span>صفحة {{ page }} من {{ pages }}</span>
+  {% if page < pages %}<a href="{{ url_for('admin.employees', q=q, status=status, kind=kind, page=page+1) }}">التالي</a>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

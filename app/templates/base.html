@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>{% block title %}{% endblock %} — بيانات الموظفين</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="{{ url_for('admin.dashboard') if user else '#' }}">بيانات الموظفين</a>
+  {% if user %}
+  <nav>
+    <a href="{{ url_for('admin.dashboard') }}">الرئيسية</a>
+    <a href="{{ url_for('admin.employees') }}">الموظفون</a>
+    <a href="{{ url_for('admin.alerts') }}">تنبيهات الانتهاء</a>
+    <a href="{{ url_for('admin.links') }}">الروابط والتذكير</a>
+    <a href="{{ url_for('admin.import_page') }}">استيراد</a>
+    <a href="{{ url_for('admin.export') }}">تصدير</a>
+    <a href="{{ url_for('admin.audit_log') }}">سجل العمليات</a>
+    {% if user['role'] == 'admin' %}<a href="{{ url_for('admin.users') }}">المستخدمون</a>{% endif %}
+    <a href="{{ url_for('admin.my_password') }}">كلمة المرور</a>
+  </nav>
+  <form method="post" action="{{ url_for('admin.logout') }}">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <button class="linkbtn" type="submit">خروج ({{ user['username'] }})</button>
+  </form>
+  {% endif %}
+</header>
+<main class="wrap">
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% for cat, m in msgs %}<div class="flash {{ cat }}">{{ m }}</div>{% endfor %}
+  {% endwith %}
+  {% block body %}{% endblock %}
+</main>
+<script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}تسجيل الدخول{% endblock %}
+{% block body %}
+<div class="card narrow">
+  <h1>تسجيل دخول الموارد البشرية</h1>
+  {% if error %}<div class="flash err">{{ error }}</div>{% endif %}
+  <form method="post">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <div class="field"><label for="u">اسم المستخدم</label>
+      <input id="u" name="username" type="text" class="ltr" autocomplete="username" required autofocus></div>
+    <div class="field"><label for="p">كلمة المرور</label>
+      <input id="p" name="password" type="password" class="ltr" autocomplete="current-password" required></div>
+    <button class="btn" type="submit">دخول</button>
+  </form>
+</div>
+{% endblock %}

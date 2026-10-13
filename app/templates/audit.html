@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}سجل العمليات{% endblock %}
+{% block body %}
+<h1>سجل العمليات</h1>
+<form class="filters" method="get">
+  <input type="search" name="emp_no" value="{{ emp_no }}" placeholder="الرقم الوظيفي (اختياري)">
+  <button class="btn" type="submit">عرض</button>
+</form>
+<div class="tablewrap"><table>
+  <tr><th>الوقت</th><th>بواسطة</th><th>العملية</th><th>الموظف</th><th>التفاصيل</th></tr>
+  {% for r in rows %}
+  <tr><td class="small">{{ r.ts|local }}</td><td>{{ r.actor }}</td><td>{{ r.action }}</td>
+    <td class="mono">{{ r.emp_no or '' }}</td><td class="small">{{ r.detail }}</td></tr>
+  {% else %}<tr><td colspan="5" class="center small">لا يوجد</td></tr>{% endfor %}
+</table></div>
+<div class="pager">
+  {% if page > 1 %}<a href="{{ url_for('admin.audit_log', emp_no=emp_no, page=page-1) }}">الأحدث</a>{% endif %}
+  {% if rows|length == 100 %}<a href="{{ url_for('admin.audit_log', emp_no=emp_no, page=page+1) }}">الأقدم</a>{% endif %}
+</div>
+{% endblock %}

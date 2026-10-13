@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}تنبيهات الانتهاء{% endblock %}
+{% block body %}
+<h1>الوثائق المنتهية أو القريبة من الانتهاء</h1>
+<form class="filters" method="get">
+  <select name="days">
+    {% for d in (30, 60, 90) %}<option value="{{ d }}" {% if d == days %}selected{% endif %}>خلال {{ d }} يومًا</option>{% endfor %}
+  </select>
+  <button class="btn" type="submit">عرض</button>
+</form>
+<p class="small">التواريخ ميلادية. لا يشمل من انتهت خدمته.</p>
+<div class="tablewrap"><table>
+  <tr><th>الرقم</th><th>الاسم</th><th>الوثيقة</th><th>تاريخ الانتهاء</th><th>المتبقي</th></tr>
+  {% for a in rows %}
+  <tr>
+    <td class="mono"><a href="{{ url_for('admin.employee', emp_no=a.e.emp_no) }}">{{ a.e.emp_no }}</a></td>
+    <td>{{ a.e.data.get('name_ar', '—') }}</td><td>{{ a.doc }}</td><td class="mono">{{ a.date }}</td>
+    <td class="{{ 'late' if a.left < 0 else 'soon' }}">{% if a.left < 0 %}منتهية منذ {{ -a.left }} يومًا{% else %}{{ a.left }} يومًا{% endif %}</td>
+  </tr>
+  {% else %}<tr><td colspan="5" class="center small">لا توجد وثائق ضمن هذه المدة 🎉</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

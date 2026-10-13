@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}استيراد{% endblock %}
+{% block body %}
+<h1>استيراد من Excel</h1>
+<div class="card">
+  <p>استخدم القالب الرسمي (ورقتا «الموظفون» و«المناديب»). يُحدَّث الموظف الموجود حسب الرقم الوظيفي، ولا تُمسح أي قيمة فارغة.
+  الموافقات والصور لا تُستورد؛ يعطيها الموظف بنفسه من رابطه.</p>
+  <p><a class="btn sec" href="{{ url_for('admin.template_file') }}">تحميل القالب</a></p>
+  <form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <div class="field"><label for="file">ملف Excel (xlsx)</label><input id="file" type="file" name="file" accept=".xlsx" required></div>
+    <label><input type="checkbox" name="dry_run" value="1" checked> تجربة فقط (اعرض النتيجة دون حفظ)</label>
+    <div class="actions"><button class="btn" type="submit">رفع</button></div>
+  </form>
+</div>
+{% if report %}
+<div class="card">
+  <h3>{{ 'نتيجة التجربة (لم يُحفظ شيء)' if report.dry_run else 'تم الاستيراد' }}</h3>
+  <ul>
+    <li>موظفون جدد: <b>{{ report.created }}</b></li>
+    <li>موظفون محدَّثون: <b>{{ report.updated }}</b></li>
+    <li>بدون تغيير: <b>{{ report.unchanged }}</b></li>
+    <li>مناديب في الملف: <b>{{ report.reps }}</b></li>
+    <li>صفوف بها أخطاء (لم تُستورد): <b>{{ report.errors|length }}</b></li>
+  </ul>
+  {% for w in report.warnings %}<div class="note">{{ w }}</div>{% endfor %}
+  {% if report.errors %}
+    <h3>الأخطاء</h3>
+    <ul>{% for e in report.errors %}<li class="error">{{ e }}</li>{% endfor %}</ul>
+  {% endif %}
+  {% if report.dry_run and (report.created or report.updated) %}
+    <p class="small">إذا كانت النتيجة سليمة، ارفع الملف نفسه مرة أخرى مع إلغاء خيار «تجربة فقط».</p>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}

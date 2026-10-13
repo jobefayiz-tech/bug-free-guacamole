@@ -1,0 +1,48 @@
+{% extends "emp_base.html" %}
+{% from "_macros.html" import field %}
+{% block title %}بياناتي{% endblock %}
+{% block body %}
+<h1>{{ emp.data.get('name_ar', 'بياناتي') }} <span class="small mono">{{ emp.emp_no }}</span></h1>
+
+{% if emp.status == 'returned' and emp.review_note %}
+  <div class="note"><b>أعادت الموارد البشرية بياناتك للتعديل:</b> {{ emp.review_note }}</div>
+{% elif emp.status == 'approved' %}
+  <div class="flash ok">بياناتك معتمدة. إن غيّرت أي شيء فسيُرسَل للمراجعة من جديد.</div>
+{% elif emp.status == 'submitted' %}
+  <div class="flash">أُرسلت بياناتك وتنتظر مراجعة الموارد البشرية. يمكنك تعديلها وإعادة الإرسال.</div>
+{% endif %}
+{% if saved %}<div class="flash ok">تم حفظ ما أدخلته.</div>{% endif %}
+{% if errors or photo_errors %}<div class="flash err">بعض الحقول تحتاج تصحيحًا، راجع الحقول المظللة بالأحمر.</div>{% endif %}
+{% if todo %}<div class="note">المتبقي لإرسال بياناتك: <b>{{ todo|length }}</b> حقل/صورة.</div>{% endif %}
+
+<form method="post" enctype="multipart/form-data" data-vehicle='{{ VEHICLE_VALUES|tojson }}'>
+  <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  {% for key, title, fs in sections %}
+  {% set mine = fs|selectattr('owner', 'equalto', 'employee')|list %}
+  {% set hr = fs|selectattr('owner', 'equalto', 'hr')|list %}
+  {% if mine %}
+  <div class="card">
+    <h3>{{ title }}</h3>
+    {% for f in mine %}
+      {{ field(f, values.get(f.key, ''), errors.get(f.key) or photo_errors.get(f.key),
+               required=is_required(f, values, emp.is_rep),
+               photo_url=url_for('emp.photo', token=token, key=f.key) if f.key in emp.photos else None) }}
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% if hr %}
+  <div class="card">
+    <h3>{{ title }} <span class="small">(تُدخلها الموارد البشرية)</span></h3>
+    <dl class="kv">
+    {% for f in hr %}<dt>{{ f.label }}</dt><dd>{{ values.get(f.key) or '—' }}</dd>{% endfor %}
+    </dl>
+  </div>
+  {% endif %}
+  {% endfor %}
+
+  <div class="actions sticky">
+    {% if not locked_review %}<button class="btn sec" name="action" value="draft" type="submit">حفظ مؤقتًا</button>{% endif %}
+    <button class="btn ok" name="action" value="submit" type="submit">{{ 'حفظ وإرسال للمراجعة' if locked_review else 'إرسال للاعتماد' }}</button>
+  </div>
+</form>
+{% endblock %}

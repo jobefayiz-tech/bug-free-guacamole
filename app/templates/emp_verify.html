@@ -1,0 +1,17 @@
+{% extends "emp_base.html" %}
+{% block title %}تأكيد الهوية{% endblock %}
+{% block body %}
+<div class="card">
+  <h1>مرحبًا {{ emp.data.get('name_ar', '') }}</h1>
+  <p>للتأكد أنك صاحب الرابط، اكتب <b>آخر 4 أرقام</b> من رقم هويتك أو إقامتك.</p>
+  {% if error %}<div class="flash err">{{ error }}</div>{% endif %}
+  {% if not locked %}
+  <form method="post">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <div class="field"><label for="l4">آخر 4 أرقام</label>
+      <input id="l4" name="last4" type="text" inputmode="numeric" maxlength="4" class="ltr" autocomplete="off" required autofocus></div>
+    <button class="btn" type="submit">متابعة</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}

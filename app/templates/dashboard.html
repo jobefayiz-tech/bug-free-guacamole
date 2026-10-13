@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% from "_macros.html" import badge %}
+{% block title %}الرئيسية{% endblock %}
+{% block body %}
+<h1>لوحة المتابعة</h1>
+{% if total == 0 %}
+  <div class="card">
+    <p>لا توجد بيانات بعد. ابدأ باستيراد قائمة الموظفين من القالب، ثم أرسل لكل موظف رابطه الشخصي.</p>
+    <div class="actions">
+      <a class="btn" href="{{ url_for('admin.import_page') }}">استيراد الموظفين من Excel</a>
+      <a class="btn sec" href="{{ url_for('admin.template_file') }}">تحميل القالب</a>
+    </div>
+  </div>
+{% else %}
+  {% set done = counts['approved'] %}
+  <div class="card">
+    <b>الاعتماد النهائي: {{ done }} من {{ total }}</b>
+    <progress max="{{ total }}" value="{{ done }}"></progress>
+  </div>
+  <div class="grid stats">
+    <a class="stat" href="{{ url_for('admin.employees', status='unopened') }}"><b>{{ counts['unopened'] }}</b><span>لم يفتح الرابط</span></a>
+    <a class="stat" href="{{ url_for('admin.employees', status='draft') }}"><b>{{ counts['draft'] }}</b><span>قيد التعبئة</span></a>
+    <a class="stat" href="{{ url_for('admin.employees', status='submitted') }}"><b>{{ counts['submitted'] }}</b><span>بانتظار المراجعة</span></a>
+    <a class="stat" href="{{ url_for('admin.employees', status='returned') }}"><b>{{ counts['returned'] }}</b><span>معاد للتعديل</span></a>
+    <a class="stat" href="{{ url_for('admin.employees', status='approved') }}"><b>{{ counts['approved'] }}</b><span>معتمد</span></a>
+    <a class="stat" href="{{ url_for('admin.alerts', days=30) }}"><b>{{ expiring }}</b><span>وثائق تنتهي خلال 30 يومًا أو منتهية</span></a>
+    <a class="stat" href="{{ url_for('admin.employees', kind='incomplete') }}"><b>{{ incomplete }}</b><span>سجلات ناقصة الحقول</span></a>
+    <a class="stat" href="{{ url_for('admin.employees', kind='rep') }}"><b>{{ reps }}</b><span>مناديب</span></a>
+  </div>
+  <h2 class="mt">بانتظار مراجعتك</h2>
+  {% if pending %}
+  <div class="tablewrap"><table>
+    <tr><th>الرقم</th><th>الاسم</th><th>أُرسل في</th><th></th></tr>
+    {% for e in pending %}
+    <tr><td class="mono">{{ e.emp_no }}</td><td>{{ e.data.get('name_ar', '') }}</td><td>{{ e.submitted_at|local }}</td>
+        <td><a class="btn sm" href="{{ url_for('admin.employee', emp_no=e.emp_no) }}">مراجعة</a></td></tr>
+    {% endfor %}
+  </table></div>
+  {% else %}<p class="small">لا توجد سجلات بانتظار المراجعة.</p>{% endif %}
+{% endif %}
+{% endblock %}

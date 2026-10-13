@@ -1,0 +1,10 @@
+{% extends "emp_base.html" %}
+{% block title %}تم الإرسال{% endblock %}
+{% block body %}
+<div class="card center">
+  <h1>شكرًا {{ emp.data.get('name_ar', '') }} ✓</h1>
+  <p>وصلت بياناتك إلى الموارد البشرية وستُراجَع قريبًا.</p>
+  <p class="small">يمكنك العودة لهذا الرابط في أي وقت لتحديث بياناتك.</p>
+  <a class="btn sec" href="{{ url_for('emp.form', token=emp.token) }}">رجوع لبياناتي</a>
+</div>
+{% endblock %}
