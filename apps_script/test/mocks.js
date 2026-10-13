@@ -73,8 +73,11 @@ class Range {
         if (typeof text === 'string' && text.charAt(0) === '=') {
           const m = /^=HYPERLINK\("([^"]*)","([^"]*)"\)$/.exec(text);
           this.sheet.cells[k] = {v: '', fmt: old.fmt, formula: text, display: m ? m[2] : '', url: m ? m[1] : ''};
+        } else if (text === '' || text === null) {
+          this.sheet.cells[k] = {v: '', fmt: old.fmt};
         } else {
-          this.sheet.cells[k] = {v: text, fmt: old.fmt};
+          // real Google evaluates whatever setFormulas receives as a formula, so a plain label becomes an error value
+          this.sheet.cells[k] = {v: /\s/.test(String(text)) ? '#ERROR!' : '#NAME?', fmt: old.fmt, error: true};
         }
       }
     }

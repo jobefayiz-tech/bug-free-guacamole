@@ -501,19 +501,25 @@ function buildDashboard_(ss, et) {
   const R = colLetter_(sysCol_(et, 'isRep') + 1);
   const q = "'" + SHEET_EMP + "'!";
   const cnt = function (st) { return '=COUNTIF(' + q + S + '2:' + S + ',"' + st + '")'; };
-  const rows = [
-    ['المؤشر', 'العدد'],
-    ['إجمالي الموظفين', '=COUNTA(' + q + E + '2:' + E + ')'],
-    [ST.UNOPENED, cnt(ST.UNOPENED)],
-    [ST.DRAFT, cnt(ST.DRAFT)],
-    [ST.SUBMITTED, cnt(ST.SUBMITTED)],
-    [ST.RETURNED, cnt(ST.RETURNED)],
-    [ST.APPROVED, cnt(ST.APPROVED)],
-    ['سجلات فيها حقول ناقصة', '=COUNTIF(' + q + M + '2:' + M + ',">0")'],
-    ['المناديب', '=COUNTIF(' + q + R + '2:' + R + ',"نعم")'],
-    ['نسبة الاعتماد', '=IFERROR(B7/B2,0)']
+  const labels = [
+    ['المؤشر'], ['إجمالي الموظفين'], [ST.UNOPENED], [ST.DRAFT], [ST.SUBMITTED], [ST.RETURNED], [ST.APPROVED],
+    ['سجلات فيها حقول ناقصة'], ['المناديب'], ['نسبة الاعتماد']
   ];
-  sh.getRange(1, 1, rows.length, 2).setFormulas(rows);
+  const formulas = [
+    ['=COUNTA(' + q + E + '2:' + E + ')'],
+    [cnt(ST.UNOPENED)],
+    [cnt(ST.DRAFT)],
+    [cnt(ST.SUBMITTED)],
+    [cnt(ST.RETURNED)],
+    [cnt(ST.APPROVED)],
+    ['=COUNTIF(' + q + M + '2:' + M + ',">0")'],
+    ['=COUNTIF(' + q + R + '2:' + R + ',"نعم")'],
+    ['=IFERROR(B7/B2,0)']
+  ];
+  // Labels are plain text (setValues); only real formulas go through setFormulas, which would read a label as a formula.
+  sh.getRange(1, 1, labels.length, 1).setValues(labels);
+  sh.getRange(1, 2).setValue('العدد');
+  sh.getRange(2, 2, formulas.length, 1).setFormulas(formulas);
   sh.getRange(10, 2).setNumberFormat('0%');
   sh.getRange(1, 1, 1, 2).setFontWeight('bold').setBackground('#1f3a5f').setFontColor('#ffffff');
   sh.setColumnWidth(1, 220);

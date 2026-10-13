@@ -123,6 +123,21 @@ test('setupSheets builds both sheets with the template headers and enough grid',
   env.menus[0].items.forEach(([, fn]) => assert.equal(typeof env.sandbox()[fn], 'function', fn));
 });
 
+test('dashboard: labels are text and only the count column holds formulas (no #NAME?/#ERROR!)', () => {
+  const env = newEnv();
+  const dash = env.ss.getSheetByName('لوحة المتابعة');
+  const cells = Object.keys(dash.cells).map((k) => dash.cells[k]);
+  assert.ok(cells.length >= 20);
+  assert.deepEqual(cells.filter((c) => c.error || /^#/.test(String(c.v))), []);
+  assert.equal(dash.cells['1:1'].v, 'المؤشر');
+  assert.equal(dash.cells['1:2'].v, 'العدد');
+  assert.equal(dash.cells['3:1'].v, 'لم يفتح');
+  for (let r = 2; r <= 10; r++) {
+    assert.ok(!dash.cells[r + ':1'].formula, 'label row ' + r);
+    assert.match(dash.cells[r + ':2'].formula, /^=/, 'formula row ' + r);
+  }
+});
+
 test('setupSheets is idempotent and keeps existing data', () => {
   const env = setupWith([['E1', {}]]);
   env.sandbox().setupSheets();
