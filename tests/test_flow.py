@@ -107,7 +107,7 @@ def test_import_reports_row_errors_and_skips_only_bad_rows(app, admin):
 def test_import_updates_without_blanking_and_marks_reps(app, admin):
     import_rows(admin, [complete_employee("E1")])
     import_rows(admin, [dict(emp_no="E1", city="جدة")],
-                rep_rows=[dict(emp_no="E1", rep_code="R-1", region="الغربية", supervisor_emp_no="E9", app_name="جاهز", app_id="77")])
+                rep_rows=[dict(emp_no="E1", rep_code="R-1", region="الغربية", supervisor_emp_no="E9", app_name="نينجا", app_id="77")])
     e = emp(app, "E1")
     assert e["data"]["city"] == "جدة" and e["data"]["name_ar"] == "أحمد محمد"  # untouched field kept
     assert e["is_rep"] and e["data"]["app_id"] == "77"
@@ -158,7 +158,7 @@ def verified_client(app, tok, last4="7890"):
 
 
 def employee_form_values(**over):
-    v = {"action": "submit", "name_ar": "أحمد محمد", "nationality": "سعودي", "gender": "ذكر", "birth_date": "1990-05-01",
+    v = {"action": "submit", "name_ar": "أحمد محمد", "name_en": "Ahmed Mohammed", "nationality": "سعودي", "gender": "ذكر", "birth_date": "1990-05-01",
          "id_type": "هوية وطنية", "id_number": "1234567890", "id_expiry": "2030-01-01", "mobile": "٠٥١٢٣٤٥٦٧٨",
          "city": "الرياض", "emergency_name": "خالد", "emergency_relation": "أخ/أخت", "emergency_phone": "0555555555",
          "consent": "1"}
@@ -224,7 +224,7 @@ def rep_setup(admin, app):
 
 def test_rep_needs_photos_when_has_vehicle(app, admin):
     tok, c = rep_setup(admin, app)
-    vals = employee_form_values(app_name="جاهز", app_id="998877", location_consent="نعم",
+    vals = employee_form_values(app_name="نينجا", app_id="998877", location_consent="نعم",
                                 vehicle_type="سيارة الشركة", plate_no="أ ب ج 1234")
     r = post(c, f"/e/{tok}/form", vals)
     html = r.get_data(as_text=True)
@@ -233,7 +233,7 @@ def test_rep_needs_photos_when_has_vehicle(app, admin):
 
 def test_rep_full_submit_with_photos_and_privacy(app, admin):
     tok, c = rep_setup(admin, app)
-    vals = employee_form_values(app_name="جاهز", app_id="998877", location_consent="نعم",
+    vals = employee_form_values(app_name="نينجا", app_id="998877", location_consent="نعم",
                                 vehicle_type="سيارة الشركة", plate_no="أ ب ج 1234", license_no="1020304050",
                                 license_expiry="2029-05-05", registration_expiry="2027-05-05")
     for k in ("front", "back", "right", "left", "odometer"):
@@ -312,7 +312,7 @@ def test_links_and_whatsapp(app, admin):
 
 def test_export_roundtrip(app, admin):
     import_rows(admin, [complete_employee("E1")],
-                rep_rows=[dict(emp_no="E1", rep_code="R-1", region="الرياض", supervisor_emp_no="E9", app_name="جاهز", app_id="5")])
+                rep_rows=[dict(emp_no="E1", rep_code="R-1", region="الرياض", supervisor_emp_no="E9", app_name="نينجا", app_id="5")])
     r = admin.get("/admin/export.xlsx")
     assert r.status_code == 200
     wb = load_workbook(io.BytesIO(r.data))
@@ -337,3 +337,81 @@ def test_hr_edit_cannot_change_consent(app, admin):
     post(admin, "/admin/employees/E1/edit", {"name_ar": "اسم جديد", "consent": "1", "location_consent": "نعم", "city": "أبها"})
     e = emp(app, "E1")
     assert e["data"]["city"] == "أبها" and not e["data"].get("consent")
+
+
+# ------------------------------------------------------------------ multilingual / non-Arab workers
+def test_portal_languages_and_ltr_rtl(app, admin):
+    import_rows(admin, [complete_employee("E1", name_en="Ravi Kumar", name_ar="", nationality="هندي")])
+    tok = token_of(app, "E1")
+    c = verified_client(app, tok)
+    for lang, direction, needle in (("en", "ltr", "Full name (English"), ("ur", "rtl", "پورا نام"),
+                                    ("bn", "ltr", "পূর্ণ নাম"), ("hi", "ltr", "पूरा नाम"), ("ar", "rtl", "الاسم الكامل")):
+        html = c.get(f"/e/{tok}/form?lang={lang}").get_data(as_text=True)
+        assert f'lang="{lang}" dir="{direction}"' in html, lang
+        assert needle in html, lang
+    assert "Ravi Kumar" in c.get(f"/e/{tok}/form?lang=en").get_data(as_text=True)   # shown instead of the empty Arabic name
+
+
+def test_errors_are_translated_and_values_stay_canonical(app, admin):
+    import_rows(admin, [complete_employee("E1", nationality="باكستاني")])
+    tok = token_of(app, "E1")
+    c = verified_client(app, tok)
+    r = post(c, f"/e/{tok}/form?lang=ur", employee_form_values(action="draft", mobile="12", gender="مرد"))
+    html = r.get_data(as_text=True)
+    assert "موبائل نمبر 05xxxxxxxx" in html            # Urdu error
+    assert "فہرست میں سے منتخب کریں" in html             # a select given a translated (non-canonical) value is rejected
+    r = post(c, f"/e/{tok}/form?lang=bn", employee_form_values(action="draft", gender="ذكر"))
+    assert emp(app, "E1")["data"]["gender"] == "ذكر"      # stored canonical Arabic whatever the UI language
+
+
+def test_non_arab_worker_can_submit_with_english_name_and_international_emergency_phone(app, admin):
+    import_rows(admin, [complete_employee("B1", name_ar="", name_en="Md Rahim", nationality="بنغلاديشي",
+                                          id_type="إقامة", id_number="2123456789")])
+    tok = token_of(app, "B1")
+    c = verified_client(app, tok, last4="6789")
+    vals = employee_form_values(name_ar="", name_en="Md Rahim", nationality="بنغلاديشي", id_type="إقامة",
+                                id_number="2123456789", iqama_profession="Delivery driver",
+                                emergency_phone="+880 1712-345678", emergency_name="Karim", lang="bn")
+    r = post(c, f"/e/{tok}/form?lang=bn", vals)
+    assert r.status_code == 302, r.get_data(as_text=True)[:400]
+    d = emp(app, "B1")["data"]
+    assert d["emergency_phone"] == "+8801712345678" and d["name_en"] == "Md Rahim"
+    assert emp(app, "B1")["status"] == "submitted"
+
+
+def test_iqama_profession_required_only_for_residents(app, admin):
+    import_rows(admin, [complete_employee("B2", name_en="Ali", id_type="إقامة", id_number="2123456780")])
+    tok = token_of(app, "B2")
+    c = verified_client(app, tok, last4="6780")
+    r = post(c, f"/e/{tok}/form", employee_form_values(id_type="إقامة", id_number="2123456780"))
+    assert emp(app, "B2")["status"] == "draft"             # no profession given
+    assert "هذا الحقل مطلوب" in r.get_data(as_text=True)
+
+
+def test_links_pick_language_by_nationality(app, admin):
+    import_rows(admin, [complete_employee("E1", nationality="بنغلاديشي", name_en="Rahim"),
+                        complete_employee("E2", nationality="باكستاني", name_en="Imran", id_number="1111111111", mobile="0577777777"),
+                        complete_employee("E3", nationality="هندي", name_en="Ravi", id_number="1222222222", mobile="0588888888"),
+                        complete_employee("E4", nationality="مصري", id_number="1333333333", mobile="0599999999")])
+    html = admin.get("/admin/links").get_data(as_text=True)
+    for lang_name in ("বাংলা", "اردو", "English", "العربية"):
+        assert lang_name in html
+    t1, t2, t3, t4 = (token_of(app, f"E{i}") for i in (1, 2, 3, 4))
+    csv_text = admin.get("/admin/links.csv").get_data(as_text=True)
+    assert f"/e/{t1}?lang=bn" in csv_text and f"/e/{t2}?lang=ur" in csv_text
+    assert f"/e/{t3}?lang=en" in csv_text and f"/e/{t4}" in csv_text and f"/e/{t4}?lang" not in csv_text
+    # forcing a language and filtering by nationality
+    only_hi = admin.get("/admin/links.csv?lang=hi&q=باكستاني").get_data(as_text=True)
+    assert f"/e/{t2}?lang=hi" in only_hi and t1 not in only_hi
+
+
+def test_apps_dropdown_and_nationality_suggestions(app, admin):
+    import_rows(admin, [complete_employee("R9")], rep_rows=[dict(emp_no="R9", rep_code="R-9", region="الرياض", supervisor_emp_no="E1")])
+    tok = token_of(app, "R9")
+    c = verified_client(app, tok)
+    html = c.get(f"/e/{tok}/form?lang=en").get_data(as_text=True)
+    for name in ("Keeta Food", "Keeta Market", "Ninja", "ToYou", "HungerStation", "Mrsool"):
+        assert name in html, name
+    assert '<datalist id="dl_nationality">' in html and "Bangladeshi" in html
+    r = import_rows(admin, [], rep_rows=[dict(emp_no="R9", app_name="أوبر")])
+    assert "اختر من القائمة" in r.get_data(as_text=True)    # an app outside the six is rejected on import

@@ -94,3 +94,47 @@ def test_shipped_template_has_all_headers():
     heads = {re.sub(r"\s*\*$", "", c.value) for c in wb["الموظفون"][1]} | {re.sub(r"\s*\*$", "", c.value) for c in wb["المناديب"][1]}
     for f in FIELDS:
         assert f.xlsx in heads, f.xlsx
+
+
+def test_international_emergency_phone():
+    f = BY_KEY["emergency_phone"]
+    assert clean(f, "+91 98765 43210") == ("+919876543210", None)
+    assert clean(f, "0091 98765 43210") == ("+919876543210", None)
+    assert clean(f, "+880 1712-345678") == ("+8801712345678", None)
+    assert clean(f, "0512345678") == ("+966512345678", None)
+    assert clean(f, "123")[1] and clean(f, "abc")[1]
+
+
+def test_only_english_name_required():
+    assert BY_KEY["name_en"].required and not BY_KEY["name_ar"].required
+    from app.fields import display_name
+    assert display_name({"name_en": "Ravi Kumar"}) == "Ravi Kumar"
+    assert display_name({"name_ar": "أحمد", "name_en": "Ahmed"}) == "أحمد"
+    assert display_name({}, "E1") == "E1"
+
+
+def test_delivery_apps_are_the_six_company_apps():
+    assert OPTIONS["app"] == ["كيتا فود", "كيتا ماركت", "نينجا", "تويو", "هنقرستيشن", "مرسول"]
+
+
+def test_translations_complete():
+    """Every label/option/message the portal shows exists in all five languages (English at minimum for options)."""
+    from app import i18n
+    assert i18n._selfcheck() == []
+    for key, (ar, table) in i18n.UI.items():
+        assert set(table) == {"en", "ur", "bn", "hi"}, key
+    for key, table in i18n.SECTION_TITLES.items():
+        assert set(table) == {"en", "ur", "bn", "hi"}, key
+    for ar, table in i18n.MESSAGES.items():
+        assert set(table) == {"en", "ur", "bn", "hi"}, ar
+    for lang in i18n.LANGS:
+        assert "{name}" in i18n.WA_MESSAGE[lang] and "{link}" in i18n.WA_MESSAGE[lang]
+    # every field is labelled in every language; no label is silently the Arabic fallback
+    for f in FIELDS:
+        if f.key in i18n.FIELD_LABELS:
+            continue
+        raise AssertionError(f"field {f.key} has no translations")
+    for lang in ("en", "ur", "bn", "hi"):
+        tr = i18n.Tr(lang)
+        for f in FIELDS:
+            assert tr.label(f) != f.label, (lang, f.key)

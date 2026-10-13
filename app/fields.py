@@ -23,9 +23,14 @@ OPTIONS = {
     ],
     "vehicle": ["سيارة الشركة", "سيارة شخصية", "بدون مركبة"],
     "yesno": ["نعم", "لا"],
-    "app": [
-        "هنقرستيشن", "جاهز", "مرسول", "نينجا", "كيتا", "تو يو",
-        "ذا شيفز", "شقردي", "أوبر", "كريم", "أخرى",
+    "app": ["كيتا فود", "كيتا ماركت", "نينجا", "تويو", "هنقرستيشن", "مرسول"],
+}
+
+# suggestions for free-text fields (not enforced; employees may type anything)
+DATALISTS = {
+    "nationality": [
+        "سعودي", "مصري", "يمني", "سوداني", "سوري", "أردني", "فلسطيني", "لبناني", "عراقي",
+        "مغربي", "تونسي", "جزائري", "هندي", "بنغلاديشي", "باكستاني",
     ],
 }
 
@@ -59,21 +64,24 @@ class Field:
     sensitive: bool = False
     vehicle: bool = False    # required only when the rep has a vehicle
     hint: str = ""
+    datalist: str = ""       # key into DATALISTS: suggestions for a free-text field
 
 
 F = Field
 FIELDS = [
     # --- personal
-    F("name_ar", "الاسم الكامل (عربي)", "الاسم الكامل (عربي)", "personal", required=True, hint="كما في الهوية أو الإقامة"),
-    F("name_en", "الاسم الكامل (إنجليزي)", "الاسم الكامل (إنجليزي)", "personal"),
-    F("nationality", "الجنسية", "الجنسية", "personal", required=True),
+    F("name_ar", "الاسم الكامل (عربي)", "الاسم الكامل (عربي)", "personal", hint="اختياري"),
+    F("name_en", "الاسم الكامل (إنجليزي)", "الاسم الكامل (إنجليزي)", "personal", required=True,
+      hint="كما في الإقامة أو الجواز"),
+    F("nationality", "الجنسية", "الجنسية", "personal", required=True, datalist="nationality"),
     F("gender", "الجنس", "الجنس", "personal", "select", True, "gender"),
     F("birth_date", "تاريخ الميلاد", "تاريخ الميلاد", "personal", "date", True, sensitive=True, hint="ميلادي: سنة-شهر-يوم"),
     F("marital", "الحالة الاجتماعية", "الحالة الاجتماعية", "personal", "select", False, "marital"),
     F("id_type", "نوع الهوية", "نوع الهوية", "personal", "select", True, "id_type"),
     F("id_number", "رقم الهوية / الإقامة", "رقم الهوية / الإقامة (10 أرقام)", "personal", "id", True, sensitive=True, hint="10 أرقام"),
     F("id_expiry", "تاريخ انتهاء الهوية / الإقامة", "تاريخ انتهاء الهوية / الإقامة", "personal", "date", True, hint="ميلادي: سنة-شهر-يوم"),
-    F("iqama_profession", "المهنة في الإقامة", "المهنة في الإقامة (للمقيمين)", "personal", hint="للمقيمين: كما هي مكتوبة في الإقامة"),
+    F("iqama_profession", "المهنة في الإقامة", "المهنة في الإقامة (للمقيمين)", "personal",
+      hint="كما هي مكتوبة في الإقامة (بالعربية أو الإنجليزية)"),
     F("passport_no", "رقم الجواز", "رقم الجواز (للمقيمين)", "personal", sensitive=True),
     F("passport_expiry", "تاريخ انتهاء الجواز", "تاريخ انتهاء الجواز", "personal", "date"),
     F("education", "المؤهل العلمي", "المؤهل العلمي", "personal", "select", False, "education"),
@@ -85,7 +93,8 @@ FIELDS = [
     # --- emergency
     F("emergency_name", "اسم جهة اتصال الطوارئ", "اسم جهة اتصال الطوارئ", "emergency", required=True),
     F("emergency_relation", "صلة القرابة", "صلة القرابة", "emergency", "select", True, "relation"),
-    F("emergency_phone", "جوال الطوارئ", "جوال الطوارئ", "emergency", "phone", True),
+    F("emergency_phone", "جوال الطوارئ", "جوال الطوارئ", "emergency", "phone_intl", True,
+      hint="إن كان خارج السعودية فاكتب رمز الدولة، مثل +91"),
     # --- job (filled by HR)
     F("job_title", "المسمى الوظيفي", "المسمى الوظيفي", "job", required=True, owner="hr"),
     F("department", "الإدارة / القسم", "الإدارة / القسم", "job", required=True, owner="hr"),
@@ -136,6 +145,11 @@ EXPIRY_KEYS = [
 CONSENT_KEYS = ("consent", "location_consent")
 
 EMP_NO_XLSX = "الرقم الوظيفي"
+
+
+def display_name(data, fallback=""):
+    """Arabic name if given, otherwise the English one (non-Arabic speakers often leave Arabic empty)."""
+    return data.get("name_ar") or data.get("name_en") or fallback
 
 
 def fields_for(emp_is_rep):
@@ -229,6 +243,15 @@ def clean(f, raw, today=None):
             digits = "0" + digits
         if not re.fullmatch(r"05\d{8}", digits):
             return value, "رقم الجوال يجب أن يكون بصيغة 05xxxxxxxx"
+        value = digits
+    elif f.kind == "phone_intl":
+        digits = re.sub(r"[\s\-().]", "", value)
+        if digits.startswith("00"):
+            digits = "+" + digits[2:]
+        if re.fullmatch(r"(0?5\d{8}|9665\d{8})", digits):  # Saudi mobile typed without +
+            digits = "+966" + digits[-9:]
+        if not re.fullmatch(r"\+?\d{8,15}", digits):
+            return value, "رقم الهاتف غير صحيح (مع رمز الدولة إن كان خارج السعودية)"
         value = digits
     elif f.kind == "id":
         if not re.fullmatch(r"[12]\d{9}", value):

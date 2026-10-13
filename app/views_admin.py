@@ -9,8 +9,9 @@ from flask import (Blueprint, Response, abort, current_app, flash, g, redirect, 
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from . import db, xlsx_io
-from .fields import (BY_KEY, EXPIRY_KEYS, PHOTO_KEYS, fields_for, mask, missing,
+from .fields import (BY_KEY, EXPIRY_KEYS, PHOTO_KEYS, display_name, fields_for, mask, missing,
                      parse_date)
+from .i18n import LANGS, auto_language, whatsapp_text
 from .forms import changed_labels, label, parse_form, photo_path, sections, store_photos
 from .security import login_required
 
@@ -107,6 +108,7 @@ def employees():
     if q:
         ql = q.lower()
         rows = [e for e in rows if ql in e["emp_no"].lower() or ql in e["data"].get("name_ar", "").lower()
+                or ql in e["data"].get("name_en", "").lower() or ql in e["data"].get("nationality", "").lower()
                 or q in e["data"].get("mobile", "") or ql in e["data"].get("rep_code", "").lower()]
     if status:
         rows = [e for e in rows if status_key(e) == status]
@@ -265,7 +267,7 @@ def _wa_number(mobile):
     return "966" + mobile[1:] if mobile.startswith("05") else ""
 
 
-def _link_rows(request_obj, only):
+def _link_rows(request_obj, only, lang="auto", q=""):
     base = current_app.config.get("BASE_URL") or request_obj.host_url.rstrip("/")
     rows = []
     for e in db.all_employees():
@@ -273,34 +275,45 @@ def _link_rows(request_obj, only):
             continue
         if only == "unopened" and e["opened_at"]:
             continue
-        link = f"{base}/e/{e['token']}"
-        name = e["data"].get("name_ar", "")
-        msg = f"السلام عليكم {name}، نرجو تعبئة بياناتك الوظيفية عبر هذا الرابط الشخصي (لا تشاركه مع أحد): {link}"
-        num = _wa_number(e["data"].get("mobile", ""))
-        rows.append({"e": e, "link": link, "name": name, "mobile": e["data"].get("mobile", ""),
+        d = e["data"]
+        if q and q.lower() not in " ".join([e["emp_no"], d.get("name_ar", ""), d.get("name_en", ""),
+                                            d.get("nationality", "")]).lower():
+            continue
+        use = auto_language(d) if lang == "auto" else lang
+        link = f"{base}/e/{e['token']}" + (f"?lang={use}" if use != "ar" else "")
+        name = display_name(d)
+        num = _wa_number(d.get("mobile", ""))
+        msg = whatsapp_text(use, name, link)
+        rows.append({"e": e, "link": link, "name": name, "mobile": d.get("mobile", ""), "lang": use,
+                     "nat": d.get("nationality", ""),
                      "wa": f"https://wa.me/{num}?text={quote(msg)}" if num else ""})
     return rows
+
+
+def _link_args():
+    lang = request.args.get("lang", "auto")
+    return (request.args.get("only", "pending"), lang if lang in LANGS else "auto", request.args.get("q", "").strip())
 
 
 @bp.route("/admin/links")
 @login_required()
 def links():
-    only = request.args.get("only", "pending")
-    rows = _link_rows(request, only)
-    return render_template("links.html", rows=rows[:300], total=len(rows), only=only)
+    only, lang, q = _link_args()
+    rows = _link_rows(request, only, lang, q)
+    return render_template("links.html", rows=rows[:300], total=len(rows), only=only, lang=lang, q=q, langs=LANGS)
 
 
 @bp.route("/admin/links.csv")
 @login_required()
 def links_csv():
-    only = request.args.get("only", "pending")
+    only, lang, q = _link_args()
     db.audit(g.user["username"], "export_links", None, only)
     db.get_db().commit()
     buf = io.StringIO()
     w = csv.writer(buf)
-    w.writerow(["الرقم الوظيفي", "الاسم", "الجوال", "الرابط", "رابط واتساب"])
-    for r in _link_rows(request, only):
-        w.writerow([r["e"]["emp_no"], r["name"], r["mobile"], r["link"], r["wa"]])
+    w.writerow(["الرقم الوظيفي", "الاسم", "الجنسية", "الجوال", "لغة الرابط", "الرابط", "رابط واتساب"])
+    for r in _link_rows(request, only, lang, q):
+        w.writerow([r["e"]["emp_no"], r["name"], r["nat"], r["mobile"], r["lang"], r["link"], r["wa"]])
     return Response("﻿" + buf.getvalue(), mimetype="text/csv; charset=utf-8",
                     headers={"Content-Disposition": "attachment; filename=links.csv"})
 

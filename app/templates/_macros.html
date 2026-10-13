@@ -1,37 +1,48 @@
-{% macro field(f, value, error, required=False, readonly=False, photo_url=None) %}
+{% macro field(f, value, error, required=False, readonly=False, photo_url=None, tr=None) %}
+{% set L = tr.label(f) if tr else f.label %}
+{% set H = tr.hint(f) if tr else f.hint %}
+{% set E = tr.msg(error) if (tr and error) else error %}
 <div class="field{% if error %} has-error{% endif %}{% if f.vehicle %} veh{% endif %}">
 {% if f.key == 'consent' %}
   <label><input type="checkbox" name="consent" value="1" {% if value == 'نعم' %}checked{% endif %} {% if readonly %}disabled{% endif %}>
-    {{ f.label }} <span class="req">*</span></label>
+    {{ L }} <span class="req">*</span></label>
 {% elif f.kind == 'photo' %}
-  <label>{{ f.label }}{% if required %} <span class="req">*</span>{% endif %}</label>
-  {% if photo_url %}<img class="thumb" src="{{ photo_url }}" alt="{{ f.label }}" loading="lazy">{% endif %}
+  <label>{{ L }}{% if required %} <span class="req">*</span>{% endif %}</label>
+  {% if photo_url %}<img class="thumb" src="{{ photo_url }}" alt="{{ L }}" loading="lazy">{% endif %}
   {% if not readonly %}<input type="file" name="{{ f.key }}" accept="image/*">{% endif %}
+  {% if H %}<div class="hint">{{ H }}</div>{% endif %}
 {% else %}
-  <label for="f_{{ f.key }}">{{ f.label }}{% if required %} <span class="req">*</span>{% endif %}</label>
+  <label for="f_{{ f.key }}">{{ L }}{% if required %} <span class="req">*</span>{% endif %}</label>
   {% if readonly %}
     <div>{{ value or '—' }}</div>
   {% elif f.kind == 'select' %}
     <select id="f_{{ f.key }}" name="{{ f.key }}">
-      <option value="">— اختر —</option>
-      {% for o in OPTIONS[f.options] %}<option value="{{ o }}" {% if value == o %}selected{% endif %}>{{ o }}</option>{% endfor %}
+      <option value="">{{ tr.t('select') if tr else '— اختر —' }}</option>
+      {% for o in OPTIONS[f.options] %}<option value="{{ o }}" {% if value == o %}selected{% endif %}>{{ tr.opt(o) if tr else o }}</option>{% endfor %}
     </select>
   {% elif f.kind == 'date' %}
     <input id="f_{{ f.key }}" type="date" name="{{ f.key }}" value="{{ value or '' }}" class="ltr">
   {% elif f.kind == 'phone' %}
     <input id="f_{{ f.key }}" type="tel" inputmode="numeric" name="{{ f.key }}" value="{{ value or '' }}" class="ltr" maxlength="16" placeholder="05xxxxxxxx">
+  {% elif f.kind == 'phone_intl' %}
+    <input id="f_{{ f.key }}" type="tel" inputmode="tel" name="{{ f.key }}" value="{{ value or '' }}" class="ltr" maxlength="20" placeholder="+966 / +91 / +92 / +880">
   {% elif f.kind == 'id' %}
     <input id="f_{{ f.key }}" type="text" inputmode="numeric" name="{{ f.key }}" value="{{ value or '' }}" class="ltr" maxlength="10" autocomplete="off">
   {% elif f.kind == 'iban' %}
     <input id="f_{{ f.key }}" type="text" name="{{ f.key }}" value="{{ value or '' }}" class="ltr" maxlength="34" placeholder="SA…" autocomplete="off">
   {% elif f.kind == 'email' %}
     <input id="f_{{ f.key }}" type="email" name="{{ f.key }}" value="{{ value or '' }}" class="ltr">
+  {% elif f.datalist %}
+    <input id="f_{{ f.key }}" type="text" name="{{ f.key }}" value="{{ value or '' }}" maxlength="200" list="dl_{{ f.key }}" autocomplete="off">
+    <datalist id="dl_{{ f.key }}">
+      {% for v, lab in (tr.datalist(f.datalist) if tr else DATALISTS[f.datalist]|map('list')|list) %}<option value="{{ v }}">{{ lab }}</option>{% endfor %}
+    </datalist>
   {% else %}
     <input id="f_{{ f.key }}" type="text" name="{{ f.key }}" value="{{ value or '' }}" maxlength="200">
   {% endif %}
-  {% if f.hint and not readonly %}<div class="hint">{{ f.hint }}</div>{% endif %}
+  {% if H and not readonly %}<div class="hint">{{ H }}</div>{% endif %}
 {% endif %}
-{% if error %}<div class="error">{{ error }}</div>{% endif %}
+{% if E %}<div class="error">{{ E }}</div>{% endif %}
 </div>
 {% endmacro %}
 

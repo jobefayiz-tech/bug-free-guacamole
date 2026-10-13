@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% from "_macros.html" import badge %}
-{% block title %}{{ emp.data.get('name_ar', emp.emp_no) }}{% endblock %}
+{% block title %}{{ dname(emp.data, emp.emp_no) }}{% endblock %}
 {% block body %}
 <p><a href="{{ url_for('admin.employees') }}">← الموظفون</a></p>
-<h1>{{ emp.data.get('name_ar', '—') }} <span class="small mono">{{ emp.emp_no }}</span>
+<h1>{{ dname(emp.data) or '—' }} <span class="small mono">{{ emp.emp_no }}</span>
   {{ badge(emp.status if emp.status != 'draft' else ('draft' if emp.opened_at else 'unopened'), status) }}</h1>
 
 <div class="actions mb">

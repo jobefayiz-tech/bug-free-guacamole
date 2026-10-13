@@ -21,7 +21,7 @@
   {% for it in items %}
   <tr>
     <td class="mono"><a href="{{ url_for('admin.employee', emp_no=it.e.emp_no) }}">{{ it.e.emp_no }}</a></td>
-    <td>{{ it.e.data.get('name_ar', '—') }}</td>
+    <td>{{ dname(it.e.data) or '—' }}</td>
     <td>{{ 'مندوب' if it.e.is_rep else 'موظف' }}</td>
     <td class="mono">{{ it.e.data.get('mobile', '') }}</td>
     <td>{{ badge(it.key, it.label) }}</td>

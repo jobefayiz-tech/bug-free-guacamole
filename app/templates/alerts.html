@@ -14,7 +14,7 @@
   {% for a in rows %}
   <tr>
     <td class="mono"><a href="{{ url_for('admin.employee', emp_no=a.e.emp_no) }}">{{ a.e.emp_no }}</a></td>
-    <td>{{ a.e.data.get('name_ar', '—') }}</td><td>{{ a.doc }}</td><td class="mono">{{ a.date }}</td>
+    <td>{{ dname(a.e.data) or '—' }}</td><td>{{ a.doc }}</td><td class="mono">{{ a.date }}</td>
     <td class="{{ 'late' if a.left < 0 else 'soon' }}">{% if a.left < 0 %}منتهية منذ {{ -a.left }} يومًا{% else %}{{ a.left }} يومًا{% endif %}</td>
   </tr>
   {% else %}<tr><td colspan="5" class="center small">لا توجد وثائق ضمن هذه المدة 🎉</td></tr>{% endfor %}

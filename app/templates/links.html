@@ -2,23 +2,30 @@
 {% block title %}الروابط والتذكير{% endblock %}
 {% block body %}
 <h1>الروابط الشخصية والتذكير</h1>
-<p class="small">لكل موظف رابط سري واحد. عند فتحه يُطلب منه آخر 4 أرقام من هويته/إقامته (إن كانت مسجلة). أرسله عبر واتساب بزر واحد.</p>
+<p class="small">لكل موظف رابط سري واحد. عند فتحه يُطلب منه آخر 4 أرقام من هويته/إقامته (إن كانت مسجلة). يمكن للموظف تغيير لغة الصفحة من أعلاها.
+«تلقائي» يختار لغة الرسالة حسب الجنسية: بنغلاديشي بالبنغالية، باكستاني بالأردية، هندي بالإنجليزية، والبقية بالعربية.</p>
 <form class="filters" method="get">
   <select name="only">
     <option value="pending" {% if only == 'pending' %}selected{% endif %}>من لم يُرسل بياناته بعد</option>
     <option value="unopened" {% if only == 'unopened' %}selected{% endif %}>من لم يفتح رابطه</option>
     <option value="all" {% if only == 'all' %}selected{% endif %}>الجميع</option>
   </select>
+  <select name="lang">
+    <option value="auto" {% if lang == 'auto' %}selected{% endif %}>لغة الرسالة: تلقائي</option>
+    {% for code, (name, _d) in langs.items() %}<option value="{{ code }}" {% if lang == code %}selected{% endif %}>{{ name }}</option>{% endfor %}
+  </select>
+  <input type="search" name="q" value="{{ q }}" placeholder="بحث: اسم أو رقم أو جنسية">
   <button class="btn" type="submit">عرض</button>
-  <a class="btn sec" href="{{ url_for('admin.links_csv', only=only) }}">تنزيل CSV بالروابط</a>
+  <a class="btn sec" href="{{ url_for('admin.links_csv', only=only, lang=lang, q=q) }}">تنزيل CSV بالروابط</a>
 </form>
 <p class="small">{{ total }} موظف{% if total > rows|length %} (يُعرض أول {{ rows|length }}، استخدم CSV للباقي){% endif %}</p>
 <div class="tablewrap"><table>
-  <tr><th>الرقم</th><th>الاسم</th><th>الجوال</th><th>الحالة</th><th></th></tr>
+  <tr><th>الرقم</th><th>الاسم</th><th>الجنسية</th><th>الجوال</th><th>اللغة</th><th>الحالة</th><th></th></tr>
   {% for r in rows %}
-  <tr><td class="mono">{{ r.e.emp_no }}</td><td>{{ r.name or '—' }}</td><td class="mono">{{ r.mobile }}</td>
+  <tr><td class="mono">{{ r.e.emp_no }}</td><td>{{ r.name or '—' }}</td><td>{{ r.nat or '—' }}</td><td class="mono">{{ r.mobile }}</td>
+    <td>{{ langs[r.lang][0] }}</td>
     <td>{{ 'لم يفتح' if not r.e.opened_at else 'فتح الرابط' }}</td>
     <td>{% if r.wa %}<a class="btn sm ok" href="{{ r.wa }}" target="_blank" rel="noopener">واتساب</a>{% else %}<span class="small">لا يوجد جوال</span>{% endif %}</td></tr>
-  {% else %}<tr><td colspan="5" class="center small">لا يوجد</td></tr>{% endfor %}
+  {% else %}<tr><td colspan="7" class="center small">لا يوجد</td></tr>{% endfor %}
 </table></div>
 {% endblock %}

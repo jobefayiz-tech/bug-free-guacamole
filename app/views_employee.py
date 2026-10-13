@@ -1,12 +1,26 @@
 import os
 
-from flask import Blueprint, abort, render_template, redirect, request, send_file, session, url_for
+from flask import Blueprint, abort, g, render_template, redirect, request, send_file, session, url_for
 
 from . import db
 from .fields import PHOTO_KEYS, fields_for, has_vehicle, missing, normalize
 from .forms import changed_labels, label, parse_form, photo_path, sections, store_photos
+from .i18n import LANGS, Tr
 
 bp = Blueprint("emp", __name__, url_prefix="/e")
+
+
+@bp.before_request
+def _language():
+    lang = request.args.get("lang")
+    if lang in LANGS:
+        session["lang"] = lang
+    g.tr = Tr(session.get("lang", "ar"))
+
+
+@bp.context_processor
+def _inject_language():
+    return {"tr": g.tr, "langs": LANGS, "lang": g.tr.lang}
 
 
 def _load(token):
@@ -32,7 +46,7 @@ def start(token):
     emp = _load(token)
     id_number = emp["data"].get("id_number", "")
     key = "emp:" + emp["emp_no"]
-    error = None
+    failed = False
     if _verified(emp):
         return redirect(url_for("emp.form", token=token))
     if not id_number:
@@ -40,7 +54,7 @@ def start(token):
         _mark_verified(emp)
         return redirect(url_for("emp.form", token=token))
     if db.throttle_locked(key):
-        return render_template("emp_verify.html", emp=emp, error="تجاوزت عدد المحاولات. حاول بعد 15 دقيقة.", locked=True)
+        return render_template("emp_verify.html", emp=emp, failed=False, locked=True)
     if request.method == "POST":
         if normalize(request.form.get("last4", "")) == id_number[-4:]:
             db.throttle_reset(key)
@@ -50,8 +64,8 @@ def start(token):
         db.throttle_fail(key)
         db.audit("emp:" + emp["emp_no"], "verify_failed", emp["emp_no"])
         db.get_db().commit()
-        error = "الأرقام غير مطابقة"
-    return render_template("emp_verify.html", emp=emp, error=error, locked=False)
+        failed = True
+    return render_template("emp_verify.html", emp=emp, failed=failed, locked=False)
 
 
 @bp.route("/<token>/form", methods=["GET", "POST"])

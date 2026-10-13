@@ -1,16 +1,16 @@
 {% extends "emp_base.html" %}
-{% block title %}تأكيد الهوية{% endblock %}
 {% block body %}
 <div class="card">
-  <h1>مرحبًا {{ emp.data.get('name_ar', '') }}</h1>
-  <p>للتأكد أنك صاحب الرابط، اكتب <b>آخر 4 أرقام</b> من رقم هويتك أو إقامتك.</p>
-  {% if error %}<div class="flash err">{{ error }}</div>{% endif %}
+  <h1>{{ tr.t('welcome') }} {{ dname(emp.data) }}</h1>
+  <p>{{ tr.t('verify_text') }}</p>
+  {% if locked %}<div class="flash err">{{ tr.t('locked') }}</div>
+  {% elif failed %}<div class="flash err">{{ tr.t('mismatch') }}</div>{% endif %}
   {% if not locked %}
   <form method="post">
     <input type="hidden" name="csrf" value="{{ csrf_token() }}">
-    <div class="field"><label for="l4">آخر 4 أرقام</label>
+    <div class="field"><label for="l4">{{ tr.t('last4') }}</label>
       <input id="l4" name="last4" type="text" inputmode="numeric" maxlength="4" class="ltr" autocomplete="off" required autofocus></div>
-    <button class="btn" type="submit">متابعة</button>
+    <button class="btn" type="submit">{{ tr.t('continue') }}</button>
   </form>
   {% endif %}
 </div>

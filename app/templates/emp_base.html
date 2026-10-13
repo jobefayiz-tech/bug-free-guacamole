@@ -1,15 +1,20 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="{{ lang }}" dir="{{ tr.dir }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>{% block title %}{% endblock %}</title>
+<title>{{ tr.t('title') }}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<header class="top"><span class="brand">بياناتي الوظيفية</span></header>
+<header class="top"><span class="brand">{{ tr.t('title') }}</span></header>
 <main class="wrap narrow">
+  <nav class="langs" aria-label="{{ tr.t('language') }}">
+    {% for code, (name, _d) in langs.items() %}
+      {% if code == lang %}<b>{{ name }}</b>{% else %}<a href="{{ request.path }}?lang={{ code }}">{{ name }}</a>{% endif %}
+    {% endfor %}
+  </nav>
   {% block body %}{% endblock %}
 </main>
 <script src="{{ url_for('static', filename='app.js') }}" defer></script>

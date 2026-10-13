@@ -32,7 +32,7 @@
   <div class="tablewrap"><table>
     <tr><th>الرقم</th><th>الاسم</th><th>أُرسل في</th><th></th></tr>
     {% for e in pending %}
-    <tr><td class="mono">{{ e.emp_no }}</td><td>{{ e.data.get('name_ar', '') }}</td><td>{{ e.submitted_at|local }}</td>
+    <tr><td class="mono">{{ e.emp_no }}</td><td>{{ dname(e.data) }}</td><td>{{ e.submitted_at|local }}</td>
         <td><a class="btn sm" href="{{ url_for('admin.employee', emp_no=e.emp_no) }}">مراجعة</a></td></tr>
     {% endfor %}
   </table></div>
