@@ -1,0 +1,2093 @@
+{
+ "fields": [
+  {
+   "key": "name_ar",
+   "label": "الاسم الكامل (عربي)",
+   "xlsx": "الاسم الكامل (عربي)",
+   "section": "personal",
+   "kind": "text",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "اختياري",
+   "datalist": ""
+  },
+  {
+   "key": "name_en",
+   "label": "الاسم الكامل (إنجليزي)",
+   "xlsx": "الاسم الكامل (إنجليزي)",
+   "section": "personal",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "كما في الإقامة أو الجواز",
+   "datalist": ""
+  },
+  {
+   "key": "nationality",
+   "label": "الجنسية",
+   "xlsx": "الجنسية",
+   "section": "personal",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": "nationality"
+  },
+  {
+   "key": "gender",
+   "label": "الجنس",
+   "xlsx": "الجنس",
+   "section": "personal",
+   "kind": "select",
+   "required": true,
+   "options": "gender",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "birth_date",
+   "label": "تاريخ الميلاد",
+   "xlsx": "تاريخ الميلاد",
+   "section": "personal",
+   "kind": "date",
+   "required": true,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": true,
+   "vehicle": false,
+   "hint": "ميلادي: سنة-شهر-يوم",
+   "datalist": ""
+  },
+  {
+   "key": "marital",
+   "label": "الحالة الاجتماعية",
+   "xlsx": "الحالة الاجتماعية",
+   "section": "personal",
+   "kind": "select",
+   "required": false,
+   "options": "marital",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "id_type",
+   "label": "نوع الهوية",
+   "xlsx": "نوع الهوية",
+   "section": "personal",
+   "kind": "select",
+   "required": true,
+   "options": "id_type",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "id_number",
+   "label": "رقم الهوية / الإقامة",
+   "xlsx": "رقم الهوية / الإقامة (10 أرقام)",
+   "section": "personal",
+   "kind": "id",
+   "required": true,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": true,
+   "vehicle": false,
+   "hint": "10 أرقام",
+   "datalist": ""
+  },
+  {
+   "key": "id_expiry",
+   "label": "تاريخ انتهاء الهوية / الإقامة",
+   "xlsx": "تاريخ انتهاء الهوية / الإقامة",
+   "section": "personal",
+   "kind": "date",
+   "required": true,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "ميلادي: سنة-شهر-يوم",
+   "datalist": ""
+  },
+  {
+   "key": "iqama_profession",
+   "label": "المهنة في الإقامة",
+   "xlsx": "المهنة في الإقامة (للمقيمين)",
+   "section": "personal",
+   "kind": "text",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "كما هي مكتوبة في الإقامة (بالعربية أو الإنجليزية)",
+   "datalist": ""
+  },
+  {
+   "key": "passport_no",
+   "label": "رقم الجواز",
+   "xlsx": "رقم الجواز (للمقيمين)",
+   "section": "personal",
+   "kind": "text",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": true,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "passport_expiry",
+   "label": "تاريخ انتهاء الجواز",
+   "xlsx": "تاريخ انتهاء الجواز",
+   "section": "personal",
+   "kind": "date",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "education",
+   "label": "المؤهل العلمي",
+   "xlsx": "المؤهل العلمي",
+   "section": "personal",
+   "kind": "select",
+   "required": false,
+   "options": "education",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "mobile",
+   "label": "رقم الجوال",
+   "xlsx": "رقم الجوال (05xxxxxxxx)",
+   "section": "contact",
+   "kind": "phone",
+   "required": true,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "مثال: 0512345678",
+   "datalist": ""
+  },
+  {
+   "key": "email",
+   "label": "البريد الإلكتروني",
+   "xlsx": "البريد الإلكتروني",
+   "section": "contact",
+   "kind": "email",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "city",
+   "label": "المدينة",
+   "xlsx": "المدينة",
+   "section": "contact",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "national_address",
+   "label": "العنوان الوطني",
+   "xlsx": "العنوان الوطني (اختياري)",
+   "section": "contact",
+   "kind": "text",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "emergency_name",
+   "label": "اسم جهة اتصال الطوارئ",
+   "xlsx": "اسم جهة اتصال الطوارئ",
+   "section": "emergency",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "emergency_relation",
+   "label": "صلة القرابة",
+   "xlsx": "صلة القرابة",
+   "section": "emergency",
+   "kind": "select",
+   "required": true,
+   "options": "relation",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "emergency_phone",
+   "label": "جوال الطوارئ",
+   "xlsx": "جوال الطوارئ",
+   "section": "emergency",
+   "kind": "phone_intl",
+   "required": true,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "إن كان خارج السعودية فاكتب رمز الدولة، مثل +91",
+   "datalist": ""
+  },
+  {
+   "key": "job_title",
+   "label": "المسمى الوظيفي",
+   "xlsx": "المسمى الوظيفي",
+   "section": "job",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "hr",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "department",
+   "label": "الإدارة / القسم",
+   "xlsx": "الإدارة / القسم",
+   "section": "job",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "hr",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "work_location",
+   "label": "مقر العمل",
+   "xlsx": "مقر العمل (الفرع / المدينة)",
+   "section": "job",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "hr",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "manager_emp_no",
+   "label": "الرقم الوظيفي للمدير المباشر",
+   "xlsx": "الرقم الوظيفي للمدير المباشر",
+   "section": "job",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "hr",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "start_date",
+   "label": "تاريخ المباشرة",
+   "xlsx": "تاريخ المباشرة",
+   "section": "job",
+   "kind": "date",
+   "required": true,
+   "options": "",
+   "owner": "hr",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "contract_type",
+   "label": "نوع العقد",
+   "xlsx": "نوع العقد",
+   "section": "job",
+   "kind": "select",
+   "required": false,
+   "options": "contract_type",
+   "owner": "hr",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "employment_status",
+   "label": "حالة الموظف",
+   "xlsx": "حالة الموظف",
+   "section": "job",
+   "kind": "select",
+   "required": true,
+   "options": "employment_status",
+   "owner": "hr",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "bank_name",
+   "label": "اسم البنك",
+   "xlsx": "اسم البنك",
+   "section": "bank",
+   "kind": "select",
+   "required": false,
+   "options": "bank",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "iban",
+   "label": "رقم الآيبان",
+   "xlsx": "رقم الآيبان (24 خانة تبدأ بـ SA)",
+   "section": "bank",
+   "kind": "iban",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": true,
+   "vehicle": false,
+   "hint": "24 خانة تبدأ بـ SA",
+   "datalist": ""
+  },
+  {
+   "key": "rep_code",
+   "label": "كود المندوب",
+   "xlsx": "كود المندوب",
+   "section": "rep",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "hr",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "region",
+   "label": "المنطقة / المدينة المسؤول عنها",
+   "xlsx": "المنطقة / المدينة المسؤول عنها",
+   "section": "rep",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "hr",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "route",
+   "label": "خط السير / القطاع",
+   "xlsx": "خط السير / القطاع",
+   "section": "rep",
+   "kind": "text",
+   "required": false,
+   "options": "",
+   "owner": "hr",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "supervisor_emp_no",
+   "label": "الرقم الوظيفي للمشرف",
+   "xlsx": "الرقم الوظيفي للمشرف المباشر",
+   "section": "rep",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "hr",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "vehicle_type",
+   "label": "نوع المركبة",
+   "xlsx": "نوع المركبة",
+   "section": "vehicle",
+   "kind": "select",
+   "required": false,
+   "options": "vehicle",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "license_no",
+   "label": "رقم رخصة القيادة",
+   "xlsx": "رقم رخصة القيادة",
+   "section": "vehicle",
+   "kind": "text",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": true,
+   "vehicle": true,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "license_expiry",
+   "label": "تاريخ انتهاء الرخصة",
+   "xlsx": "تاريخ انتهاء الرخصة",
+   "section": "vehicle",
+   "kind": "date",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": true,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "plate_no",
+   "label": "رقم اللوحة",
+   "xlsx": "رقم اللوحة",
+   "section": "vehicle",
+   "kind": "text",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": true,
+   "hint": "كما في الاستمارة",
+   "datalist": ""
+  },
+  {
+   "key": "registration_expiry",
+   "label": "تاريخ انتهاء الاستمارة",
+   "xlsx": "تاريخ انتهاء الاستمارة",
+   "section": "vehicle",
+   "kind": "date",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": true,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "device_no",
+   "label": "رقم الجهاز / الشريحة",
+   "xlsx": "رقم الجهاز / الشريحة المخصصة",
+   "section": "vehicle",
+   "kind": "text",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "app_name",
+   "label": "التطبيق الذي تعمل فيه",
+   "xlsx": "التطبيق الذي يعمل فيه",
+   "section": "app",
+   "kind": "select",
+   "required": true,
+   "options": "app",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "app_id",
+   "label": "رقم الأيدي (ID) في التطبيق",
+   "xlsx": "رقم الأيدي (ID) في التطبيق",
+   "section": "app",
+   "kind": "text",
+   "required": true,
+   "options": "",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "photo_front",
+   "label": "صورة المركبة - الأمام",
+   "xlsx": "صورة المركبة - الأمام (رابط أو اسم الملف)",
+   "section": "photos",
+   "kind": "photo",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": true,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "photo_back",
+   "label": "صورة المركبة - الخلف",
+   "xlsx": "صورة المركبة - الخلف (رابط أو اسم الملف)",
+   "section": "photos",
+   "kind": "photo",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": true,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "photo_right",
+   "label": "صورة المركبة - اليمين",
+   "xlsx": "صورة المركبة - اليمين (رابط أو اسم الملف)",
+   "section": "photos",
+   "kind": "photo",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": true,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "photo_left",
+   "label": "صورة المركبة - اليسار",
+   "xlsx": "صورة المركبة - اليسار (رابط أو اسم الملف)",
+   "section": "photos",
+   "kind": "photo",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": true,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "photo_odometer",
+   "label": "صورة العداد",
+   "xlsx": "صورة العداد (رابط أو اسم الملف)",
+   "section": "photos",
+   "kind": "photo",
+   "required": false,
+   "options": "",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": true,
+   "hint": "صورة لوحة العدادات تُظهر قراءة المسافة",
+   "datalist": ""
+  },
+  {
+   "key": "location_consent",
+   "label": "موافقة على مشاركة الموقع أثناء ساعات العمل",
+   "xlsx": "موافقة على مشاركة الموقع أثناء ساعات العمل",
+   "section": "consent",
+   "kind": "select",
+   "required": true,
+   "options": "yesno",
+   "owner": "employee",
+   "repOnly": true,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  },
+  {
+   "key": "consent",
+   "label": "أوافق على جمع بياناتي ومعالجتها لأغراض العمل",
+   "xlsx": "موافقة الموظف على معالجة بياناته",
+   "section": "consent",
+   "kind": "select",
+   "required": true,
+   "options": "yesno",
+   "owner": "employee",
+   "repOnly": false,
+   "sensitive": false,
+   "vehicle": false,
+   "hint": "",
+   "datalist": ""
+  }
+ ],
+ "options": {
+  "gender": [
+   "ذكر",
+   "أنثى"
+  ],
+  "marital": [
+   "أعزب",
+   "متزوج",
+   "مطلق",
+   "أرمل"
+  ],
+  "id_type": [
+   "هوية وطنية",
+   "إقامة"
+  ],
+  "contract_type": [
+   "غير محدد المدة",
+   "محدد المدة",
+   "عمل مؤقت"
+  ],
+  "employment_status": [
+   "على رأس العمل",
+   "في إجازة",
+   "منتهية خدمته"
+  ],
+  "education": [
+   "أقل من الثانوية",
+   "ثانوية",
+   "دبلوم",
+   "بكالوريوس",
+   "ماجستير",
+   "دكتوراه"
+  ],
+  "relation": [
+   "أب",
+   "أم",
+   "زوج/زوجة",
+   "أخ/أخت",
+   "ابن/ابنة",
+   "قريب آخر",
+   "صديق"
+  ],
+  "bank": [
+   "مصرف الراجحي",
+   "البنك الأهلي السعودي",
+   "بنك الرياض",
+   "مصرف الإنماء",
+   "بنك البلاد",
+   "بنك الجزيرة",
+   "البنك السعودي الأول",
+   "البنك العربي الوطني",
+   "البنك السعودي الفرنسي",
+   "البنك السعودي للاستثمار",
+   "بنك stc",
+   "أخرى"
+  ],
+  "vehicle": [
+   "سيارة الشركة",
+   "سيارة شخصية",
+   "بدون مركبة"
+  ],
+  "yesno": [
+   "نعم",
+   "لا"
+  ],
+  "app": [
+   "كيتا فود",
+   "كيتا ماركت",
+   "نينجا",
+   "تويو",
+   "هنقرستيشن",
+   "مرسول"
+  ]
+ },
+ "datalists": {
+  "nationality": [
+   "سعودي",
+   "مصري",
+   "يمني",
+   "سوداني",
+   "سوري",
+   "أردني",
+   "فلسطيني",
+   "لبناني",
+   "عراقي",
+   "مغربي",
+   "تونسي",
+   "جزائري",
+   "هندي",
+   "بنغلاديشي",
+   "باكستاني"
+  ]
+ },
+ "sections": [
+  [
+   "personal",
+   "البيانات الشخصية"
+  ],
+  [
+   "contact",
+   "التواصل والعنوان"
+  ],
+  [
+   "emergency",
+   "جهة اتصال الطوارئ"
+  ],
+  [
+   "job",
+   "بيانات الوظيفة"
+  ],
+  [
+   "bank",
+   "البيانات البنكية"
+  ],
+  [
+   "rep",
+   "بيانات المندوب"
+  ],
+  [
+   "vehicle",
+   "الرخصة والمركبة"
+  ],
+  [
+   "app",
+   "العمل في التطبيق"
+  ],
+  [
+   "photos",
+   "صور المركبة والعداد"
+  ],
+  [
+   "consent",
+   "الموافقة"
+  ]
+ ],
+ "vehicleValues": [
+  "سيارة الشركة",
+  "سيارة شخصية"
+ ],
+ "photoKeys": [
+  "photo_front",
+  "photo_back",
+  "photo_right",
+  "photo_left",
+  "photo_odometer"
+ ],
+ "expiryKeys": [
+  [
+   "id_expiry",
+   "الهوية / الإقامة"
+  ],
+  [
+   "passport_expiry",
+   "الجواز"
+  ],
+  [
+   "license_expiry",
+   "رخصة القيادة"
+  ],
+  [
+   "registration_expiry",
+   "استمارة المركبة"
+  ]
+ ],
+ "statuses": {
+  "unopened": "لم يفتح",
+  "draft": "قيد التعبئة",
+  "submitted": "بانتظار المراجعة",
+  "returned": "معاد للتعديل",
+  "approved": "معتمد"
+ },
+ "langs": {
+  "ar": [
+   "العربية",
+   "rtl"
+  ],
+  "en": [
+   "English",
+   "ltr"
+  ],
+  "ur": [
+   "اردو",
+   "rtl"
+  ],
+  "bn": [
+   "বাংলা",
+   "ltr"
+  ],
+  "hi": [
+   "हिन्दी",
+   "ltr"
+  ]
+ },
+ "natLang": {
+  "بنغلاديشي": "bn",
+  "باكستاني": "ur",
+  "هندي": "en"
+ },
+ "waMessage": {
+  "ar": "السلام عليكم {name}، نرجو تعبئة بياناتك الوظيفية عبر هذا الرابط الشخصي (لا تشاركه مع أحد): {link}",
+  "en": "Hello {name}, please fill in your employment details using this personal link (do not share it with anyone): {link}",
+  "ur": "السلام علیکم {name}، براہ کرم اس ذاتی لنک سے اپنی ملازمت کی معلومات بھریں (یہ لنک کسی کے ساتھ شیئر نہ کریں): {link}",
+  "bn": "আসসালামু আলাইকুম {name}, অনুগ্রহ করে এই ব্যক্তিগত লিংক দিয়ে আপনার চাকরির তথ্য পূরণ করুন (লিংকটি কারও সাথে শেয়ার করবেন না): {link}",
+  "hi": "नमस्ते {name}, कृपया इस निजी लिंक से अपनी नौकरी की जानकारी भरें (यह लिंक किसी से साझा न करें): {link}"
+ },
+ "ui": {
+  "title": {
+   "ar": "بياناتي الوظيفية",
+   "en": "My employment details",
+   "ur": "میری ملازمت کی معلومات",
+   "bn": "আমার চাকরির তথ্য",
+   "hi": "मेरी नौकरी की जानकारी"
+  },
+  "welcome": {
+   "ar": "مرحبًا",
+   "en": "Welcome",
+   "ur": "خوش آمدید",
+   "bn": "স্বাগতম",
+   "hi": "स्वागत है"
+  },
+  "verify_text": {
+   "ar": "للتأكد أنك صاحب الرابط، اكتب آخر 4 أرقام من رقم هويتك أو إقامتك.",
+   "en": "To confirm it is you, enter the last 4 digits of your ID / Iqama number.",
+   "ur": "تصدیق کے لیے اپنے شناختی کارڈ / اقامہ نمبر کے آخری 4 ہندسے لکھیں۔",
+   "bn": "আপনিই যে সঠিক ব্যক্তি তা নিশ্চিত করতে আপনার আইডি / ইকামা নম্বরের শেষ ৪টি সংখ্যা লিখুন।",
+   "hi": "पुष्टि के लिए अपने आईडी / इक़ामा नंबर के आख़िरी 4 अंक लिखें।"
+  },
+  "last4": {
+   "ar": "آخر 4 أرقام",
+   "en": "Last 4 digits",
+   "ur": "آخری 4 ہندسے",
+   "bn": "শেষ ৪টি সংখ্যা",
+   "hi": "आख़िरी 4 अंक"
+  },
+  "continue": {
+   "ar": "متابعة",
+   "en": "Continue",
+   "ur": "جاری رکھیں",
+   "bn": "এগিয়ে যান",
+   "hi": "आगे बढ़ें"
+  },
+  "mismatch": {
+   "ar": "الأرقام غير مطابقة",
+   "en": "Digits do not match",
+   "ur": "ہندسے مماثل نہیں",
+   "bn": "সংখ্যা মেলেনি",
+   "hi": "अंक मेल नहीं खाते"
+  },
+  "locked": {
+   "ar": "تجاوزت عدد المحاولات. حاول بعد 15 دقيقة.",
+   "en": "Too many attempts. Try again in 15 minutes.",
+   "ur": "بہت زیادہ کوششیں۔ 15 منٹ بعد دوبارہ کوشش کریں۔",
+   "bn": "অনেকবার চেষ্টা করা হয়েছে। ১৫ মিনিট পরে আবার চেষ্টা করুন।",
+   "hi": "बहुत अधिक प्रयास। 15 मिनट बाद फिर कोशिश करें।"
+  },
+  "returned": {
+   "ar": "أعادت الموارد البشرية بياناتك للتعديل:",
+   "en": "HR has returned your details for correction:",
+   "ur": "HR نے آپ کی معلومات درستی کے لیے واپس بھیجی ہیں:",
+   "bn": "এইচআর আপনার তথ্য সংশোধনের জন্য ফেরত পাঠিয়েছে:",
+   "hi": "एचआर ने आपकी जानकारी सुधार के लिए लौटाई है:"
+  },
+  "approved": {
+   "ar": "بياناتك معتمدة. إن غيّرت أي شيء فسيُرسَل للمراجعة من جديد.",
+   "en": "Your details are approved. If you change anything it will be sent for review again.",
+   "ur": "آپ کی معلومات منظور ہو چکی ہیں۔ کوئی تبدیلی کریں گے تو دوبارہ جائزے کے لیے جائے گی۔",
+   "bn": "আপনার তথ্য অনুমোদিত। কিছু পরিবর্তন করলে আবার পর্যালোচনায় যাবে।",
+   "hi": "आपकी जानकारी स्वीकृत है। कुछ बदलने पर वह फिर समीक्षा के लिए जाएगी।"
+  },
+  "submitted": {
+   "ar": "أُرسلت بياناتك وتنتظر مراجعة الموارد البشرية. يمكنك تعديلها وإعادة الإرسال.",
+   "en": "Your details were sent and are waiting for HR review. You can edit and resend.",
+   "ur": "آپ کی معلومات بھیج دی گئی ہیں اور HR کے جائزے کی منتظر ہیں۔ آپ ترمیم کر کے دوبارہ بھیج سکتے ہیں۔",
+   "bn": "আপনার তথ্য পাঠানো হয়েছে এবং এইচআর পর্যালোচনার অপেক্ষায় আছে। সম্পাদনা করে আবার পাঠাতে পারেন।",
+   "hi": "आपकी जानकारी भेज दी गई है और एचआर की समीक्षा की प्रतीक्षा में है। आप बदलकर दोबारा भेज सकते हैं।"
+  },
+  "saved": {
+   "ar": "تم حفظ ما أدخلته.",
+   "en": "Your entries were saved.",
+   "ur": "آپ کی درج کردہ معلومات محفوظ ہو گئیں۔",
+   "bn": "আপনার দেওয়া তথ্য সংরক্ষিত হয়েছে।",
+   "hi": "आपकी दर्ज की गई जानकारी सहेज ली गई।"
+  },
+  "fix_errors": {
+   "ar": "بعض الحقول تحتاج تصحيحًا، راجع الحقول المظللة بالأحمر.",
+   "en": "Some fields need correction. Check the fields marked in red.",
+   "ur": "کچھ خانوں کو درست کرنا ہے۔ سرخ نشان والے خانے دیکھیں۔",
+   "bn": "কিছু ঘর সংশোধন করতে হবে। লাল চিহ্নিত ঘরগুলো দেখুন।",
+   "hi": "कुछ फ़ील्ड ठीक करने हैं। लाल निशान वाले फ़ील्ड देखें।"
+  },
+  "remaining": {
+   "ar": "المتبقي لإرسال بياناتك:",
+   "en": "Remaining before you can submit:",
+   "ur": "بھیجنے سے پہلے باقی:",
+   "bn": "জমা দেওয়ার আগে বাকি:",
+   "hi": "भेजने से पहले शेष:"
+  },
+  "remaining_unit": {
+   "ar": "حقل/صورة",
+   "en": "fields/photos",
+   "ur": "خانے/تصاویر",
+   "bn": "ঘর/ছবি",
+   "hi": "फ़ील्ड/फोटो"
+  },
+  "select": {
+   "ar": "— اختر —",
+   "en": "— Select —",
+   "ur": "— منتخب کریں —",
+   "bn": "— বেছে নিন —",
+   "hi": "— चुनें —"
+  },
+  "hr_filled": {
+   "ar": "(تُدخلها الموارد البشرية)",
+   "en": "(filled in by HR)",
+   "ur": "(HR کی طرف سے بھری جاتی ہے)",
+   "bn": "(এইচআর পূরণ করে)",
+   "hi": "(एचआर द्वारा भरी जाती है)"
+  },
+  "save_draft": {
+   "ar": "حفظ مؤقتًا",
+   "en": "Save draft",
+   "ur": "عارضی طور پر محفوظ کریں",
+   "bn": "খসড়া সংরক্ষণ",
+   "hi": "ड्राफ़्ट सहेजें"
+  },
+  "submit": {
+   "ar": "إرسال للاعتماد",
+   "en": "Submit",
+   "ur": "جمع کرائیں",
+   "bn": "জমা দিন",
+   "hi": "जमा करें"
+  },
+  "submit_update": {
+   "ar": "حفظ وإرسال للمراجعة",
+   "en": "Save and send for review",
+   "ur": "محفوظ کریں اور جائزے کے لیے بھیجیں",
+   "bn": "সংরক্ষণ করে পর্যালোচনায় পাঠান",
+   "hi": "सहेजें और समीक्षा के लिए भेजें"
+  },
+  "thanks": {
+   "ar": "شكرًا",
+   "en": "Thank you",
+   "ur": "شکریہ",
+   "bn": "ধন্যবাদ",
+   "hi": "धन्यवाद"
+  },
+  "done_text": {
+   "ar": "وصلت بياناتك إلى الموارد البشرية وستُراجَع قريبًا.",
+   "en": "Your details reached HR and will be reviewed soon.",
+   "ur": "آپ کی معلومات HR تک پہنچ گئی ہیں اور جلد جائزہ لیا جائے گا۔",
+   "bn": "আপনার তথ্য এইচআর-এর কাছে পৌঁছেছে, শীঘ্রই পর্যালোচনা করা হবে।",
+   "hi": "आपकी जानकारी एचआर तक पहुँच गई है और जल्द ही समीक्षा की जाएगी।"
+  },
+  "done_hint": {
+   "ar": "يمكنك العودة لهذا الرابط في أي وقت لتحديث بياناتك.",
+   "en": "You can return to this link any time to update your details.",
+   "ur": "آپ اپنی معلومات اپ ڈیٹ کرنے کے لیے کسی بھی وقت اسی لنک پر واپس آ سکتے ہیں۔",
+   "bn": "আপনার তথ্য হালনাগাদ করতে যেকোনো সময় এই লিংকে ফিরে আসতে পারেন।",
+   "hi": "आप अपनी जानकारी अपडेट करने के लिए कभी भी इसी लिंक पर लौट सकते हैं।"
+  },
+  "back": {
+   "ar": "رجوع لبياناتي",
+   "en": "Back to my details",
+   "ur": "میری معلومات پر واپس",
+   "bn": "আমার তথ্যে ফিরে যান",
+   "hi": "मेरी जानकारी पर लौटें"
+  },
+  "language": {
+   "ar": "اللغة",
+   "en": "Language",
+   "ur": "زبان",
+   "bn": "ভাষা",
+   "hi": "भाषा"
+  },
+  "bad_link": {
+   "ar": "الرابط غير صحيح أو انتهت صلاحيته. اطلب رابطًا جديدًا من الموارد البشرية.",
+   "en": "This link is not valid or has expired. Ask HR for a new link.",
+   "ur": "یہ لنک درست نہیں یا اس کی میعاد ختم ہو گئی ہے۔ HR سے نیا لنک مانگیں۔",
+   "bn": "লিংকটি সঠিক নয় বা মেয়াদ শেষ। এইচআর-এর কাছ থেকে নতুন লিংক চান।",
+   "hi": "लिंक मान्य नहीं है या समाप्त हो गया है। एचआर से नया लिंक माँगें।"
+  },
+  "loading": {
+   "ar": "جارٍ التحميل…",
+   "en": "Loading…",
+   "ur": "لوڈ ہو رہا ہے…",
+   "bn": "লোড হচ্ছে…",
+   "hi": "लोड हो रहा है…"
+  },
+  "saving": {
+   "ar": "جارٍ الحفظ…",
+   "en": "Saving…",
+   "ur": "محفوظ ہو رہا ہے…",
+   "bn": "সংরক্ষণ হচ্ছে…",
+   "hi": "सहेजा जा रहा है…"
+  },
+  "uploading": {
+   "ar": "جارٍ رفع الصور…",
+   "en": "Uploading photos…",
+   "ur": "تصاویر اپ لوڈ ہو رہی ہیں…",
+   "bn": "ছবি আপলোড হচ্ছে…",
+   "hi": "फोटो अपलोड हो रही हैं…"
+  },
+  "uploaded": {
+   "ar": "✓ تم رفع الصورة",
+   "en": "✓ Photo uploaded",
+   "ur": "✓ تصویر اپ لوڈ ہو گئی",
+   "bn": "✓ ছবি আপলোড হয়েছে",
+   "hi": "✓ फोटो अपलोड हो गई"
+  },
+  "network_error": {
+   "ar": "تعذّر الاتصال. تحقق من الإنترنت وحاول مرة أخرى.",
+   "en": "Connection problem. Check your internet and try again.",
+   "ur": "کنکشن میں مسئلہ۔ انٹرنیٹ چیک کریں اور دوبارہ کوشش کریں۔",
+   "bn": "সংযোগে সমস্যা। ইন্টারনেট দেখে আবার চেষ্টা করুন।",
+   "hi": "कनेक्शन में समस्या। इंटरनेट जाँचें और फिर कोशिश करें।"
+  },
+  "session_expired": {
+   "ar": "انتهت الجلسة. أدخل الأرقام الأربعة مرة أخرى.",
+   "en": "Session expired. Enter the 4 digits again.",
+   "ur": "سیشن ختم ہو گیا۔ 4 ہندسے دوبارہ لکھیں۔",
+   "bn": "সেশন শেষ। ৪টি সংখ্যা আবার লিখুন।",
+   "hi": "सत्र समाप्त। 4 अंक फिर से लिखें।"
+  }
+ },
+ "sectionTitles": {
+  "personal": {
+   "ar": "البيانات الشخصية",
+   "en": "Personal details",
+   "ur": "ذاتی معلومات",
+   "bn": "ব্যক্তিগত তথ্য",
+   "hi": "व्यक्तिगत जानकारी"
+  },
+  "contact": {
+   "ar": "التواصل والعنوان",
+   "en": "Contact & address",
+   "ur": "رابطہ اور پتہ",
+   "bn": "যোগাযোগ ও ঠিকানা",
+   "hi": "संपर्क और पता"
+  },
+  "emergency": {
+   "ar": "جهة اتصال الطوارئ",
+   "en": "Emergency contact",
+   "ur": "ہنگامی رابطہ",
+   "bn": "জরুরি যোগাযোগ",
+   "hi": "आपातकालीन संपर्क"
+  },
+  "job": {
+   "ar": "بيانات الوظيفة",
+   "en": "Job details",
+   "ur": "ملازمت کی تفصیلات",
+   "bn": "চাকরির বিবরণ",
+   "hi": "नौकरी का विवरण"
+  },
+  "bank": {
+   "ar": "البيانات البنكية",
+   "en": "Bank details",
+   "ur": "بینک کی تفصیلات",
+   "bn": "ব্যাংকের তথ্য",
+   "hi": "बैंक विवरण"
+  },
+  "rep": {
+   "ar": "بيانات المندوب",
+   "en": "Representative details",
+   "ur": "نمائندے کی تفصیلات",
+   "bn": "প্রতিনিধির তথ্য",
+   "hi": "प्रतिनिधि विवरण"
+  },
+  "vehicle": {
+   "ar": "الرخصة والمركبة",
+   "en": "Licence & vehicle",
+   "ur": "لائسنس اور گاڑی",
+   "bn": "লাইসেন্স ও যানবাহন",
+   "hi": "लाइसेंस और वाहन"
+  },
+  "app": {
+   "ar": "العمل في التطبيق",
+   "en": "Work app",
+   "ur": "کام کی ایپ",
+   "bn": "কাজের অ্যাপ",
+   "hi": "काम का ऐप"
+  },
+  "photos": {
+   "ar": "صور المركبة والعداد",
+   "en": "Vehicle & odometer photos",
+   "ur": "گاڑی اور اوڈومیٹر کی تصاویر",
+   "bn": "গাড়ি ও ওডোমিটারের ছবি",
+   "hi": "वाहन और ओडोमीटर की फोटो"
+  },
+  "consent": {
+   "ar": "الموافقة",
+   "en": "Consent",
+   "ur": "رضامندی",
+   "bn": "সম্মতি",
+   "hi": "सहमति"
+  }
+ },
+ "fieldLabels": {
+  "name_ar": {
+   "ar": "الاسم الكامل (عربي)",
+   "en": "Full name (Arabic)",
+   "ur": "پورا نام (عربی)",
+   "bn": "পূর্ণ নাম (আরবি)",
+   "hi": "पूरा नाम (अरबी)"
+  },
+  "name_en": {
+   "ar": "الاسم الكامل (إنجليزي)",
+   "en": "Full name (English, as in Iqama / Passport)",
+   "ur": "پورا نام (انگریزی، جیسا اقامہ / پاسپورٹ میں ہے)",
+   "bn": "পূর্ণ নাম (ইংরেজি, ইকামা / পাসপোর্ট অনুযায়ী)",
+   "hi": "पूरा नाम (अंग्रेज़ी, इक़ामा / पासपोर्ट के अनुसार)"
+  },
+  "nationality": {
+   "ar": "الجنسية",
+   "en": "Nationality",
+   "ur": "قومیت",
+   "bn": "জাতীয়তা",
+   "hi": "राष्ट्रीयता"
+  },
+  "gender": {
+   "ar": "الجنس",
+   "en": "Gender",
+   "ur": "جنس",
+   "bn": "লিঙ্গ",
+   "hi": "लिंग"
+  },
+  "birth_date": {
+   "ar": "تاريخ الميلاد",
+   "en": "Date of birth",
+   "ur": "تاریخ پیدائش",
+   "bn": "জন্ম তারিখ",
+   "hi": "जन्म तिथि"
+  },
+  "marital": {
+   "ar": "الحالة الاجتماعية",
+   "en": "Marital status",
+   "ur": "ازدواجی حیثیت",
+   "bn": "বৈবাহিক অবস্থা",
+   "hi": "वैवाहिक स्थिति"
+  },
+  "id_type": {
+   "ar": "نوع الهوية",
+   "en": "ID type",
+   "ur": "شناخت کی قسم",
+   "bn": "পরিচয়পত্রের ধরন",
+   "hi": "पहचान का प्रकार"
+  },
+  "id_number": {
+   "ar": "رقم الهوية / الإقامة",
+   "en": "ID / Iqama number",
+   "ur": "شناختی کارڈ / اقامہ نمبر",
+   "bn": "আইডি / ইকামা নম্বর",
+   "hi": "आईडी / इक़ामा नंबर"
+  },
+  "id_expiry": {
+   "ar": "تاريخ انتهاء الهوية / الإقامة",
+   "en": "ID / Iqama expiry date",
+   "ur": "شناختی کارڈ / اقامہ کی میعاد ختم ہونے کی تاریخ",
+   "bn": "আইডি / ইকামার মেয়াদ শেষের তারিখ",
+   "hi": "आईडी / इक़ामा की समाप्ति तिथि"
+  },
+  "iqama_profession": {
+   "ar": "المهنة في الإقامة",
+   "en": "Profession on Iqama",
+   "ur": "اقامہ میں درج پیشہ",
+   "bn": "ইকামায় উল্লিখিত পেশা",
+   "hi": "इक़ामा में लिखा पेशा"
+  },
+  "passport_no": {
+   "ar": "رقم الجواز",
+   "en": "Passport number",
+   "ur": "پاسپورٹ نمبر",
+   "bn": "পাসপোর্ট নম্বর",
+   "hi": "पासपोर्ट नंबर"
+  },
+  "passport_expiry": {
+   "ar": "تاريخ انتهاء الجواز",
+   "en": "Passport expiry date",
+   "ur": "پاسپورٹ کی میعاد ختم ہونے کی تاریخ",
+   "bn": "পাসপোর্টের মেয়াদ শেষের তারিখ",
+   "hi": "पासपोर्ट की समाप्ति तिथि"
+  },
+  "education": {
+   "ar": "المؤهل العلمي",
+   "en": "Education",
+   "ur": "تعلیم",
+   "bn": "শিক্ষাগত যোগ্যতা",
+   "hi": "शिक्षा"
+  },
+  "mobile": {
+   "ar": "رقم الجوال",
+   "en": "Mobile number (Saudi)",
+   "ur": "موبائل نمبر (سعودی)",
+   "bn": "মোবাইল নম্বর (সৌদি)",
+   "hi": "मोबाइल नंबर (सऊदी)"
+  },
+  "email": {
+   "ar": "البريد الإلكتروني",
+   "en": "Email",
+   "ur": "ای میل",
+   "bn": "ইমেইল",
+   "hi": "ईमेल"
+  },
+  "city": {
+   "ar": "المدينة",
+   "en": "City",
+   "ur": "شہر",
+   "bn": "শহর",
+   "hi": "शहर"
+  },
+  "national_address": {
+   "ar": "العنوان الوطني",
+   "en": "National address (optional)",
+   "ur": "قومی پتہ (اختیاری)",
+   "bn": "জাতীয় ঠিকানা (ঐচ্ছিক)",
+   "hi": "राष्ट्रीय पता (वैकल्पिक)"
+  },
+  "emergency_name": {
+   "ar": "اسم جهة اتصال الطوارئ",
+   "en": "Emergency contact name",
+   "ur": "ہنگامی رابطے کا نام",
+   "bn": "জরুরি যোগাযোগের নাম",
+   "hi": "आपातकालीन संपर्क का नाम"
+  },
+  "emergency_relation": {
+   "ar": "صلة القرابة",
+   "en": "Relationship",
+   "ur": "رشتہ",
+   "bn": "সম্পর্ক",
+   "hi": "रिश्ता"
+  },
+  "emergency_phone": {
+   "ar": "جوال الطوارئ",
+   "en": "Emergency contact phone",
+   "ur": "ہنگامی رابطے کا فون نمبر",
+   "bn": "জরুরি যোগাযোগের ফোন নম্বর",
+   "hi": "आपातकालीन संपर्क का फ़ोन नंबर"
+  },
+  "job_title": {
+   "ar": "المسمى الوظيفي",
+   "en": "Job title",
+   "ur": "عہدہ",
+   "bn": "পদবি",
+   "hi": "पद"
+  },
+  "department": {
+   "ar": "الإدارة / القسم",
+   "en": "Department",
+   "ur": "شعبہ",
+   "bn": "বিভাগ",
+   "hi": "विभाग"
+  },
+  "work_location": {
+   "ar": "مقر العمل",
+   "en": "Work location",
+   "ur": "کام کی جگہ",
+   "bn": "কর্মস্থল",
+   "hi": "कार्यस्थल"
+  },
+  "manager_emp_no": {
+   "ar": "الرقم الوظيفي للمدير المباشر",
+   "en": "Direct manager employee no.",
+   "ur": "براہ راست مینیجر کا ملازم نمبر",
+   "bn": "সরাসরি ম্যানেজারের কর্মচারী নম্বর",
+   "hi": "सीधे प्रबंधक का कर्मचारी नंबर"
+  },
+  "start_date": {
+   "ar": "تاريخ المباشرة",
+   "en": "Start date",
+   "ur": "ملازمت شروع ہونے کی تاریخ",
+   "bn": "যোগদানের তারিখ",
+   "hi": "कार्यारंभ तिथि"
+  },
+  "contract_type": {
+   "ar": "نوع العقد",
+   "en": "Contract type",
+   "ur": "معاہدے کی قسم",
+   "bn": "চুক্তির ধরন",
+   "hi": "अनुबंध का प्रकार"
+  },
+  "employment_status": {
+   "ar": "حالة الموظف",
+   "en": "Employment status",
+   "ur": "ملازمت کی حیثیت",
+   "bn": "চাকরির অবস্থা",
+   "hi": "नौकरी की स्थिति"
+  },
+  "bank_name": {
+   "ar": "اسم البنك",
+   "en": "Bank name",
+   "ur": "بینک کا نام",
+   "bn": "ব্যাংকের নাম",
+   "hi": "बैंक का नाम"
+  },
+  "iban": {
+   "ar": "رقم الآيبان",
+   "en": "IBAN",
+   "ur": "آئی بین (IBAN)",
+   "bn": "আইবান (IBAN)",
+   "hi": "आईबैन (IBAN)"
+  },
+  "rep_code": {
+   "ar": "كود المندوب",
+   "en": "Rep code",
+   "ur": "نمائندے کا کوڈ",
+   "bn": "প্রতিনিধি কোড",
+   "hi": "प्रतिनिधि कोड"
+  },
+  "region": {
+   "ar": "المنطقة / المدينة المسؤول عنها",
+   "en": "Region / city covered",
+   "ur": "متعلقہ علاقہ / شہر",
+   "bn": "দায়িত্বপ্রাপ্ত অঞ্চল / শহর",
+   "hi": "ज़िम्मेदार क्षेत्र / शहर"
+  },
+  "route": {
+   "ar": "خط السير / القطاع",
+   "en": "Route / sector",
+   "ur": "روٹ / سیکٹر",
+   "bn": "রুট / সেক্টর",
+   "hi": "रूट / सेक्टर"
+  },
+  "supervisor_emp_no": {
+   "ar": "الرقم الوظيفي للمشرف",
+   "en": "Supervisor employee no.",
+   "ur": "سپروائزر کا ملازم نمبر",
+   "bn": "সুপারভাইজারের কর্মচারী নম্বর",
+   "hi": "पर्यवेक्षक का कर्मचारी नंबर"
+  },
+  "vehicle_type": {
+   "ar": "نوع المركبة",
+   "en": "Vehicle type",
+   "ur": "گاڑی کی قسم",
+   "bn": "যানবাহনের ধরন",
+   "hi": "वाहन का प्रकार"
+  },
+  "license_no": {
+   "ar": "رقم رخصة القيادة",
+   "en": "Driving licence number",
+   "ur": "ڈرائیونگ لائسنس نمبر",
+   "bn": "ড্রাইভিং লাইসেন্স নম্বর",
+   "hi": "ड्राइविंग लाइसेंस नंबर"
+  },
+  "license_expiry": {
+   "ar": "تاريخ انتهاء الرخصة",
+   "en": "Licence expiry date",
+   "ur": "لائسنس کی میعاد ختم ہونے کی تاریخ",
+   "bn": "লাইসেন্সের মেয়াদ শেষের তারিখ",
+   "hi": "लाइसेंस की समाप्ति तिथि"
+  },
+  "plate_no": {
+   "ar": "رقم اللوحة",
+   "en": "Plate number",
+   "ur": "نمبر پلیٹ",
+   "bn": "নম্বর প্লেট",
+   "hi": "नंबर प्लेट"
+  },
+  "registration_expiry": {
+   "ar": "تاريخ انتهاء الاستمارة",
+   "en": "Vehicle registration (Istimara) expiry date",
+   "ur": "گاڑی کی رجسٹریشن (استمارہ) کی میعاد ختم ہونے کی تاریخ",
+   "bn": "গাড়ির রেজিস্ট্রেশন (ইস্তিমারা) মেয়াদ শেষের তারিখ",
+   "hi": "वाहन पंजीकरण (इस्तिमारा) की समाप्ति तिथि"
+  },
+  "device_no": {
+   "ar": "رقم الجهاز / الشريحة",
+   "en": "Device / SIM number",
+   "ur": "ڈیوائس / سم نمبر",
+   "bn": "ডিভাইস / সিম নম্বর",
+   "hi": "डिवाइस / सिम नंबर"
+  },
+  "app_name": {
+   "ar": "التطبيق الذي تعمل فيه",
+   "en": "App you work with",
+   "ur": "جس ایپ میں آپ کام کرتے ہیں",
+   "bn": "আপনি যে অ্যাপে কাজ করেন",
+   "hi": "जिस ऐप में आप काम करते हैं"
+  },
+  "app_id": {
+   "ar": "رقم الأيدي (ID) في التطبيق",
+   "en": "Your ID in the app",
+   "ur": "ایپ میں آپ کی آئی ڈی",
+   "bn": "অ্যাপে আপনার আইডি",
+   "hi": "ऐप में आपकी आईडी"
+  },
+  "photo_front": {
+   "ar": "صورة المركبة - الأمام",
+   "en": "Vehicle photo - front",
+   "ur": "گاڑی کی تصویر - سامنے",
+   "bn": "গাড়ির ছবি - সামনে",
+   "hi": "वाहन की फोटो - सामने"
+  },
+  "photo_back": {
+   "ar": "صورة المركبة - الخلف",
+   "en": "Vehicle photo - back",
+   "ur": "گاڑی کی تصویر - پیچھے",
+   "bn": "গাড়ির ছবি - পিছনে",
+   "hi": "वाहन की फोटो - पीछे"
+  },
+  "photo_right": {
+   "ar": "صورة المركبة - اليمين",
+   "en": "Vehicle photo - right side",
+   "ur": "گاڑی کی تصویر - دائیں طرف",
+   "bn": "গাড়ির ছবি - ডান দিক",
+   "hi": "वाहन की फोटो - दाईं ओर"
+  },
+  "photo_left": {
+   "ar": "صورة المركبة - اليسار",
+   "en": "Vehicle photo - left side",
+   "ur": "گاڑی کی تصویر - بائیں طرف",
+   "bn": "গাড়ির ছবি - বাম দিক",
+   "hi": "वाहन की फोटो - बाईं ओर"
+  },
+  "photo_odometer": {
+   "ar": "صورة العداد",
+   "en": "Odometer photo",
+   "ur": "اوڈومیٹر کی تصویر",
+   "bn": "ওডোমিটারের ছবি",
+   "hi": "ओडोमीटर की फोटो"
+  },
+  "location_consent": {
+   "ar": "موافقة على مشاركة الموقع أثناء ساعات العمل",
+   "en": "I agree to share my location during working hours",
+   "ur": "میں کام کے اوقات میں اپنی لوکیشن شیئر کرنے سے متفق ہوں",
+   "bn": "আমি কাজের সময় আমার অবস্থান শেয়ার করতে সম্মত",
+   "hi": "मैं काम के घंटों में अपनी लोकेशन साझा करने के लिए सहमत हूँ"
+  },
+  "consent": {
+   "ar": "أوافق على جمع بياناتي ومعالجتها لأغراض العمل",
+   "en": "I agree to the collection and processing of my data for work purposes",
+   "ur": "میں کام کے مقاصد کے لیے اپنا ڈیٹا جمع اور استعمال کیے جانے سے متفق ہوں",
+   "bn": "আমি কাজের উদ্দেশ্যে আমার তথ্য সংগ্রহ ও ব্যবহারে সম্মত",
+   "hi": "मैं कार्य-उद्देश्यों के लिए अपने डेटा के संग्रह और उपयोग के लिए सहमत हूँ"
+  }
+ },
+ "hints": {
+  "name_ar": {
+   "ar": "اختياري",
+   "en": "Optional",
+   "ur": "اختیاری",
+   "bn": "ঐচ্ছিক",
+   "hi": "वैकल्पिक"
+  },
+  "name_en": {
+   "ar": "كما في الإقامة أو الجواز",
+   "en": "Exactly as printed on your Iqama or passport",
+   "ur": "بالکل ویسے لکھیں جیسا اقامہ یا پاسپورٹ پر ہے",
+   "bn": "ইকামা বা পাসপোর্টে যেভাবে লেখা আছে ঠিক সেভাবে লিখুন",
+   "hi": "इक़ामा या पासपोर्ट पर जैसा छपा है ठीक वैसा लिखें"
+  },
+  "birth_date": {
+   "ar": "ميلادي: سنة-شهر-يوم",
+   "en": "Gregorian (AD) date",
+   "ur": "عیسوی تاریخ",
+   "bn": "ইংরেজি (খ্রিস্টাব্দ) তারিখ",
+   "hi": "ईसवी तारीख"
+  },
+  "id_number": {
+   "ar": "10 أرقام",
+   "en": "10 digits",
+   "ur": "10 ہندسے",
+   "bn": "১০টি সংখ্যা",
+   "hi": "10 अंक"
+  },
+  "id_expiry": {
+   "ar": "ميلادي: سنة-شهر-يوم",
+   "en": "Gregorian (AD) date",
+   "ur": "عیسوی تاریخ",
+   "bn": "ইংরেজি (খ্রিস্টাব্দ) তারিখ",
+   "hi": "ईसवी तारीख"
+  },
+  "iqama_profession": {
+   "ar": "كما هي مكتوبة في الإقامة (بالعربية أو الإنجليزية)",
+   "en": "Write it as printed on the Iqama (Arabic or English)",
+   "ur": "اقامہ میں جیسا لکھا ہے ویسا لکھیں (عربی یا انگریزی)",
+   "bn": "ইকামায় যেমন লেখা আছে তেমন লিখুন (আরবি বা ইংরেজি)",
+   "hi": "इक़ामा में जैसा लिखा है वैसा लिखें (अरबी या अंग्रेज़ी)"
+  },
+  "mobile": {
+   "ar": "مثال: 0512345678",
+   "en": "Example: 0512345678",
+   "ur": "مثال: 0512345678",
+   "bn": "উদাহরণ: 0512345678",
+   "hi": "उदाहरण: 0512345678"
+  },
+  "emergency_phone": {
+   "ar": "إن كان خارج السعودية فاكتب رمز الدولة، مثل +91",
+   "en": "If outside Saudi Arabia, include the country code, e.g. +91 / +92 / +880",
+   "ur": "سعودی عرب سے باہر ہو تو ملک کا کوڈ لکھیں، مثلاً +92",
+   "bn": "সৌদির বাইরে হলে দেশের কোড দিন, যেমন +880",
+   "hi": "सऊदी से बाहर हो तो देश का कोड लिखें, जैसे +91"
+  },
+  "iban": {
+   "ar": "24 خانة تبدأ بـ SA",
+   "en": "24 characters starting with SA",
+   "ur": "SA سے شروع ہونے والے 24 حروف",
+   "bn": "SA দিয়ে শুরু ২৪টি অক্ষর",
+   "hi": "SA से शुरू होने वाले 24 अक्षर"
+  },
+  "plate_no": {
+   "ar": "كما في الاستمارة",
+   "en": "As written on the registration (Istimara)",
+   "ur": "جیسا استمارہ میں لکھا ہے",
+   "bn": "ইস্তিমারায় যেমন লেখা আছে",
+   "hi": "इस्तिमारा में जैसा लिखा है"
+  },
+  "photo_odometer": {
+   "ar": "صورة لوحة العدادات تُظهر قراءة المسافة",
+   "en": "Photo of the dashboard showing the distance reading",
+   "ur": "ڈیش بورڈ کی تصویر جس میں فاصلے کی ریڈنگ نظر آئے",
+   "bn": "ড্যাশবোর্ডের ছবি যেখানে দূরত্বের রিডিং দেখা যায়",
+   "hi": "डैशबोर्ड की फोटो जिसमें दूरी की रीडिंग दिखे"
+  }
+ },
+ "optionLabels": {
+  "ذكر": {
+   "ar": "ذكر",
+   "en": "Male",
+   "ur": "مرد",
+   "bn": "পুরুষ",
+   "hi": "पुरुष"
+  },
+  "أنثى": {
+   "ar": "أنثى",
+   "en": "Female",
+   "ur": "عورت",
+   "bn": "মহিলা",
+   "hi": "महिला"
+  },
+  "أعزب": {
+   "ar": "أعزب",
+   "en": "Single",
+   "ur": "غیر شادی شدہ",
+   "bn": "অবিবাহিত",
+   "hi": "अविवाहित"
+  },
+  "متزوج": {
+   "ar": "متزوج",
+   "en": "Married",
+   "ur": "شادی شدہ",
+   "bn": "বিবাহিত",
+   "hi": "विवाहित"
+  },
+  "مطلق": {
+   "ar": "مطلق",
+   "en": "Divorced",
+   "ur": "طلاق یافتہ",
+   "bn": "তালাকপ্রাপ্ত",
+   "hi": "तलाकशुदा"
+  },
+  "أرمل": {
+   "ar": "أرمل",
+   "en": "Widowed",
+   "ur": "بیوہ / رنڈوا",
+   "bn": "বিধবা / বিপত্নীক",
+   "hi": "विधवा / विधुर"
+  },
+  "هوية وطنية": {
+   "ar": "هوية وطنية",
+   "en": "National ID",
+   "ur": "قومی شناختی کارڈ",
+   "bn": "জাতীয় পরিচয়পত্র",
+   "hi": "राष्ट्रीय पहचान पत्र"
+  },
+  "إقامة": {
+   "ar": "إقامة",
+   "en": "Iqama (residence permit)",
+   "ur": "اقامہ",
+   "bn": "ইকামা",
+   "hi": "इक़ामा"
+  },
+  "غير محدد المدة": {
+   "ar": "غير محدد المدة",
+   "en": "Unlimited term",
+   "ur": "غیر معینہ مدت",
+   "bn": "অনির্দিষ্ট মেয়াদ",
+   "hi": "अनिश्चित अवधि"
+  },
+  "محدد المدة": {
+   "ar": "محدد المدة",
+   "en": "Fixed term",
+   "ur": "مقررہ مدت",
+   "bn": "নির্দিষ্ট মেয়াদ",
+   "hi": "निश्चित अवधि"
+  },
+  "عمل مؤقت": {
+   "ar": "عمل مؤقت",
+   "en": "Temporary",
+   "ur": "عارضی",
+   "bn": "অস্থায়ী",
+   "hi": "अस्थायी"
+  },
+  "على رأس العمل": {
+   "ar": "على رأس العمل",
+   "en": "Active",
+   "ur": "کام پر",
+   "bn": "কর্মরত",
+   "hi": "कार्यरत"
+  },
+  "في إجازة": {
+   "ar": "في إجازة",
+   "en": "On leave",
+   "ur": "چھٹی پر",
+   "bn": "ছুটিতে",
+   "hi": "छुट्टी पर"
+  },
+  "منتهية خدمته": {
+   "ar": "منتهية خدمته",
+   "en": "Service ended",
+   "ur": "ملازمت ختم",
+   "bn": "চাকরি শেষ",
+   "hi": "सेवा समाप्त"
+  },
+  "أقل من الثانوية": {
+   "ar": "أقل من الثانوية",
+   "en": "Below secondary",
+   "ur": "سیکنڈری سے کم",
+   "bn": "মাধ্যমিকের নিচে",
+   "hi": "माध्यमिक से कम"
+  },
+  "ثانوية": {
+   "ar": "ثانوية",
+   "en": "Secondary",
+   "ur": "سیکنڈری",
+   "bn": "মাধ্যমিক",
+   "hi": "माध्यमिक"
+  },
+  "دبلوم": {
+   "ar": "دبلوم",
+   "en": "Diploma",
+   "ur": "ڈپلومہ",
+   "bn": "ডিপ্লোমা",
+   "hi": "डिप्लोमा"
+  },
+  "بكالوريوس": {
+   "ar": "بكالوريوس",
+   "en": "Bachelor's",
+   "ur": "بیچلر",
+   "bn": "স্নাতক",
+   "hi": "स्नातक"
+  },
+  "ماجستير": {
+   "ar": "ماجستير",
+   "en": "Master's",
+   "ur": "ماسٹرز",
+   "bn": "স্নাতকোত্তর",
+   "hi": "स्नातकोत्तर"
+  },
+  "دكتوراه": {
+   "ar": "دكتوراه",
+   "en": "Doctorate",
+   "ur": "ڈاکٹریٹ",
+   "bn": "ডক্টরেট",
+   "hi": "डॉक्टरेट"
+  },
+  "أب": {
+   "ar": "أب",
+   "en": "Father",
+   "ur": "والد",
+   "bn": "বাবা",
+   "hi": "पिता"
+  },
+  "أم": {
+   "ar": "أم",
+   "en": "Mother",
+   "ur": "والدہ",
+   "bn": "মা",
+   "hi": "माता"
+  },
+  "زوج/زوجة": {
+   "ar": "زوج/زوجة",
+   "en": "Spouse",
+   "ur": "شریکِ حیات",
+   "bn": "স্বামী / স্ত্রী",
+   "hi": "पति / पत्नी"
+  },
+  "أخ/أخت": {
+   "ar": "أخ/أخت",
+   "en": "Brother / Sister",
+   "ur": "بھائی / بہن",
+   "bn": "ভাই / বোন",
+   "hi": "भाई / बहन"
+  },
+  "ابن/ابنة": {
+   "ar": "ابن/ابنة",
+   "en": "Son / Daughter",
+   "ur": "بیٹا / بیٹی",
+   "bn": "ছেলে / মেয়ে",
+   "hi": "बेटा / बेटी"
+  },
+  "قريب آخر": {
+   "ar": "قريب آخر",
+   "en": "Other relative",
+   "ur": "دوسرا رشتہ دار",
+   "bn": "অন্য আত্মীয়",
+   "hi": "अन्य रिश्तेदार"
+  },
+  "صديق": {
+   "ar": "صديق",
+   "en": "Friend",
+   "ur": "دوست",
+   "bn": "বন্ধু",
+   "hi": "मित्र"
+  },
+  "أخرى": {
+   "ar": "أخرى",
+   "en": "Other",
+   "ur": "دیگر",
+   "bn": "অন্যান্য",
+   "hi": "अन्य"
+  },
+  "سيارة الشركة": {
+   "ar": "سيارة الشركة",
+   "en": "Company car",
+   "ur": "کمپنی کی گاڑی",
+   "bn": "কোম্পানির গাড়ি",
+   "hi": "कंपनी की गाड़ी"
+  },
+  "سيارة شخصية": {
+   "ar": "سيارة شخصية",
+   "en": "Personal car",
+   "ur": "ذاتی گاڑی",
+   "bn": "ব্যক্তিগত গাড়ি",
+   "hi": "निजी गाड़ी"
+  },
+  "بدون مركبة": {
+   "ar": "بدون مركبة",
+   "en": "No vehicle",
+   "ur": "کوئی گاڑی نہیں",
+   "bn": "কোনো যানবাহন নেই",
+   "hi": "कोई वाहन नहीं"
+  },
+  "نعم": {
+   "ar": "نعم",
+   "en": "Yes",
+   "ur": "ہاں",
+   "bn": "হ্যাঁ",
+   "hi": "हाँ"
+  },
+  "لا": {
+   "ar": "لا",
+   "en": "No",
+   "ur": "نہیں",
+   "bn": "না",
+   "hi": "नहीं"
+  },
+  "كيتا فود": {
+   "ar": "كيتا فود",
+   "en": "Keeta Food"
+  },
+  "كيتا ماركت": {
+   "ar": "كيتا ماركت",
+   "en": "Keeta Market"
+  },
+  "نينجا": {
+   "ar": "نينجا",
+   "en": "Ninja"
+  },
+  "تويو": {
+   "ar": "تويو",
+   "en": "ToYou"
+  },
+  "هنقرستيشن": {
+   "ar": "هنقرستيشن",
+   "en": "HungerStation"
+  },
+  "مرسول": {
+   "ar": "مرسول",
+   "en": "Mrsool"
+  },
+  "مصرف الراجحي": {
+   "ar": "مصرف الراجحي",
+   "en": "Al Rajhi Bank"
+  },
+  "البنك الأهلي السعودي": {
+   "ar": "البنك الأهلي السعودي",
+   "en": "Saudi National Bank (SNB)"
+  },
+  "بنك الرياض": {
+   "ar": "بنك الرياض",
+   "en": "Riyad Bank"
+  },
+  "مصرف الإنماء": {
+   "ar": "مصرف الإنماء",
+   "en": "Alinma Bank"
+  },
+  "بنك البلاد": {
+   "ar": "بنك البلاد",
+   "en": "Bank Albilad"
+  },
+  "بنك الجزيرة": {
+   "ar": "بنك الجزيرة",
+   "en": "Bank AlJazira"
+  },
+  "البنك السعودي الأول": {
+   "ar": "البنك السعودي الأول",
+   "en": "Saudi Awwal Bank (SAB)"
+  },
+  "البنك العربي الوطني": {
+   "ar": "البنك العربي الوطني",
+   "en": "Arab National Bank"
+  },
+  "البنك السعودي الفرنسي": {
+   "ar": "البنك السعودي الفرنسي",
+   "en": "Banque Saudi Fransi"
+  },
+  "البنك السعودي للاستثمار": {
+   "ar": "البنك السعودي للاستثمار",
+   "en": "Saudi Investment Bank"
+  },
+  "بنك stc": {
+   "ar": "بنك stc",
+   "en": "stc bank"
+  },
+  "سعودي": {
+   "ar": "سعودي",
+   "en": "Saudi"
+  },
+  "مصري": {
+   "ar": "مصري",
+   "en": "Egyptian"
+  },
+  "يمني": {
+   "ar": "يمني",
+   "en": "Yemeni"
+  },
+  "سوداني": {
+   "ar": "سوداني",
+   "en": "Sudanese"
+  },
+  "سوري": {
+   "ar": "سوري",
+   "en": "Syrian"
+  },
+  "أردني": {
+   "ar": "أردني",
+   "en": "Jordanian"
+  },
+  "فلسطيني": {
+   "ar": "فلسطيني",
+   "en": "Palestinian"
+  },
+  "لبناني": {
+   "ar": "لبناني",
+   "en": "Lebanese"
+  },
+  "عراقي": {
+   "ar": "عراقي",
+   "en": "Iraqi"
+  },
+  "مغربي": {
+   "ar": "مغربي",
+   "en": "Moroccan"
+  },
+  "تونسي": {
+   "ar": "تونسي",
+   "en": "Tunisian"
+  },
+  "جزائري": {
+   "ar": "جزائري",
+   "en": "Algerian"
+  },
+  "هندي": {
+   "ar": "هندي",
+   "en": "Indian",
+   "ur": "بھارتی",
+   "bn": "ভারতীয়",
+   "hi": "भारतीय"
+  },
+  "بنغلاديشي": {
+   "ar": "بنغلاديشي",
+   "en": "Bangladeshi",
+   "ur": "بنگلہ دیشی",
+   "bn": "বাংলাদেশি",
+   "hi": "बांग्लादेशी"
+  },
+  "باكستاني": {
+   "ar": "باكستاني",
+   "en": "Pakistani",
+   "ur": "پاکستانی",
+   "bn": "পাকিস্তানি",
+   "hi": "पाकिस्तानी"
+  }
+ },
+ "messages": {
+  "اختر من القائمة": {
+   "ar": "اختر من القائمة",
+   "en": "Choose from the list",
+   "ur": "فہرست میں سے منتخب کریں",
+   "bn": "তালিকা থেকে বেছে নিন",
+   "hi": "सूची में से चुनें"
+  },
+  "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم": {
+   "ar": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم",
+   "en": "Invalid date",
+   "ur": "غلط تاریخ",
+   "bn": "ভুল তারিখ",
+   "hi": "गलत तारीख"
+  },
+  "التاريخ خارج النطاق المعقول": {
+   "ar": "التاريخ خارج النطاق المعقول",
+   "en": "Date is out of the valid range",
+   "ur": "تاریخ درست حد سے باہر ہے",
+   "bn": "তারিখ সঠিক সীমার বাইরে",
+   "hi": "तारीख मान्य सीमा से बाहर है"
+  },
+  "رقم الجوال يجب أن يكون بصيغة 05xxxxxxxx": {
+   "ar": "رقم الجوال يجب أن يكون بصيغة 05xxxxxxxx",
+   "en": "Mobile number must look like 05xxxxxxxx",
+   "ur": "موبائل نمبر 05xxxxxxxx کی شکل میں ہونا چاہیے",
+   "bn": "মোবাইল নম্বর 05xxxxxxxx ফরম্যাটে হতে হবে",
+   "hi": "मोबाइल नंबर 05xxxxxxxx प्रारूप में होना चाहिए"
+  },
+  "رقم الهاتف غير صحيح (مع رمز الدولة إن كان خارج السعودية)": {
+   "ar": "رقم الهاتف غير صحيح (مع رمز الدولة إن كان خارج السعودية)",
+   "en": "Invalid phone number (add the country code if outside Saudi Arabia)",
+   "ur": "فون نمبر غلط ہے (سعودی عرب سے باہر ہو تو ملک کا کوڈ لکھیں)",
+   "bn": "ফোন নম্বর ভুল (সৌদির বাইরে হলে দেশের কোড দিন)",
+   "hi": "फ़ोन नंबर गलत है (सऊदी से बाहर हो तो देश का कोड जोड़ें)"
+  },
+  "يجب أن يكون 10 أرقام ويبدأ بـ 1 أو 2": {
+   "ar": "يجب أن يكون 10 أرقام ويبدأ بـ 1 أو 2",
+   "en": "Must be 10 digits starting with 1 or 2",
+   "ur": "10 ہندسے ہوں اور 1 یا 2 سے شروع ہوں",
+   "bn": "১০টি সংখ্যা হতে হবে এবং ১ বা ২ দিয়ে শুরু",
+   "hi": "10 अंक हों और 1 या 2 से शुरू हों"
+  },
+  "رقم الآيبان غير صحيح (SA ثم 22 رقمًا)": {
+   "ar": "رقم الآيبان غير صحيح (SA ثم 22 رقمًا)",
+   "en": "Invalid IBAN (SA followed by 22 digits)",
+   "ur": "آئی بین غلط ہے (SA کے بعد 22 ہندسے)",
+   "bn": "আইবান ভুল (SA এর পর ২২টি সংখ্যা)",
+   "hi": "आईबैन गलत है (SA के बाद 22 अंक)"
+  },
+  "بريد إلكتروني غير صحيح": {
+   "ar": "بريد إلكتروني غير صحيح",
+   "en": "Invalid email",
+   "ur": "ای میل غلط ہے",
+   "bn": "ইমেইল ভুল",
+   "hi": "ईमेल गलत है"
+  },
+  "النص أطول من المسموح": {
+   "ar": "النص أطول من المسموح",
+   "en": "Text is too long",
+   "ur": "متن بہت لمبا ہے",
+   "bn": "লেখা অনেক বড়",
+   "hi": "पाठ बहुत लंबा है"
+  },
+  "هذا الحقل مطلوب": {
+   "ar": "هذا الحقل مطلوب",
+   "en": "This field is required",
+   "ur": "یہ خانہ ضروری ہے",
+   "bn": "এই ঘরটি পূরণ আবশ্যক",
+   "hi": "यह फ़ील्ड आवश्यक है"
+  },
+  "الملف ليس صورة صالحة (استخدم JPG أو PNG)": {
+   "ar": "الملف ليس صورة صالحة (استخدم JPG أو PNG)",
+   "en": "Not a valid image (use JPG or PNG)",
+   "ur": "درست تصویر نہیں (JPG یا PNG استعمال کریں)",
+   "bn": "সঠিক ছবি নয় (JPG বা PNG ব্যবহার করুন)",
+   "hi": "मान्य फोटो नहीं (JPG या PNG उपयोग करें)"
+  },
+  "صيغة الصورة غير مدعومة (استخدم JPG أو PNG)": {
+   "ar": "صيغة الصورة غير مدعومة (استخدم JPG أو PNG)",
+   "en": "Unsupported image format (use JPG or PNG)",
+   "ur": "تصویر کا فارمیٹ تعاون یافتہ نہیں (JPG یا PNG)",
+   "bn": "ছবির ফরম্যাট সমর্থিত নয় (JPG বা PNG)",
+   "hi": "फोटो का प्रारूप समर्थित नहीं (JPG या PNG)"
+  }
+ }
+}

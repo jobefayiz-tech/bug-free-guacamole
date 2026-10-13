@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+<base target="_top">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>My details</title>
+<style>
+:root{--navy:#1f3a5f;--blue:#2f6db5;--bg:#f4f6f9;--card:#fff;--line:#d9dee6;--text:#1b2733;--muted:#6b7785;--ok:#1f8a4c;--err:#c0392b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",Tahoma,"Noto Naskh Arabic","Noto Sans Arabic",Arial,sans-serif;line-height:1.7;font-size:16px}
+.top{background:var(--navy);color:#fff;padding:10px 16px;font-weight:700;font-size:1.1rem}
+.wrap{max-width:640px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
+h1{font-size:1.35rem;margin:0 0 12px}
+h3{margin:0 0 12px}
+label{display:block;font-weight:600;margin-bottom:4px}
+.req{color:var(--err)}
+input[type=text],input[type=tel],input[type=email],input[type=date],input[type=file],select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;font:inherit;background:#fff;min-height:44px}
+input:focus,select:focus{outline:2px solid var(--blue);border-color:var(--blue)}
+.ltr{direction:ltr;text-align:left}
+.field{margin-bottom:14px}
+.field.err input,.field.err select{border-color:var(--err)}
+.hint{color:var(--muted);font-size:.85rem;margin-top:2px}
+.error{color:var(--err);font-size:.9rem;margin-top:3px}
+.hidden{display:none!important}
+.btn{display:inline-block;background:var(--blue);color:#fff;border:0;border-radius:8px;padding:10px 18px;font:inherit;font-weight:600;cursor:pointer;min-height:44px}
+.btn.sec{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.btn.ok{background:var(--ok)}
+.btn[disabled]{opacity:.55;cursor:wait}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.sticky{position:sticky;bottom:0;background:linear-gradient(transparent,var(--bg) 30%);padding:16px 0 8px}
+.flash{padding:10px 14px;border-radius:8px;margin-bottom:12px;background:#e8f1fb;border:1px solid #b9d3f0}
+.flash.ok{background:#e6f5ec;border-color:#a8d8bb}
+.flash.err{background:#fdecea;border-color:#f1b5ae}
+.note{background:#fff8e6;border:1px solid #f0d99a;border-radius:8px;padding:10px 14px;margin-bottom:14px}
+.langs{display:flex;gap:6px 14px;flex-wrap:wrap;margin-bottom:12px;font-size:.95rem}
+.langs a{color:var(--blue);cursor:pointer}
+.langs b{color:var(--navy)}
+dl.kv{display:grid;grid-template-columns:minmax(110px,190px) 1fr;gap:6px 12px;margin:0}
+dl.kv dt{color:var(--muted)}
+dl.kv dd{margin:0;word-break:break-word}
+.small{color:var(--muted);font-size:.9rem}
+.center{text-align:center}
+.mono{font-family:Consolas,monospace;direction:ltr;unicode-bidi:embed}
+.photo-ok{color:var(--ok);font-size:.9rem;margin-top:4px}
+@media (max-width:600px){dl.kv{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="top" id="title"></div>
+<div class="wrap">
+  <nav class="langs" id="langs"></nav>
+  <div id="app"></div>
+</div>
+<script>
+var BOOT = <?!= boot ?>;
+</script>
+<script>
+/*__LOGIC__*/
+</script>
+<script>
+(function () {
+  'use strict';
+  var CONFIG = BOOT.config;
+  var LG = makeLogic_(CONFIG);
+  var LANGS = CONFIG.langs;
+  var lang = LANGS[BOOT.lang] ? BOOT.lang : 'ar';
+  var token = BOOT.token;
+  var session = '';
+  var state = {screen: 'loading', info: null, emp: null, values: {}, errors: {}, photoErrors: {}, saved: false, busy: false, files: {}, failed: false};
+  var app = document.getElementById('app');
+
+  // ---------- translation helpers (same fallback rules as the Python version)
+  function pick(table) {
+    if (!table) return '';
+    if (lang === 'ar') return table.ar || '';
+    return table[lang] || table.en || table.ar || '';
+  }
+  function t(key) { return pick(CONFIG.ui[key]); }
+  function label(f) { var tb = CONFIG.fieldLabels[f.key]; return tb ? pick(tb) : f.label; }
+  function hint(f) {
+    var tb = CONFIG.hints[f.key];
+    if (!tb) return '';
+    if (lang === 'ar') return tb.ar || '';
+    return tb[lang] || tb.en || '';
+  }
+  function opt(v) { var tb = CONFIG.optionLabels[v]; return tb ? pick(tb) : v; }
+  function msg(m) { var tb = CONFIG.messages[m]; return tb ? pick(tb) : m; }
+  function section(key) { return pick(CONFIG.sectionTitles[key]); }
+
+  // ---------- tiny DOM helpers (all text via textContent: never innerHTML with data)
+  function el(tag, attrs, children) {
+    var n = document.createElement(tag);
+    Object.keys(attrs || {}).forEach(function (k) {
+      var v = attrs[k];
+      if (v === false || v === null || v === undefined) return;
+      if (k === 'class') n.className = v;
+      else if (k === 'text') n.textContent = v;
+      else if (k.indexOf('on') === 0) n.addEventListener(k.slice(2), v);
+      else n.setAttribute(k, v === true ? '' : v);
+    });
+    (children || []).forEach(function (c) { if (c) n.appendChild(typeof c === 'string' ? document.createTextNode(c) : c); });
+    return n;
+  }
+
+  function setLang(code) {
+    collect();
+    lang = code;
+    render();
+  }
+
+  function renderChrome() {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = LANGS[lang][1];
+    document.getElementById('title').textContent = t('title');
+    document.title = t('title');
+    var nav = document.getElementById('langs');
+    nav.innerHTML = '';
+    Object.keys(LANGS).forEach(function (code) {
+      nav.appendChild(code === lang ? el('b', {text: LANGS[code][0]}) : el('a', {text: LANGS[code][0], onclick: function () { setLang(code); }}));
+    });
+  }
+
+  // ---------- server calls
+  function call(name, args) {
+    return new Promise(function (resolve, reject) {
+      google.script.run.withSuccessHandler(resolve).withFailureHandler(reject)[name].apply(null, args);
+    });
+  }
+
+  function fail(err) {
+    state.busy = false;
+    state.netError = true;
+    render();
+    return err;
+  }
+
+  // ---------- images: resize in the browser so uploads are small (important on mobile data)
+  function resizeImage(file) {
+    return new Promise(function (resolve, reject) {
+      var url = URL.createObjectURL(file);
+      var img = new Image();
+      img.onload = function () {
+        var max = 1280, w = img.naturalWidth, h = img.naturalHeight, s = Math.min(1, max / Math.max(w, h));
+        var c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(w * s)); c.height = Math.max(1, Math.round(h * s));
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        resolve(c.toDataURL('image/jpeg', 0.8).split(',')[1]);
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); reject(new Error('bad_image')); };
+      img.src = url;
+    });
+  }
+
+  // ---------- form
+  function editableFields() {
+    return LG.fieldsFor(state.emp.isRep).filter(function (f) { return f.owner === 'employee'; });
+  }
+
+  function collect() {   // copy what is typed in the form into state.values
+    if (state.screen !== 'form') return;
+    editableFields().forEach(function (f) {
+      var n = document.getElementById('f_' + f.key);
+      if (!n || f.kind === 'photo') return;
+      state.values[f.key] = f.key === 'consent' ? n.checked : n.value;
+    });
+  }
+
+  function fieldNode(f) {
+    var err = state.errors[f.key] || state.photoErrors[f.key];
+    var required = LG.isRequired(f, valuesForRequired(), state.emp.isRep);
+    var box = el('div', {class: 'field' + (err ? ' err' : '') + (f.vehicle ? ' veh' : ''), 'data-key': f.key});
+    var star = required ? el('span', {class: 'req', text: ' *'}) : null;
+    var v = state.values[f.key];
+    if (f.key === 'consent') {
+      box.appendChild(el('label', {}, [el('input', {type: 'checkbox', id: 'f_consent', checked: v === true}), ' ' + label(f), el('span', {class: 'req', text: ' *'})]));
+    } else if (f.kind === 'photo') {
+      box.appendChild(el('label', {for: 'f_' + f.key}, [label(f), star]));
+      if (state.emp.photos.indexOf(f.key) >= 0 && !state.files[f.key]) box.appendChild(el('div', {class: 'photo-ok', text: t('uploaded')}));
+      box.appendChild(el('input', {type: 'file', id: 'f_' + f.key, accept: 'image/*', onchange: function (e) {
+        state.files[f.key] = e.target.files && e.target.files[0] ? e.target.files[0] : null;
+      }}));
+      if (state.files[f.key]) box.appendChild(el('div', {class: 'photo-ok', text: '✓ ' + state.files[f.key].name}));
+      if (hint(f)) box.appendChild(el('div', {class: 'hint', text: hint(f)}));
+    } else {
+      box.appendChild(el('label', {for: 'f_' + f.key}, [label(f), star]));
+      var input;
+      if (f.kind === 'select') {
+        input = el('select', {id: 'f_' + f.key}, [el('option', {value: '', text: t('select')})].concat(
+          CONFIG.options[f.options].map(function (o) { return el('option', {value: o, text: opt(o), selected: v === o}); })));
+        if (f.key === 'vehicle_type') input.addEventListener('change', function () { collect(); applyVehicle(); });
+      } else if (f.kind === 'date') {
+        input = el('input', {type: 'date', id: 'f_' + f.key, value: v || '', class: 'ltr'});
+      } else if (f.kind === 'phone') {
+        input = el('input', {type: 'tel', inputmode: 'numeric', id: 'f_' + f.key, value: v || '', class: 'ltr', maxlength: 16, placeholder: '05xxxxxxxx'});
+      } else if (f.kind === 'phone_intl') {
+        input = el('input', {type: 'tel', inputmode: 'tel', id: 'f_' + f.key, value: v || '', class: 'ltr', maxlength: 20, placeholder: '+966 / +91 / +92 / +880'});
+      } else if (f.kind === 'id') {
+        input = el('input', {type: 'text', inputmode: 'numeric', id: 'f_' + f.key, value: v || '', class: 'ltr', maxlength: 10, autocomplete: 'off'});
+      } else if (f.kind === 'iban') {
+        input = el('input', {type: 'text', id: 'f_' + f.key, value: v || '', class: 'ltr', maxlength: 34, placeholder: 'SA…', autocomplete: 'off'});
+      } else if (f.kind === 'email') {
+        input = el('input', {type: 'email', id: 'f_' + f.key, value: v || '', class: 'ltr'});
+      } else {
+        input = el('input', {type: 'text', id: 'f_' + f.key, value: v || '', maxlength: 200, list: f.datalist ? 'dl_' + f.key : false, autocomplete: 'off'});
+      }
+      box.appendChild(input);
+      if (f.datalist) {
+        box.appendChild(el('datalist', {id: 'dl_' + f.key}, CONFIG.datalists[f.datalist].map(function (o) { return el('option', {value: o, text: opt(o)}); })));
+      }
+      if (hint(f)) box.appendChild(el('div', {class: 'hint', text: hint(f)}));
+    }
+    if (err) box.appendChild(el('div', {class: 'error', text: msg(err)}));
+    return box;
+  }
+
+  function valuesForRequired() {
+    var o = {};
+    Object.keys(state.emp.data).forEach(function (k) { o[k] = state.emp.data[k]; });
+    Object.keys(state.values).forEach(function (k) { if (typeof state.values[k] === 'string') o[k] = state.values[k]; });
+    return o;
+  }
+
+  function applyVehicle() {
+    var sel = document.getElementById('f_vehicle_type');
+    if (!sel) return;
+    var on = CONFIG.vehicleValues.indexOf(sel.value) >= 0;
+    Array.prototype.forEach.call(document.querySelectorAll('.veh'), function (n) { n.classList.toggle('hidden', !on); });
+  }
+
+  function renderForm() {
+    var e = state.emp, frag = document.createDocumentFragment();
+    var name = LG.displayName(e.data, e.empNo);
+    frag.appendChild(el('h1', {}, [name + ' ', el('span', {class: 'small mono', text: e.empNo})]));
+    var st = e.status;
+    if (st === CONFIG.statuses.returned && e.note) frag.appendChild(el('div', {class: 'note'}, [el('b', {text: t('returned') + ' '}), e.note]));
+    else if (st === CONFIG.statuses.approved) frag.appendChild(el('div', {class: 'flash ok', text: t('approved')}));
+    else if (st === CONFIG.statuses.submitted) frag.appendChild(el('div', {class: 'flash', text: t('submitted')}));
+    if (state.saved) frag.appendChild(el('div', {class: 'flash ok', text: t('saved')}));
+    if (Object.keys(state.errors).length || Object.keys(state.photoErrors).length) frag.appendChild(el('div', {class: 'flash err', text: t('fix_errors')}));
+    if (state.netError) frag.appendChild(el('div', {class: 'flash err', text: t('network_error')}));
+    if (e.todo.length) frag.appendChild(el('div', {class: 'note'}, [t('remaining') + ' ', el('b', {text: String(e.todo.length)}), ' ' + t('remaining_unit')]));
+
+    var form = el('div', {});
+    CONFIG.sections.forEach(function (sec) {
+      var fs = LG.fieldsFor(e.isRep).filter(function (f) { return f.section === sec[0]; });
+      var mine = fs.filter(function (f) { return f.owner === 'employee'; });
+      var hr = fs.filter(function (f) { return f.owner === 'hr'; });
+      if (mine.length) form.appendChild(el('div', {class: 'card'}, [el('h3', {text: section(sec[0])})].concat(mine.map(fieldNode))));
+      if (hr.length) {
+        var dl = el('dl', {class: 'kv'});
+        hr.forEach(function (f) {
+          var v = e.data[f.key] || '';
+          dl.appendChild(el('dt', {text: label(f)}));
+          dl.appendChild(el('dd', {text: (f.kind === 'select' ? opt(v) : v) || '—'}));
+        });
+        form.appendChild(el('div', {class: 'card'}, [el('h3', {}, [section(sec[0]) + ' ', el('span', {class: 'small', text: t('hr_filled')})]), dl]));
+      }
+    });
+    frag.appendChild(form);
+    var locked = st === CONFIG.statuses.submitted || st === CONFIG.statuses.approved;
+    var actions = el('div', {class: 'actions sticky'});
+    if (!locked) actions.appendChild(el('button', {class: 'btn sec', id: 'btn_draft', text: t('save_draft'), disabled: state.busy, onclick: function () { submit('draft'); }}));
+    actions.appendChild(el('button', {class: 'btn ok', id: 'btn_submit', text: locked ? t('submit_update') : t('submit'), disabled: state.busy, onclick: function () { submit('submit'); }}));
+    frag.appendChild(actions);
+    if (state.busy && state.busyText) frag.appendChild(el('div', {class: 'flash', text: state.busyText}));
+    app.innerHTML = '';
+    app.appendChild(frag);
+    applyVehicle();
+  }
+
+  function submit(action) {
+    collect();
+    state.busy = true; state.netError = false; state.errors = {}; state.photoErrors = {}; state.saved = false;
+    state.busyText = t('saving');
+    render();
+    var keys = Object.keys(state.files).filter(function (k) { return state.files[k]; });
+    var chain = Promise.resolve();
+    keys.forEach(function (k) {
+      chain = chain.then(function () {
+        state.busyText = t('uploading') + ' ' + label(LG.BY_KEY[k]);
+        render();
+        return resizeImage(state.files[k]).then(function (b64) {
+          return call('apiPhoto', [token, session, k, b64]);
+        }).then(function (r) {
+          if (r.ok) { delete state.files[k]; if (state.emp.photos.indexOf(k) < 0) state.emp.photos.push(k); }
+          else if (r.error === 'session') { throw {session: true}; }
+          else state.photoErrors[k] = r.message || 'الملف ليس صورة صالحة (استخدم JPG أو PNG)';
+        }, function (err) {
+          if (err && err.message === 'bad_image') state.photoErrors[k] = 'الملف ليس صورة صالحة (استخدم JPG أو PNG)';
+          else throw err;
+        });
+      });
+    });
+    chain.then(function () {
+      state.busyText = t('saving');
+      var payload = {};
+      editableFields().forEach(function (f) {
+        if (f.kind === 'photo') return;
+        if (f.key === 'consent') payload.consent = state.values.consent === true;
+        else payload[f.key] = state.values[f.key] !== undefined ? state.values[f.key] : (state.emp.data[f.key] || '');
+      });
+      return call('apiSave', [token, session, payload, action]);
+    }).then(function (r) {
+      state.busy = false;
+      if (!r.ok) { if (r.error === 'session') return needVerifyAgain(); state.netError = true; return render(); }
+      Object.keys(r.errors).forEach(function (k) { if (LG.BY_KEY[k].kind === 'photo') state.photoErrors[k] = r.errors[k]; else state.errors[k] = r.errors[k]; });
+      state.emp.status = r.status; state.emp.todo = r.todo;
+      // keep what the server accepted; show raw text of rejected fields
+      return call('apiLoad', [token, session]).then(function (l) {
+        if (l.ok) { state.emp = l; mergeAccepted(r); }
+        state.saved = r.saved && !r.submitted;
+        if (r.submitted) { state.screen = 'done'; }
+        render();
+      });
+    }).catch(function (err) {
+      if (err && err.session) return needVerifyAgain();
+      fail(err);
+    });
+  }
+
+  function mergeAccepted(r) {   // after a save, fields the server accepted are shown from server data
+    var e = state.emp;
+    editableFields().forEach(function (f) {
+      if (f.kind === 'photo' || r.errors[f.key]) return;
+      if (f.key === 'consent') state.values.consent = e.data.consent === 'نعم';
+      else state.values[f.key] = e.data[f.key] || '';
+    });
+  }
+
+  function needVerifyAgain() {
+    session = '';
+    state.screen = 'verify'; state.failed = false; state.sessionExpired = true;
+    render();
+  }
+
+  // ---------- screens
+  function renderVerify() {
+    var card = el('div', {class: 'card'});
+    card.appendChild(el('h1', {text: t('welcome') + ' ' + (state.info.name || '')}));
+    if (state.sessionExpired) card.appendChild(el('div', {class: 'flash err', text: t('session_expired')}));
+    card.appendChild(el('p', {text: t('verify_text')}));
+    if (state.info.locked || state.locked) { card.appendChild(el('div', {class: 'flash err', text: t('locked')})); }
+    else {
+      if (state.failed) card.appendChild(el('div', {class: 'flash err', text: t('mismatch')}));
+      if (state.netError) card.appendChild(el('div', {class: 'flash err', text: t('network_error')}));
+      card.appendChild(el('div', {class: 'field'}, [el('label', {for: 'last4', text: t('last4')}),
+        el('input', {type: 'text', id: 'last4', inputmode: 'numeric', maxlength: 4, class: 'ltr', autocomplete: 'off'})]));
+      card.appendChild(el('button', {class: 'btn', id: 'btn_verify', text: t('continue'), disabled: state.busy, onclick: doVerify}));
+    }
+    app.innerHTML = ''; app.appendChild(card);
+  }
+
+  function doVerify() {
+    var v = document.getElementById('last4').value;
+    state.busy = true; state.netError = false; render();
+    call('apiVerify', [token, v]).then(function (r) {
+      state.busy = false;
+      if (r.ok) { session = r.session; state.sessionExpired = false; return load(); }
+      if (r.error === 'locked') state.locked = true; else state.failed = true;
+      render();
+    }, fail);
+  }
+
+  function load() {
+    state.screen = 'loading'; render();
+    return call('apiLoad', [token, session]).then(function (r) {
+      if (!r.ok) { if (r.error === 'session') return needVerifyAgain(); state.screen = 'error'; return render(); }
+      state.emp = r; state.values = {}; state.errors = {}; state.photoErrors = {};
+      editableFields().forEach(function (f) {
+        if (f.kind === 'photo') return;
+        state.values[f.key] = f.key === 'consent' ? r.data.consent === 'نعم' : (r.data[f.key] || '');
+      });
+      state.screen = 'form'; render();
+    }, fail);
+  }
+
+  function renderDone() {
+    var card = el('div', {class: 'card center'}, [
+      el('h1', {text: t('thanks') + ' ' + LG.displayName(state.emp.data, state.emp.empNo) + ' ✓'}),
+      el('p', {text: t('done_text')}), el('p', {class: 'small', text: t('done_hint')}),
+      el('button', {class: 'btn sec', text: t('back'), onclick: function () { state.screen = 'form'; state.saved = false; render(); }})]);
+    app.innerHTML = ''; app.appendChild(card);
+  }
+
+  function render() {
+    renderChrome();
+    if (state.screen === 'loading') {
+      app.innerHTML = '';
+      app.appendChild(el('div', {class: 'card center', text: state.netError ? t('network_error') : t('loading')}));
+    }
+    else if (state.screen === 'verify') renderVerify();
+    else if (state.screen === 'form') renderForm();
+    else if (state.screen === 'done') renderDone();
+    else { app.innerHTML = ''; app.appendChild(el('div', {class: 'card'}, [el('div', {class: 'flash err', text: t('bad_link')})])); }
+  }
+
+  // ---------- start
+  render();
+  if (!token) { state.screen = 'error'; render(); return; }
+  call('apiStart', [token]).then(function (info) {
+    if (!info.ok) { state.screen = 'error'; return render(); }
+    state.info = info;
+    if (!BOOT.lang && CONFIG.natLang[info.nationality]) { lang = CONFIG.natLang[info.nationality]; }
+    if (info.needVerify) { state.screen = 'verify'; render(); }
+    else { session = info.session; load(); }
+  }, fail);
+})();
+</script>
+</body>
+</html>

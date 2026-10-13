@@ -1,0 +1,3057 @@
+{
+ "today": "2026-10-13",
+ "clean": [
+  {
+   "key": "name_ar",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "name_ar",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "name_ar",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "name_ar",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "name_ar",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "name_en",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "name_en",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "name_en",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "name_en",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "name_en",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "nationality",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "nationality",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "nationality",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "nationality",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "nationality",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "gender",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "gender",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "gender",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "gender",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "gender",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "gender",
+   "raw": "ذكر",
+   "value": "ذكر",
+   "error": null
+  },
+  {
+   "key": "gender",
+   "raw": "أنثى",
+   "value": "أنثى",
+   "error": null
+  },
+  {
+   "key": "gender",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "gender",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": null
+  },
+  {
+   "key": "birth_date",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "birth_date",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "birth_date",
+   "raw": "x",
+   "value": "x",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "birth_date",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "birth_date",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "birth_date",
+   "raw": "2030-01-05",
+   "value": "2030-01-05",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "birth_date",
+   "raw": "2030-1-5",
+   "value": "2030-1-5",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "birth_date",
+   "raw": "2030/01/05",
+   "value": "2030/01/05",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "birth_date",
+   "raw": "05/01/2030",
+   "value": "05/01/2030",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "birth_date",
+   "raw": "5-1-2030",
+   "value": "5-1-2030",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "birth_date",
+   "raw": "2030-02-30",
+   "value": "2030-02-30",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "birth_date",
+   "raw": "1989-12-31",
+   "value": "1989-12-31",
+   "error": null
+  },
+  {
+   "key": "birth_date",
+   "raw": "2101-01-01",
+   "value": "2101-01-01",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "birth_date",
+   "raw": "٢٠٣٠-٠١-٠٥",
+   "value": "2030-01-05",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "birth_date",
+   "raw": "not a date",
+   "value": "not a date",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "birth_date",
+   "raw": "2030-13-01",
+   "value": "2030-13-01",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "birth_date",
+   "raw": "1930-01-01",
+   "value": "1930-01-01",
+   "error": null
+  },
+  {
+   "key": "birth_date",
+   "raw": "2012-10-14",
+   "value": "2012-10-14",
+   "error": null
+  },
+  {
+   "key": "birth_date",
+   "raw": "2012-10-13",
+   "value": "2012-10-13",
+   "error": null
+  },
+  {
+   "key": "birth_date",
+   "raw": "2026-10-13",
+   "value": "2026-10-13",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "marital",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "marital",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "marital",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "marital",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "marital",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "marital",
+   "raw": "أعزب",
+   "value": "أعزب",
+   "error": null
+  },
+  {
+   "key": "marital",
+   "raw": "متزوج",
+   "value": "متزوج",
+   "error": null
+  },
+  {
+   "key": "marital",
+   "raw": "مطلق",
+   "value": "مطلق",
+   "error": null
+  },
+  {
+   "key": "marital",
+   "raw": "أرمل",
+   "value": "أرمل",
+   "error": null
+  },
+  {
+   "key": "marital",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "marital",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "id_type",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "id_type",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "id_type",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "id_type",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "id_type",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "id_type",
+   "raw": "هوية وطنية",
+   "value": "هوية وطنية",
+   "error": null
+  },
+  {
+   "key": "id_type",
+   "raw": "إقامة",
+   "value": "إقامة",
+   "error": null
+  },
+  {
+   "key": "id_type",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "id_type",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "id_number",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "id_number",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "id_number",
+   "raw": "x",
+   "value": "x",
+   "error": "يجب أن يكون 10 أرقام ويبدأ بـ 1 أو 2"
+  },
+  {
+   "key": "id_number",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "يجب أن يكون 10 أرقام ويبدأ بـ 1 أو 2"
+  },
+  {
+   "key": "id_number",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "يجب أن يكون 10 أرقام ويبدأ بـ 1 أو 2"
+  },
+  {
+   "key": "id_number",
+   "raw": "1234567890",
+   "value": "1234567890",
+   "error": null
+  },
+  {
+   "key": "id_number",
+   "raw": "2234567890",
+   "value": "2234567890",
+   "error": null
+  },
+  {
+   "key": "id_number",
+   "raw": "3234567890",
+   "value": "3234567890",
+   "error": "يجب أن يكون 10 أرقام ويبدأ بـ 1 أو 2"
+  },
+  {
+   "key": "id_number",
+   "raw": "123456789",
+   "value": "123456789",
+   "error": "يجب أن يكون 10 أرقام ويبدأ بـ 1 أو 2"
+  },
+  {
+   "key": "id_number",
+   "raw": "12345678901",
+   "value": "12345678901",
+   "error": "يجب أن يكون 10 أرقام ويبدأ بـ 1 أو 2"
+  },
+  {
+   "key": "id_number",
+   "raw": "١٢٣٤٥٦٧٨٩٠",
+   "value": "1234567890",
+   "error": null
+  },
+  {
+   "key": "id_number",
+   "raw": "12345 67890",
+   "value": "12345 67890",
+   "error": "يجب أن يكون 10 أرقام ويبدأ بـ 1 أو 2"
+  },
+  {
+   "key": "id_number",
+   "raw": "abcdefghij",
+   "value": "abcdefghij",
+   "error": "يجب أن يكون 10 أرقام ويبدأ بـ 1 أو 2"
+  },
+  {
+   "key": "id_expiry",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "id_expiry",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "id_expiry",
+   "raw": "x",
+   "value": "x",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "id_expiry",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "id_expiry",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "id_expiry",
+   "raw": "2030-01-05",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "id_expiry",
+   "raw": "2030-1-5",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "id_expiry",
+   "raw": "2030/01/05",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "id_expiry",
+   "raw": "05/01/2030",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "id_expiry",
+   "raw": "5-1-2030",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "id_expiry",
+   "raw": "2030-02-30",
+   "value": "2030-02-30",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "id_expiry",
+   "raw": "1989-12-31",
+   "value": "1989-12-31",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "id_expiry",
+   "raw": "2101-01-01",
+   "value": "2101-01-01",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "id_expiry",
+   "raw": "٢٠٣٠-٠١-٠٥",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "id_expiry",
+   "raw": "not a date",
+   "value": "not a date",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "id_expiry",
+   "raw": "2030-13-01",
+   "value": "2030-13-01",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "id_expiry",
+   "raw": "1930-01-01",
+   "value": "1930-01-01",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "id_expiry",
+   "raw": "2012-10-14",
+   "value": "2012-10-14",
+   "error": null
+  },
+  {
+   "key": "id_expiry",
+   "raw": "2012-10-13",
+   "value": "2012-10-13",
+   "error": null
+  },
+  {
+   "key": "id_expiry",
+   "raw": "2026-10-13",
+   "value": "2026-10-13",
+   "error": null
+  },
+  {
+   "key": "iqama_profession",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "iqama_profession",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "iqama_profession",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "iqama_profession",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "iqama_profession",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "passport_no",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "passport_no",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "passport_no",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "passport_no",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "passport_no",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "x",
+   "value": "x",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "2030-01-05",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "2030-1-5",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "2030/01/05",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "05/01/2030",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "5-1-2030",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "2030-02-30",
+   "value": "2030-02-30",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "1989-12-31",
+   "value": "1989-12-31",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "2101-01-01",
+   "value": "2101-01-01",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "٢٠٣٠-٠١-٠٥",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "not a date",
+   "value": "not a date",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "2030-13-01",
+   "value": "2030-13-01",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "1930-01-01",
+   "value": "1930-01-01",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "2012-10-14",
+   "value": "2012-10-14",
+   "error": null
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "2012-10-13",
+   "value": "2012-10-13",
+   "error": null
+  },
+  {
+   "key": "passport_expiry",
+   "raw": "2026-10-13",
+   "value": "2026-10-13",
+   "error": null
+  },
+  {
+   "key": "education",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "education",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "education",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "education",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "education",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "education",
+   "raw": "أقل من الثانوية",
+   "value": "أقل من الثانوية",
+   "error": null
+  },
+  {
+   "key": "education",
+   "raw": "ثانوية",
+   "value": "ثانوية",
+   "error": null
+  },
+  {
+   "key": "education",
+   "raw": "دبلوم",
+   "value": "دبلوم",
+   "error": null
+  },
+  {
+   "key": "education",
+   "raw": "بكالوريوس",
+   "value": "بكالوريوس",
+   "error": null
+  },
+  {
+   "key": "education",
+   "raw": "ماجستير",
+   "value": "ماجستير",
+   "error": null
+  },
+  {
+   "key": "education",
+   "raw": "دكتوراه",
+   "value": "دكتوراه",
+   "error": null
+  },
+  {
+   "key": "education",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "education",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "mobile",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "mobile",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "mobile",
+   "raw": "x",
+   "value": "x",
+   "error": "رقم الجوال يجب أن يكون بصيغة 05xxxxxxxx"
+  },
+  {
+   "key": "mobile",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "رقم الجوال يجب أن يكون بصيغة 05xxxxxxxx"
+  },
+  {
+   "key": "mobile",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "رقم الجوال يجب أن يكون بصيغة 05xxxxxxxx"
+  },
+  {
+   "key": "mobile",
+   "raw": "0512345678",
+   "value": "0512345678",
+   "error": null
+  },
+  {
+   "key": "mobile",
+   "raw": "512345678",
+   "value": "0512345678",
+   "error": null
+  },
+  {
+   "key": "mobile",
+   "raw": "+966512345678",
+   "value": "0512345678",
+   "error": null
+  },
+  {
+   "key": "mobile",
+   "raw": "966512345678",
+   "value": "0512345678",
+   "error": null
+  },
+  {
+   "key": "mobile",
+   "raw": "00966512345678",
+   "value": "0512345678",
+   "error": null
+  },
+  {
+   "key": "mobile",
+   "raw": "966 51 234 5678",
+   "value": "0512345678",
+   "error": null
+  },
+  {
+   "key": "mobile",
+   "raw": "05-1234-5678",
+   "value": "0512345678",
+   "error": null
+  },
+  {
+   "key": "mobile",
+   "raw": "0412345678",
+   "value": "0412345678",
+   "error": "رقم الجوال يجب أن يكون بصيغة 05xxxxxxxx"
+  },
+  {
+   "key": "mobile",
+   "raw": "05123",
+   "value": "05123",
+   "error": "رقم الجوال يجب أن يكون بصيغة 05xxxxxxxx"
+  },
+  {
+   "key": "mobile",
+   "raw": "٠٥١٢٣٤٥٦٧٨",
+   "value": "0512345678",
+   "error": null
+  },
+  {
+   "key": "mobile",
+   "raw": "abc",
+   "value": "abc",
+   "error": "رقم الجوال يجب أن يكون بصيغة 05xxxxxxxx"
+  },
+  {
+   "key": "mobile",
+   "raw": "+9665123456789",
+   "value": "+9665123456789",
+   "error": "رقم الجوال يجب أن يكون بصيغة 05xxxxxxxx"
+  },
+  {
+   "key": "email",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "email",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "email",
+   "raw": "x",
+   "value": "x",
+   "error": "بريد إلكتروني غير صحيح"
+  },
+  {
+   "key": "email",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "بريد إلكتروني غير صحيح"
+  },
+  {
+   "key": "email",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "بريد إلكتروني غير صحيح"
+  },
+  {
+   "key": "email",
+   "raw": "A@B.COM",
+   "value": "a@b.com",
+   "error": null
+  },
+  {
+   "key": "email",
+   "raw": "a@b",
+   "value": "a@b",
+   "error": "بريد إلكتروني غير صحيح"
+  },
+  {
+   "key": "email",
+   "raw": "a b@c.com",
+   "value": "a b@c.com",
+   "error": "بريد إلكتروني غير صحيح"
+  },
+  {
+   "key": "email",
+   "raw": "name@example.org",
+   "value": "name@example.org",
+   "error": null
+  },
+  {
+   "key": "email",
+   "raw": "@x.com",
+   "value": "@x.com",
+   "error": "بريد إلكتروني غير صحيح"
+  },
+  {
+   "key": "city",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "city",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "city",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "city",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "city",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "national_address",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "national_address",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "national_address",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "national_address",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "national_address",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "emergency_name",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "emergency_name",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "emergency_name",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "emergency_name",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "emergency_name",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "أب",
+   "value": "أب",
+   "error": null
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "أم",
+   "value": "أم",
+   "error": null
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "زوج/زوجة",
+   "value": "زوج/زوجة",
+   "error": null
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "أخ/أخت",
+   "value": "أخ/أخت",
+   "error": null
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "ابن/ابنة",
+   "value": "ابن/ابنة",
+   "error": null
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "قريب آخر",
+   "value": "قريب آخر",
+   "error": null
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "صديق",
+   "value": "صديق",
+   "error": null
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "emergency_relation",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "x",
+   "value": "x",
+   "error": "رقم الهاتف غير صحيح (مع رمز الدولة إن كان خارج السعودية)"
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "رقم الهاتف غير صحيح (مع رمز الدولة إن كان خارج السعودية)"
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "رقم الهاتف غير صحيح (مع رمز الدولة إن كان خارج السعودية)"
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "+91 98765 43210",
+   "value": "+919876543210",
+   "error": null
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "0091 98765 43210",
+   "value": "+919876543210",
+   "error": null
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "+880 1712-345678",
+   "value": "+8801712345678",
+   "error": null
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "03001234567",
+   "value": "03001234567",
+   "error": null
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "0512345678",
+   "value": "+966512345678",
+   "error": null
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "966512345678",
+   "value": "+966512345678",
+   "error": null
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "+966512345678",
+   "value": "+966512345678",
+   "error": null
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "123",
+   "value": "123",
+   "error": "رقم الهاتف غير صحيح (مع رمز الدولة إن كان خارج السعودية)"
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "abc",
+   "value": "abc",
+   "error": "رقم الهاتف غير صحيح (مع رمز الدولة إن كان خارج السعودية)"
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "+1 (555) 123-4567",
+   "value": "+15551234567",
+   "error": null
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "+123456789012345",
+   "value": "+123456789012345",
+   "error": null
+  },
+  {
+   "key": "emergency_phone",
+   "raw": "+1234567890123456",
+   "value": "+1234567890123456",
+   "error": "رقم الهاتف غير صحيح (مع رمز الدولة إن كان خارج السعودية)"
+  },
+  {
+   "key": "job_title",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "job_title",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "job_title",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "job_title",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "job_title",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "department",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "department",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "department",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "department",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "department",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "work_location",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "work_location",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "work_location",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "work_location",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "work_location",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "manager_emp_no",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "manager_emp_no",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "manager_emp_no",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "manager_emp_no",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "manager_emp_no",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "start_date",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "start_date",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "start_date",
+   "raw": "x",
+   "value": "x",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "start_date",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "start_date",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "start_date",
+   "raw": "2030-01-05",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "start_date",
+   "raw": "2030-1-5",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "start_date",
+   "raw": "2030/01/05",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "start_date",
+   "raw": "05/01/2030",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "start_date",
+   "raw": "5-1-2030",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "start_date",
+   "raw": "2030-02-30",
+   "value": "2030-02-30",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "start_date",
+   "raw": "1989-12-31",
+   "value": "1989-12-31",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "start_date",
+   "raw": "2101-01-01",
+   "value": "2101-01-01",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "start_date",
+   "raw": "٢٠٣٠-٠١-٠٥",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "start_date",
+   "raw": "not a date",
+   "value": "not a date",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "start_date",
+   "raw": "2030-13-01",
+   "value": "2030-13-01",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "start_date",
+   "raw": "1930-01-01",
+   "value": "1930-01-01",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "start_date",
+   "raw": "2012-10-14",
+   "value": "2012-10-14",
+   "error": null
+  },
+  {
+   "key": "start_date",
+   "raw": "2012-10-13",
+   "value": "2012-10-13",
+   "error": null
+  },
+  {
+   "key": "start_date",
+   "raw": "2026-10-13",
+   "value": "2026-10-13",
+   "error": null
+  },
+  {
+   "key": "contract_type",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "contract_type",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "contract_type",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "contract_type",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "contract_type",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "contract_type",
+   "raw": "غير محدد المدة",
+   "value": "غير محدد المدة",
+   "error": null
+  },
+  {
+   "key": "contract_type",
+   "raw": "محدد المدة",
+   "value": "محدد المدة",
+   "error": null
+  },
+  {
+   "key": "contract_type",
+   "raw": "عمل مؤقت",
+   "value": "عمل مؤقت",
+   "error": null
+  },
+  {
+   "key": "contract_type",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "contract_type",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "employment_status",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "employment_status",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "employment_status",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "employment_status",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "employment_status",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "employment_status",
+   "raw": "على رأس العمل",
+   "value": "على رأس العمل",
+   "error": null
+  },
+  {
+   "key": "employment_status",
+   "raw": "في إجازة",
+   "value": "في إجازة",
+   "error": null
+  },
+  {
+   "key": "employment_status",
+   "raw": "منتهية خدمته",
+   "value": "منتهية خدمته",
+   "error": null
+  },
+  {
+   "key": "employment_status",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "employment_status",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "bank_name",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "bank_name",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "bank_name",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "bank_name",
+   "raw": "مصرف الراجحي",
+   "value": "مصرف الراجحي",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "البنك الأهلي السعودي",
+   "value": "البنك الأهلي السعودي",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "بنك الرياض",
+   "value": "بنك الرياض",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "مصرف الإنماء",
+   "value": "مصرف الإنماء",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "بنك البلاد",
+   "value": "بنك البلاد",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "بنك الجزيرة",
+   "value": "بنك الجزيرة",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "البنك السعودي الأول",
+   "value": "البنك السعودي الأول",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "البنك العربي الوطني",
+   "value": "البنك العربي الوطني",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "البنك السعودي الفرنسي",
+   "value": "البنك السعودي الفرنسي",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "البنك السعودي للاستثمار",
+   "value": "البنك السعودي للاستثمار",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "بنك stc",
+   "value": "بنك stc",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "أخرى",
+   "value": "أخرى",
+   "error": null
+  },
+  {
+   "key": "bank_name",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "bank_name",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "iban",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "iban",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "iban",
+   "raw": "x",
+   "value": "X",
+   "error": "رقم الآيبان غير صحيح (SA ثم 22 رقمًا)"
+  },
+  {
+   "key": "iban",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+   "error": "رقم الآيبان غير صحيح (SA ثم 22 رقمًا)"
+  },
+  {
+   "key": "iban",
+   "raw": "  spaced   out  ",
+   "value": "SPACEDOUT",
+   "error": "رقم الآيبان غير صحيح (SA ثم 22 رقمًا)"
+  },
+  {
+   "key": "iban",
+   "raw": "SA0380000000608010167519",
+   "value": "SA0380000000608010167519",
+   "error": null
+  },
+  {
+   "key": "iban",
+   "raw": "sa03 8000 0000 6080 1016 7519",
+   "value": "SA0380000000608010167519",
+   "error": null
+  },
+  {
+   "key": "iban",
+   "raw": "SA0380000000608010167518",
+   "value": "SA0380000000608010167518",
+   "error": "رقم الآيبان غير صحيح (SA ثم 22 رقمًا)"
+  },
+  {
+   "key": "iban",
+   "raw": "GB82WEST12345698765432",
+   "value": "GB82WEST12345698765432",
+   "error": "رقم الآيبان غير صحيح (SA ثم 22 رقمًا)"
+  },
+  {
+   "key": "iban",
+   "raw": "SA03",
+   "value": "SA03",
+   "error": "رقم الآيبان غير صحيح (SA ثم 22 رقمًا)"
+  },
+  {
+   "key": "iban",
+   "raw": "SA038000000060801016751",
+   "value": "SA038000000060801016751",
+   "error": "رقم الآيبان غير صحيح (SA ثم 22 رقمًا)"
+  },
+  {
+   "key": "rep_code",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "rep_code",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "rep_code",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "rep_code",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "rep_code",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "region",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "region",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "region",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "region",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "region",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "route",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "route",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "route",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "route",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "route",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "supervisor_emp_no",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "supervisor_emp_no",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "supervisor_emp_no",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "supervisor_emp_no",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "supervisor_emp_no",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "vehicle_type",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "vehicle_type",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "vehicle_type",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "vehicle_type",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "vehicle_type",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "vehicle_type",
+   "raw": "سيارة الشركة",
+   "value": "سيارة الشركة",
+   "error": null
+  },
+  {
+   "key": "vehicle_type",
+   "raw": "سيارة شخصية",
+   "value": "سيارة شخصية",
+   "error": null
+  },
+  {
+   "key": "vehicle_type",
+   "raw": "بدون مركبة",
+   "value": "بدون مركبة",
+   "error": null
+  },
+  {
+   "key": "vehicle_type",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "vehicle_type",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "license_no",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "license_no",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "license_no",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "license_no",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "license_no",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "license_expiry",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "license_expiry",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "license_expiry",
+   "raw": "x",
+   "value": "x",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "license_expiry",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "license_expiry",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "license_expiry",
+   "raw": "2030-01-05",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "license_expiry",
+   "raw": "2030-1-5",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "license_expiry",
+   "raw": "2030/01/05",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "license_expiry",
+   "raw": "05/01/2030",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "license_expiry",
+   "raw": "5-1-2030",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "license_expiry",
+   "raw": "2030-02-30",
+   "value": "2030-02-30",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "license_expiry",
+   "raw": "1989-12-31",
+   "value": "1989-12-31",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "license_expiry",
+   "raw": "2101-01-01",
+   "value": "2101-01-01",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "license_expiry",
+   "raw": "٢٠٣٠-٠١-٠٥",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "license_expiry",
+   "raw": "not a date",
+   "value": "not a date",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "license_expiry",
+   "raw": "2030-13-01",
+   "value": "2030-13-01",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "license_expiry",
+   "raw": "1930-01-01",
+   "value": "1930-01-01",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "license_expiry",
+   "raw": "2012-10-14",
+   "value": "2012-10-14",
+   "error": null
+  },
+  {
+   "key": "license_expiry",
+   "raw": "2012-10-13",
+   "value": "2012-10-13",
+   "error": null
+  },
+  {
+   "key": "license_expiry",
+   "raw": "2026-10-13",
+   "value": "2026-10-13",
+   "error": null
+  },
+  {
+   "key": "plate_no",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "plate_no",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "plate_no",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "plate_no",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "plate_no",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "x",
+   "value": "x",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "2030-01-05",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "2030-1-5",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "2030/01/05",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "05/01/2030",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "5-1-2030",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "2030-02-30",
+   "value": "2030-02-30",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "1989-12-31",
+   "value": "1989-12-31",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "2101-01-01",
+   "value": "2101-01-01",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "٢٠٣٠-٠١-٠٥",
+   "value": "2030-01-05",
+   "error": null
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "not a date",
+   "value": "not a date",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "2030-13-01",
+   "value": "2030-13-01",
+   "error": "تاريخ غير صحيح، اكتبه بصيغة سنة-شهر-يوم"
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "1930-01-01",
+   "value": "1930-01-01",
+   "error": "التاريخ خارج النطاق المعقول"
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "2012-10-14",
+   "value": "2012-10-14",
+   "error": null
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "2012-10-13",
+   "value": "2012-10-13",
+   "error": null
+  },
+  {
+   "key": "registration_expiry",
+   "raw": "2026-10-13",
+   "value": "2026-10-13",
+   "error": null
+  },
+  {
+   "key": "device_no",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "device_no",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "device_no",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "device_no",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "device_no",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "app_name",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "app_name",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "app_name",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "app_name",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "app_name",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "app_name",
+   "raw": "كيتا فود",
+   "value": "كيتا فود",
+   "error": null
+  },
+  {
+   "key": "app_name",
+   "raw": "كيتا ماركت",
+   "value": "كيتا ماركت",
+   "error": null
+  },
+  {
+   "key": "app_name",
+   "raw": "نينجا",
+   "value": "نينجا",
+   "error": null
+  },
+  {
+   "key": "app_name",
+   "raw": "تويو",
+   "value": "تويو",
+   "error": null
+  },
+  {
+   "key": "app_name",
+   "raw": "هنقرستيشن",
+   "value": "هنقرستيشن",
+   "error": null
+  },
+  {
+   "key": "app_name",
+   "raw": "مرسول",
+   "value": "مرسول",
+   "error": null
+  },
+  {
+   "key": "app_name",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "app_name",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "app_id",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "app_id",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "app_id",
+   "raw": "x",
+   "value": "x",
+   "error": null
+  },
+  {
+   "key": "app_id",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "النص أطول من المسموح"
+  },
+  {
+   "key": "app_id",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": null
+  },
+  {
+   "key": "location_consent",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "location_consent",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "location_consent",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "location_consent",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "location_consent",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "location_consent",
+   "raw": "نعم",
+   "value": "نعم",
+   "error": null
+  },
+  {
+   "key": "location_consent",
+   "raw": "لا",
+   "value": "لا",
+   "error": null
+  },
+  {
+   "key": "location_consent",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "location_consent",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "consent",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "consent",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "consent",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "consent",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "consent",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "consent",
+   "raw": "نعم",
+   "value": "نعم",
+   "error": null
+  },
+  {
+   "key": "consent",
+   "raw": "لا",
+   "value": "لا",
+   "error": null
+  },
+  {
+   "key": "consent",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "consent",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  }
+ ],
+ "missing": [
+  {
+   "data": {},
+   "photos": {},
+   "isRep": false,
+   "owner": null,
+   "missing": [
+    "name_en",
+    "nationality",
+    "gender",
+    "birth_date",
+    "id_type",
+    "id_number",
+    "id_expiry",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status",
+    "consent"
+   ]
+  },
+  {
+   "data": {},
+   "photos": {},
+   "isRep": false,
+   "owner": "employee",
+   "missing": [
+    "name_en",
+    "nationality",
+    "gender",
+    "birth_date",
+    "id_type",
+    "id_number",
+    "id_expiry",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "consent"
+   ]
+  },
+  {
+   "data": {},
+   "photos": {},
+   "isRep": false,
+   "owner": "hr",
+   "missing": [
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status"
+   ]
+  },
+  {
+   "data": {
+    "id_type": "إقامة"
+   },
+   "photos": {},
+   "isRep": false,
+   "owner": null,
+   "missing": [
+    "name_en",
+    "nationality",
+    "gender",
+    "birth_date",
+    "id_number",
+    "id_expiry",
+    "iqama_profession",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status",
+    "consent"
+   ]
+  },
+  {
+   "data": {
+    "id_type": "إقامة"
+   },
+   "photos": {},
+   "isRep": false,
+   "owner": "employee",
+   "missing": [
+    "name_en",
+    "nationality",
+    "gender",
+    "birth_date",
+    "id_number",
+    "id_expiry",
+    "iqama_profession",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "consent"
+   ]
+  },
+  {
+   "data": {
+    "id_type": "إقامة"
+   },
+   "photos": {},
+   "isRep": false,
+   "owner": "hr",
+   "missing": [
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status"
+   ]
+  },
+  {
+   "data": {
+    "vehicle_type": "سيارة الشركة"
+   },
+   "photos": {},
+   "isRep": true,
+   "owner": null,
+   "missing": [
+    "name_en",
+    "nationality",
+    "gender",
+    "birth_date",
+    "id_type",
+    "id_number",
+    "id_expiry",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status",
+    "rep_code",
+    "region",
+    "supervisor_emp_no",
+    "license_no",
+    "license_expiry",
+    "plate_no",
+    "registration_expiry",
+    "app_name",
+    "app_id",
+    "photo_front",
+    "photo_back",
+    "photo_right",
+    "photo_left",
+    "photo_odometer",
+    "location_consent",
+    "consent"
+   ]
+  },
+  {
+   "data": {
+    "vehicle_type": "سيارة الشركة"
+   },
+   "photos": {},
+   "isRep": true,
+   "owner": "employee",
+   "missing": [
+    "name_en",
+    "nationality",
+    "gender",
+    "birth_date",
+    "id_type",
+    "id_number",
+    "id_expiry",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "license_no",
+    "license_expiry",
+    "plate_no",
+    "registration_expiry",
+    "app_name",
+    "app_id",
+    "photo_front",
+    "photo_back",
+    "photo_right",
+    "photo_left",
+    "photo_odometer",
+    "location_consent",
+    "consent"
+   ]
+  },
+  {
+   "data": {
+    "vehicle_type": "سيارة الشركة"
+   },
+   "photos": {},
+   "isRep": true,
+   "owner": "hr",
+   "missing": [
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status",
+    "rep_code",
+    "region",
+    "supervisor_emp_no"
+   ]
+  },
+  {
+   "data": {
+    "vehicle_type": "بدون مركبة"
+   },
+   "photos": {},
+   "isRep": true,
+   "owner": null,
+   "missing": [
+    "name_en",
+    "nationality",
+    "gender",
+    "birth_date",
+    "id_type",
+    "id_number",
+    "id_expiry",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status",
+    "rep_code",
+    "region",
+    "supervisor_emp_no",
+    "app_name",
+    "app_id",
+    "location_consent",
+    "consent"
+   ]
+  },
+  {
+   "data": {
+    "vehicle_type": "بدون مركبة"
+   },
+   "photos": {},
+   "isRep": true,
+   "owner": "employee",
+   "missing": [
+    "name_en",
+    "nationality",
+    "gender",
+    "birth_date",
+    "id_type",
+    "id_number",
+    "id_expiry",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "app_name",
+    "app_id",
+    "location_consent",
+    "consent"
+   ]
+  },
+  {
+   "data": {
+    "vehicle_type": "بدون مركبة"
+   },
+   "photos": {},
+   "isRep": true,
+   "owner": "hr",
+   "missing": [
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status",
+    "rep_code",
+    "region",
+    "supervisor_emp_no"
+   ]
+  },
+  {
+   "data": {
+    "vehicle_type": "سيارة شخصية",
+    "plate_no": "x"
+   },
+   "photos": {
+    "photo_front": "u"
+   },
+   "isRep": true,
+   "owner": null,
+   "missing": [
+    "name_en",
+    "nationality",
+    "gender",
+    "birth_date",
+    "id_type",
+    "id_number",
+    "id_expiry",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status",
+    "rep_code",
+    "region",
+    "supervisor_emp_no",
+    "license_no",
+    "license_expiry",
+    "registration_expiry",
+    "app_name",
+    "app_id",
+    "photo_back",
+    "photo_right",
+    "photo_left",
+    "photo_odometer",
+    "location_consent",
+    "consent"
+   ]
+  },
+  {
+   "data": {
+    "vehicle_type": "سيارة شخصية",
+    "plate_no": "x"
+   },
+   "photos": {
+    "photo_front": "u"
+   },
+   "isRep": true,
+   "owner": "employee",
+   "missing": [
+    "name_en",
+    "nationality",
+    "gender",
+    "birth_date",
+    "id_type",
+    "id_number",
+    "id_expiry",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "license_no",
+    "license_expiry",
+    "registration_expiry",
+    "app_name",
+    "app_id",
+    "photo_back",
+    "photo_right",
+    "photo_left",
+    "photo_odometer",
+    "location_consent",
+    "consent"
+   ]
+  },
+  {
+   "data": {
+    "vehicle_type": "سيارة شخصية",
+    "plate_no": "x"
+   },
+   "photos": {
+    "photo_front": "u"
+   },
+   "isRep": true,
+   "owner": "hr",
+   "missing": [
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status",
+    "rep_code",
+    "region",
+    "supervisor_emp_no"
+   ]
+  },
+  {
+   "data": {
+    "name_en": "A",
+    "nationality": "هندي",
+    "gender": "ذكر"
+   },
+   "photos": {},
+   "isRep": false,
+   "owner": null,
+   "missing": [
+    "birth_date",
+    "id_type",
+    "id_number",
+    "id_expiry",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status",
+    "consent"
+   ]
+  },
+  {
+   "data": {
+    "name_en": "A",
+    "nationality": "هندي",
+    "gender": "ذكر"
+   },
+   "photos": {},
+   "isRep": false,
+   "owner": "employee",
+   "missing": [
+    "birth_date",
+    "id_type",
+    "id_number",
+    "id_expiry",
+    "mobile",
+    "city",
+    "emergency_name",
+    "emergency_relation",
+    "emergency_phone",
+    "consent"
+   ]
+  },
+  {
+   "data": {
+    "name_en": "A",
+    "nationality": "هندي",
+    "gender": "ذكر"
+   },
+   "photos": {},
+   "isRep": false,
+   "owner": "hr",
+   "missing": [
+    "job_title",
+    "department",
+    "work_location",
+    "manager_emp_no",
+    "start_date",
+    "employment_status"
+   ]
+  }
+ ],
+ "names": [
+  {
+   "data": {},
+   "fallback": "",
+   "name": ""
+  },
+  {
+   "data": {},
+   "fallback": "E1",
+   "name": "E1"
+  },
+  {
+   "data": {
+    "name_en": "Ravi"
+   },
+   "fallback": "E1",
+   "name": "Ravi"
+  },
+  {
+   "data": {
+    "name_ar": "أحمد",
+    "name_en": "Ahmed"
+   },
+   "fallback": "",
+   "name": "أحمد"
+  }
+ ]
+}
