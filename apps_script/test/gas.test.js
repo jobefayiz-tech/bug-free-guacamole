@@ -168,6 +168,24 @@ test('prepareLinks: unique long tokens, language by nationality, WhatsApp link, 
   assert.deepEqual(['E1', 'E2', 'E3'].map((n) => tokenOf(env, n)), t);
 });
 
+test('prepareLinks replaces a token that is not 64 hex (stray paste) or is shared by two rows', () => {
+  const env = setupWith([['E1', {}], ['E2', {id_number: '1222222222'}]]);
+  const sh = env.ss.getSheetByName('الموظفون');
+  const tc = colOf(sh, 'الرمز السري');
+  const keep = tokenOf(env, 'E2');
+  sh.cells['2:' + tc].v = BASE;                 // someone pasted the web app URL into the token cell
+  env.sandbox().prepareLinks();
+  const t1 = tokenOf(env, 'E1');
+  assert.match(t1, /^[0-9a-f]{64}$/);
+  assert.equal(tokenOf(env, 'E2'), keep, 'a valid token is never touched');
+  assert.ok(cell(env, 'الموظفون', 2, 'رابط الموظف').endsWith('?t=' + t1));
+  sh.cells['3:' + tc].v = t1;                   // a copied row repeats another employee's token
+  env.sandbox().prepareLinks();
+  assert.equal(tokenOf(env, 'E1'), t1);
+  assert.match(tokenOf(env, 'E2'), /^[0-9a-f]{64}$/);
+  assert.notEqual(tokenOf(env, 'E2'), t1);
+});
+
 test('prepareLinks asks to deploy first when there is no URL', () => {
   const env = new Env({url: ''});
   env.sandbox().setupSheets();

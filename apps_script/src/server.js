@@ -614,7 +614,7 @@ function prepareLinks() {
     const first = Math.min.apply(null, SYS.map(function (p) { return idx[p[0]]; }));
     const last = Math.max.apply(null, SYS.map(function (p) { return idx[p[0]]; }));
     const mobileCol = fieldCol_(t, LG.BY_KEY.mobile);
-    const seen = {};
+    const seen = {}, seenTok = {};
     let made = 0, dup = 0;
     const sysBlock = [], waCells = [];
     rows.forEach(function (r) {
@@ -629,7 +629,10 @@ function prepareLinks() {
       }
       seen[empNo] = true;
       const rec = record_(t, r, ri);
-      if (!cellText_(r[idx.token])) { r[idx.token] = newToken_(); made++; }
+      // a token must be 64 hex chars and unique: anything else (an empty cell, a stray paste, a copied row) gets a fresh one
+      const tok = cellText_(r[idx.token]);
+      if (!/^[0-9a-f]{64}$/.test(tok) || seenTok[tok]) { r[idx.token] = newToken_(); made++; }
+      seenTok[cellText_(r[idx.token])] = true;
       if (!cellText_(r[idx.status])) r[idx.status] = ST.UNOPENED;
       if (ri.byNo[empNo]) r[idx.isRep] = 'نعم';
       const lang = langFor_(rec.data, r[idx.lang]);
