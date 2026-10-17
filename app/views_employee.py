@@ -56,7 +56,10 @@ def start(token):
     if db.throttle_locked(key):
         return render_template("emp_verify.html", emp=emp, failed=False, locked=True)
     if request.method == "POST":
-        if normalize(request.form.get("last4", "")) == id_number[-4:]:
+        typed = normalize(request.form.get("last4", ""))
+        mobile = emp["data"].get("mobile", "")
+        # the ID on file may be wrong (that is why the data is being collected), so the mobile the link was sent to works too
+        if len(typed) == 4 and typed in (id_number[-4:], mobile[-4:] if mobile else ""):
             db.throttle_reset(key)
             _mark_verified(emp)
             db.get_db().commit()

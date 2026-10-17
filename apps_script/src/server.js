@@ -268,8 +268,10 @@ function apiVerify(token, last4) {
     const emp = findByToken_(token);
     if (!emp) return {ok: false, error: 'bad_link'};
     if (isLocked_(emp.empNo)) return {ok: false, error: 'locked'};
-    const idn = emp.data.id_number || '';
-    if (idn && LG.normalize(last4 === null || last4 === undefined ? '' : last4) === idn.slice(-4)) {
+    const idn = emp.data.id_number || '', mob = emp.data.mobile || '';
+    const typed = LG.normalize(last4 === null || last4 === undefined ? '' : last4);
+    // the ID on file may be wrong (that is why the data is being collected), so the mobile the link was sent to works too
+    if (idn && typed.length === 4 && (typed === idn.slice(-4) || (mob && typed === mob.slice(-4)))) {
       cache_().remove('fc:' + emp.empNo);
       return {ok: true, session: newSession_(emp.empNo)};
     }

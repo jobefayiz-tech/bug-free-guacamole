@@ -233,6 +233,14 @@ test('apiVerify accepts Arabic-Indic digits and returns a session', () => {
   assert.equal(r.ok, true); assert.match(r.session, /^[0-9a-f]{64}$/);
 });
 
+test('apiVerify also accepts the last 4 digits of the mobile (the ID on file may be wrong)', () => {
+  const env = setupWith([['E1', {}]]);
+  const tok = tokenOf(env, 'E1');
+  assert.deepEqual(env.call('apiVerify', tok, '567'), {ok: false, error: 'mismatch'});     // too short
+  const r = env.call('apiVerify', tok, '٥٦٧٨');                                           // 0512345678, Arabic-Indic digits
+  assert.equal(r.ok, true); assert.match(r.session, /^[0-9a-f]{64}$/);
+});
+
 test('a record with no ID on file is protected by the secret link alone', () => {
   const env = setupWith([['E9', {id_number: ''}]]);
   const s = env.call('apiStart', tokenOf(env, 'E9'));

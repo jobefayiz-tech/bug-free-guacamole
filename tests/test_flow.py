@@ -148,6 +148,18 @@ def test_verify_last4_and_lockout(app, admin):
     assert "تجاوزت عدد المحاولات" in r.get_data(as_text=True)
 
 
+def test_verify_accepts_mobile_last4_when_the_id_on_file_is_wrong(app, admin):
+    import_rows(admin, [complete_employee("E1")])
+    tok = token_of(app, "E1")
+    c = app.test_client()
+    with c.session_transaction() as s:
+        s["csrf"] = CSRF
+    r = post(c, f"/e/{tok}", {"last4": "567"})                   # too short never matches
+    assert "غير مطابقة" in r.get_data(as_text=True)
+    r = post(c, f"/e/{tok}", {"last4": "5678"})                  # last 4 of the mobile 0512345678
+    assert r.status_code == 302
+
+
 def verified_client(app, tok, last4="7890"):
     c = app.test_client()
     with c.session_transaction() as s:

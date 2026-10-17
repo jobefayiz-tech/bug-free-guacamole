@@ -945,11 +945,11 @@ const CONFIG = {
    "hi": "स्वागत है"
   },
   "verify_text": {
-   "ar": "للتأكد أنك صاحب الرابط، اكتب آخر 4 أرقام من رقم هويتك أو إقامتك.",
-   "en": "To confirm it is you, enter the last 4 digits of your ID / Iqama number.",
-   "ur": "تصدیق کے لیے اپنے شناختی کارڈ / اقامہ نمبر کے آخری 4 ہندسے لکھیں۔",
-   "bn": "আপনিই যে সঠিক ব্যক্তি তা নিশ্চিত করতে আপনার আইডি / ইকামা নম্বরের শেষ ৪টি সংখ্যা লিখুন।",
-   "hi": "पुष्टि के लिए अपने आईडी / इक़ामा नंबर के आख़िरी 4 अंक लिखें।"
+   "ar": "للتأكد أنك صاحب الرابط، اكتب آخر 4 أرقام من رقم هويتك أو إقامتك، أو من رقم جوالك.",
+   "en": "To confirm it is you, enter the last 4 digits of your ID / Iqama number or of your mobile number.",
+   "ur": "تصدیق کے لیے اپنے شناختی کارڈ / اقامہ نمبر یا موبائل نمبر کے آخری 4 ہندسے لکھیں۔",
+   "bn": "আপনিই যে সঠিক ব্যক্তি তা নিশ্চিত করতে আপনার আইডি / ইকামা নম্বর অথবা মোবাইল নম্বরের শেষ ৪টি সংখ্যা লিখুন।",
+   "hi": "पुष्टि के लिए अपने आईडी / इक़ामा नंबर या मोबाइल नंबर के आख़िरी 4 अंक लिखें।"
   },
   "last4": {
    "ar": "آخر 4 أرقام",
@@ -2500,8 +2500,10 @@ function apiVerify(token, last4) {
     const emp = findByToken_(token);
     if (!emp) return {ok: false, error: 'bad_link'};
     if (isLocked_(emp.empNo)) return {ok: false, error: 'locked'};
-    const idn = emp.data.id_number || '';
-    if (idn && LG.normalize(last4 === null || last4 === undefined ? '' : last4) === idn.slice(-4)) {
+    const idn = emp.data.id_number || '', mob = emp.data.mobile || '';
+    const typed = LG.normalize(last4 === null || last4 === undefined ? '' : last4);
+    // the ID on file may be wrong (that is why the data is being collected), so the mobile the link was sent to works too
+    if (idn && typed.length === 4 && (typed === idn.slice(-4) || (mob && typed === mob.slice(-4)))) {
       cache_().remove('fc:' + emp.empNo);
       return {ok: true, session: newSession_(emp.empNo)};
     }
