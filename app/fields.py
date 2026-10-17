@@ -43,12 +43,21 @@ SECTIONS = [
     ("emergency", "جهة اتصال الطوارئ"),
     ("job", "بيانات الوظيفة"),
     ("bank", "البيانات البنكية"),
-    ("rep", "بيانات المندوب"),
     ("vehicle", "الرخصة والمركبة"),
-    ("app", "العمل في التطبيق"),
     ("photos", "صور المركبة والعداد"),
+    ("rep", "بيانات المندوب"),
+    ("app", "العمل في التطبيق"),
     ("consent", "الموافقة"),
 ]
+
+# the form is shown in these parts: employee data, vehicle (any employee who has one), representative data
+GROUPS = [
+    ("employee", "بيانات الموظف"),
+    ("vehicle", "المركبة والصور (إن وجدت)"),
+    ("rep", "بيانات المندوب (للمناديب فقط)"),
+]
+SECTION_GROUP = {"personal": "employee", "contact": "employee", "emergency": "employee", "job": "employee", "bank": "employee",
+                 "vehicle": "vehicle", "photos": "vehicle", "rep": "rep", "app": "rep", "consent": ""}
 
 
 @dataclass(frozen=True)
@@ -113,22 +122,22 @@ FIELDS = [
     F("route", "خط السير / القطاع", "خط السير / القطاع", "rep", owner="hr", rep_only=True),
     F("supervisor_emp_no", "الرقم الوظيفي للمشرف", "الرقم الوظيفي للمشرف المباشر", "rep", required=True, owner="hr", rep_only=True),
     # --- vehicle
-    F("vehicle_type", "نوع المركبة", "نوع المركبة", "vehicle", "select", False, "vehicle", rep_only=True),
-    F("license_type", "نوع رخصة القيادة", "نوع رخصة القيادة", "vehicle", "select", False, "license_type", rep_only=True, vehicle=True),
-    F("license_no", "رقم رخصة القيادة", "رقم رخصة القيادة", "vehicle", rep_only=True, vehicle=True, sensitive=True),
-    F("license_expiry", "تاريخ انتهاء الرخصة", "تاريخ انتهاء الرخصة", "vehicle", "date", rep_only=True, vehicle=True),
-    F("plate_no", "رقم اللوحة", "رقم اللوحة", "vehicle", rep_only=True, vehicle=True, hint="كما في الاستمارة"),
-    F("registration_expiry", "تاريخ انتهاء الاستمارة", "تاريخ انتهاء الاستمارة", "vehicle", "date", rep_only=True, vehicle=True),
+    F("vehicle_type", "نوع المركبة", "نوع المركبة", "vehicle", "select", False, "vehicle"),
+    F("license_type", "نوع رخصة القيادة", "نوع رخصة القيادة", "vehicle", "select", False, "license_type", vehicle=True),
+    F("license_no", "رقم رخصة القيادة", "رقم رخصة القيادة", "vehicle", vehicle=True, sensitive=True),
+    F("license_expiry", "تاريخ انتهاء الرخصة", "تاريخ انتهاء الرخصة", "vehicle", "date", vehicle=True),
+    F("plate_no", "رقم اللوحة", "رقم اللوحة", "vehicle", vehicle=True, hint="كما في الاستمارة"),
+    F("registration_expiry", "تاريخ انتهاء الاستمارة", "تاريخ انتهاء الاستمارة", "vehicle", "date", vehicle=True),
     F("device_no", "رقم الجهاز / الشريحة", "رقم الجهاز / الشريحة المخصصة", "vehicle", rep_only=True),
     # --- app
     F("app_name", "التطبيق الذي تعمل فيه", "التطبيق الذي يعمل فيه", "app", "select", True, "app", rep_only=True),
     F("app_id", "رقم الأيدي (ID) في التطبيق", "رقم الأيدي (ID) في التطبيق", "app", required=True, rep_only=True),
     # --- photos
-    F("photo_front", "صورة المركبة - الأمام", "صورة المركبة - الأمام (رابط أو اسم الملف)", "photos", "photo", rep_only=True, vehicle=True),
-    F("photo_back", "صورة المركبة - الخلف", "صورة المركبة - الخلف (رابط أو اسم الملف)", "photos", "photo", rep_only=True, vehicle=True),
-    F("photo_right", "صورة المركبة - اليمين", "صورة المركبة - اليمين (رابط أو اسم الملف)", "photos", "photo", rep_only=True, vehicle=True),
-    F("photo_left", "صورة المركبة - اليسار", "صورة المركبة - اليسار (رابط أو اسم الملف)", "photos", "photo", rep_only=True, vehicle=True),
-    F("photo_odometer", "صورة العداد", "صورة العداد (رابط أو اسم الملف)", "photos", "photo", rep_only=True, vehicle=True,
+    F("photo_front", "صورة المركبة - الأمام", "صورة المركبة - الأمام (رابط أو اسم الملف)", "photos", "photo", vehicle=True),
+    F("photo_back", "صورة المركبة - الخلف", "صورة المركبة - الخلف (رابط أو اسم الملف)", "photos", "photo", vehicle=True),
+    F("photo_right", "صورة المركبة - اليمين", "صورة المركبة - اليمين (رابط أو اسم الملف)", "photos", "photo", vehicle=True),
+    F("photo_left", "صورة المركبة - اليسار", "صورة المركبة - اليسار (رابط أو اسم الملف)", "photos", "photo", vehicle=True),
+    F("photo_odometer", "صورة العداد", "صورة العداد (رابط أو اسم الملف)", "photos", "photo", vehicle=True,
       hint="صورة لوحة العدادات تُظهر قراءة المسافة"),
     # --- consent
     F("location_consent", "موافقة على مشاركة الموقع أثناء ساعات العمل", "موافقة على مشاركة الموقع أثناء ساعات العمل", "consent", "select", True, "yesno", rep_only=True),
@@ -167,6 +176,8 @@ def is_required(f, data, is_rep):
         return False
     if f.vehicle:
         return has_vehicle(data)
+    if f.key == "vehicle_type":
+        return is_rep          # a rep must answer (the answer may be "no vehicle"); other staff may skip it
     if f.key == "iqama_profession":
         return data.get("id_type") == "إقامة"
     return f.required

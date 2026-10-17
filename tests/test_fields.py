@@ -87,8 +87,8 @@ def test_template_matches_fields():
     tpl_rep = [c[0] for c in ns["REP_COLS"]]
     app_emp = [EMP_NO_XLSX] + [f.xlsx for f in FIELDS if not f.rep_only]
     app_rep = [EMP_NO_XLSX] + [f.xlsx for f in FIELDS if f.rep_only]
-    assert sorted(tpl_emp) == sorted(app_emp)
-    assert sorted(tpl_rep) == sorted(app_rep)
+    assert tpl_emp == app_emp          # same order too: HR pastes the template columns straight into the Google Sheet
+    assert tpl_rep == app_rep
     tpl_lists = {tuple(v) for v in ns["LISTS"].values()}
     app_lists = {tuple(v) for v in OPTIONS.values()}
     assert tpl_lists == app_lists

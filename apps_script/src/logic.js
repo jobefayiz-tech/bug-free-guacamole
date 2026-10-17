@@ -100,6 +100,7 @@ function makeLogic_(CONFIG) {
   function isRequired(f, data, isRep) {
     if (f.repOnly && !isRep) return false;
     if (f.vehicle) return hasVehicle(data);
+    if (f.key === 'vehicle_type') return !!isRep;   // a rep must answer (it may be "no vehicle"); other staff may skip it
     if (f.key === 'iqama_profession') return data.id_type === 'إقامة';
     return !!f.required;
   }

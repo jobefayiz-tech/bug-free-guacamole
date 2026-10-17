@@ -49,6 +49,8 @@ def config():
         "options": F.OPTIONS,
         "datalists": F.DATALISTS,
         "sections": [list(s) for s in F.SECTIONS],
+        "sectionGroup": F.SECTION_GROUP,
+        "groupTitles": {k: _flat(dict(F.GROUPS)[k], t) for k, t in I.GROUP_TITLES.items()},
         "vehicleValues": list(F.VEHICLE_VALUES),
         "photoKeys": F.PHOTO_KEYS,
         "expiryKeys": [list(k) for k in F.EXPIRY_KEYS],

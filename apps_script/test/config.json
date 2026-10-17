@@ -504,7 +504,7 @@
    "required": false,
    "options": "vehicle",
    "owner": "employee",
-   "repOnly": true,
+   "repOnly": false,
    "sensitive": false,
    "vehicle": false,
    "hint": "",
@@ -519,7 +519,7 @@
    "required": false,
    "options": "license_type",
    "owner": "employee",
-   "repOnly": true,
+   "repOnly": false,
    "sensitive": false,
    "vehicle": true,
    "hint": "",
@@ -534,7 +534,7 @@
    "required": false,
    "options": "",
    "owner": "employee",
-   "repOnly": true,
+   "repOnly": false,
    "sensitive": true,
    "vehicle": true,
    "hint": "",
@@ -549,7 +549,7 @@
    "required": false,
    "options": "",
    "owner": "employee",
-   "repOnly": true,
+   "repOnly": false,
    "sensitive": false,
    "vehicle": true,
    "hint": "",
@@ -564,7 +564,7 @@
    "required": false,
    "options": "",
    "owner": "employee",
-   "repOnly": true,
+   "repOnly": false,
    "sensitive": false,
    "vehicle": true,
    "hint": "كما في الاستمارة",
@@ -579,7 +579,7 @@
    "required": false,
    "options": "",
    "owner": "employee",
-   "repOnly": true,
+   "repOnly": false,
    "sensitive": false,
    "vehicle": true,
    "hint": "",
@@ -639,7 +639,7 @@
    "required": false,
    "options": "",
    "owner": "employee",
-   "repOnly": true,
+   "repOnly": false,
    "sensitive": false,
    "vehicle": true,
    "hint": "",
@@ -654,7 +654,7 @@
    "required": false,
    "options": "",
    "owner": "employee",
-   "repOnly": true,
+   "repOnly": false,
    "sensitive": false,
    "vehicle": true,
    "hint": "",
@@ -669,7 +669,7 @@
    "required": false,
    "options": "",
    "owner": "employee",
-   "repOnly": true,
+   "repOnly": false,
    "sensitive": false,
    "vehicle": true,
    "hint": "",
@@ -684,7 +684,7 @@
    "required": false,
    "options": "",
    "owner": "employee",
-   "repOnly": true,
+   "repOnly": false,
    "sensitive": false,
    "vehicle": true,
    "hint": "",
@@ -699,7 +699,7 @@
    "required": false,
    "options": "",
    "owner": "employee",
-   "repOnly": true,
+   "repOnly": false,
    "sensitive": false,
    "vehicle": true,
    "hint": "صورة لوحة العدادات تُظهر قراءة المسافة",
@@ -857,26 +857,61 @@
    "البيانات البنكية"
   ],
   [
-   "rep",
-   "بيانات المندوب"
-  ],
-  [
    "vehicle",
    "الرخصة والمركبة"
-  ],
-  [
-   "app",
-   "العمل في التطبيق"
   ],
   [
    "photos",
    "صور المركبة والعداد"
   ],
   [
+   "rep",
+   "بيانات المندوب"
+  ],
+  [
+   "app",
+   "العمل في التطبيق"
+  ],
+  [
    "consent",
    "الموافقة"
   ]
  ],
+ "sectionGroup": {
+  "personal": "employee",
+  "contact": "employee",
+  "emergency": "employee",
+  "job": "employee",
+  "bank": "employee",
+  "vehicle": "vehicle",
+  "photos": "vehicle",
+  "rep": "rep",
+  "app": "rep",
+  "consent": ""
+ },
+ "groupTitles": {
+  "employee": {
+   "ar": "بيانات الموظف",
+   "en": "Employee details",
+   "ur": "ملازم کی معلومات",
+   "bn": "কর্মীর তথ্য",
+   "hi": "कर्मचारी की जानकारी"
+  },
+  "vehicle": {
+   "ar": "المركبة والصور (إن وجدت)",
+   "en": "Vehicle & photos (if you have one)",
+   "ur": "گاڑی اور تصاویر (اگر ہو)",
+   "bn": "যানবাহন ও ছবি (থাকলে)",
+   "hi": "वाहन और फोटो (यदि हो)"
+  },
+  "rep": {
+   "ar": "بيانات المندوب (للمناديب فقط)",
+   "en": "Delivery representative details (reps only)",
+   "ur": "ڈلیوری نمائندے کی معلومات (صرف نمائندوں کے لیے)",
+   "bn": "ডেলিভারি প্রতিনিধির তথ্য (শুধু প্রতিনিধিদের জন্য)",
+   "hi": "डिलीवरी प्रतिनिधि की जानकारी (केवल प्रतिनिधियों के लिए)"
+  }
+ },
  "vehicleValues": [
   "سيارة الشركة",
   "سيارة شخصية",
@@ -970,6 +1005,13 @@
    "ur": "تصدیق کے لیے اپنے شناختی کارڈ / اقامہ نمبر یا موبائل نمبر کے آخری 4 ہندسے لکھیں۔",
    "bn": "আপনিই যে সঠিক ব্যক্তি তা নিশ্চিত করতে আপনার আইডি / ইকামা নম্বর অথবা মোবাইল নম্বরের শেষ ৪টি সংখ্যা লিখুন।",
    "hi": "पुष्टि के लिए अपने आईडी / इक़ामा नंबर या मोबाइल नंबर के आख़िरी 4 अंक लिखें।"
+  },
+  "vehicle_note": {
+   "ar": "إن كانت لديك مركبة تستخدمها في العمل فاختر نوعها لتظهر خانات الرخصة والصور. وإن لم تكن لديك فاختر «بدون مركبة».",
+   "en": "If you use a vehicle for work, choose its type to show the licence and photo fields. If you have none, choose “No vehicle”.",
+   "ur": "اگر آپ کام کے لیے گاڑی استعمال کرتے ہیں تو اس کی قسم منتخب کریں تاکہ لائسنس اور تصاویر کے خانے ظاہر ہوں۔ اگر نہیں ہے تو «کوئی گاڑی نہیں» منتخب کریں۔",
+   "bn": "কাজে যানবাহন ব্যবহার করলে এর ধরন বেছে নিন, তাহলে লাইসেন্স ও ছবির ঘর দেখা যাবে। না থাকলে «কোনো যানবাহন নেই» বেছে নিন।",
+   "hi": "यदि आप काम के लिए वाहन इस्तेमाल करते हैं तो उसका प्रकार चुनें, ताकि लाइसेंस और फोटो के खाने दिखें। न हो तो «कोई वाहन नहीं» चुनें।"
   },
   "last4": {
    "ar": "آخر 4 أرقام",

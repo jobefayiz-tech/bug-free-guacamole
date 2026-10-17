@@ -16,9 +16,16 @@
 
 <form method="post" enctype="multipart/form-data" data-vehicle='{{ VEHICLE_VALUES|tojson }}'>
   <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+  {% set seen = namespace(group='') %}
   {% for key, title, fs in sections %}
   {% set mine = fs|selectattr('owner', 'equalto', 'employee')|list %}
   {% set hr = fs|selectattr('owner', 'equalto', 'hr')|list %}
+  {% set grp = SECTION_GROUP.get(key, '') %}
+  {% if grp and grp != seen.group %}
+  <h2 class="part">{{ tr.group(grp) }}</h2>
+  {% if grp == 'vehicle' %}<div class="note">{{ tr.t('vehicle_note') }}</div>{% endif %}
+  {% set seen.group = grp %}
+  {% endif %}
   {% if mine %}
   <div class="card">
     <h3>{{ tr.section(key) }}</h3>

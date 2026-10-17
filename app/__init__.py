@@ -6,7 +6,7 @@ from flask import Flask, g, render_template
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 from . import db, security
-from .fields import DATALISTS, OPTIONS, VEHICLE_VALUES, display_name, is_required, mask
+from .fields import DATALISTS, OPTIONS, SECTION_GROUP, VEHICLE_VALUES, display_name, is_required, mask
 
 
 def create_app(test_config=None):
@@ -45,7 +45,7 @@ def create_app(test_config=None):
 
     app.jinja_env.globals.update(csrf_token=security.csrf_token, OPTIONS=OPTIONS,
                                 VEHICLE_VALUES=list(VEHICLE_VALUES), is_required=is_required,
-                                DATALISTS=DATALISTS, dname=display_name)
+                                DATALISTS=DATALISTS, dname=display_name, SECTION_GROUP=SECTION_GROUP)
     app.jinja_env.filters["local"] = db.to_local
     app.jinja_env.filters["mask"] = lambda v, f: mask(f, v)
 

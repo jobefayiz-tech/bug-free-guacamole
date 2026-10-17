@@ -103,14 +103,16 @@ function load_(t, row) {
   const raw = t.sheet.getRange(row, 1, 1, t.lastCol).getValues()[0];
   const empNo = cellText_(raw[col_(t, EMP_NO_HEADER)]);
   const data = {};
+  const photos = {};
   FIELDS_PLAIN_.forEach(function (f) {
     const c = fieldCol_(t, f);
-    if (c !== undefined) data[f.key] = cellText_(raw[c]);
+    if (c === undefined) return;
+    const v = cellText_(raw[c]);
+    if (f.kind === 'photo') { if (v) photos[f.key] = v; } else data[f.key] = v;
   });
   const rep = findRepRow_(empNo);
   const flag = cellText_(raw[sysCol_(t, 'isRep')]);
   const isRep = rep.row > 0 || flag === 'نعم';
-  const photos = {};
   let repRaw = null;
   if (rep.row > 0) {
     repRaw = rep.t.sheet.getRange(rep.row, 1, 1, rep.t.lastCol).getValues()[0];
@@ -161,7 +163,10 @@ function persist_(emp, changed, sys, photoUrls) {
   const raw = emp.raw.slice();
   const touched = [];
   FIELDS_PLAIN_.forEach(function (f) {
-    if (f.key in changed) { const c = fieldCol_(t, f); if (c !== undefined) { raw[c] = changed[f.key]; touched.push(c); } }
+    const c = fieldCol_(t, f);
+    if (c === undefined) return;
+    if (f.key in changed) { raw[c] = changed[f.key]; touched.push(c); }
+    if (photoUrls && f.key in photoUrls) { raw[c] = photoUrls[f.key]; touched.push(c); }
   });
   Object.keys(sys).forEach(function (k) { const c = sysCol_(t, k); if (c !== undefined) { raw[c] = sys[k]; touched.push(c); } });
 
@@ -378,7 +383,7 @@ function apiPhoto(token, session, key, b64) {
     if (!isJpeg_(bytes)) return {ok: false, error: 'bad_image', message: 'الملف ليس صورة صالحة (استخدم JPG أو PNG)'};
     return withLock_(function () {
       const emp = findByToken_(token);
-      if (!emp.isRep) return {ok: false, error: 'bad_request'};
+      if (!LG.fieldsFor(emp.isRep).some(function (f) { return f.key === key; })) return {ok: false, error: 'bad_request'};
       const folder = photoFolder_(emp.empNo);
       const fname = key + '.jpg';
       const old = folder.getFilesByName(fname);
@@ -590,9 +595,13 @@ function repIndex_() {
 // {empNo, data, photos, isRep} from an employees-sheet row (+ its rep row, if any)
 function record_(t, row, ri) {
   const empNo = cellText_(row[col_(t, EMP_NO_HEADER)]);
-  const data = {};
-  FIELDS_PLAIN_.forEach(function (f) { const c = fieldCol_(t, f); if (c !== undefined) data[f.key] = cellText_(row[c]); });
-  const photos = {};
+  const data = {}, photos = {};
+  FIELDS_PLAIN_.forEach(function (f) {
+    const c = fieldCol_(t, f);
+    if (c === undefined) return;
+    const v = cellText_(row[c]);
+    if (f.kind === 'photo') { if (v) photos[f.key] = v; } else data[f.key] = v;
+  });
   const rr = ri.byNo[empNo];
   const isRep = !!rr || cellText_(row[sysCol_(t, 'isRep')]) === 'نعم';
   if (rr) {

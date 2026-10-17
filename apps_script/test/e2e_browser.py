@@ -121,8 +121,8 @@ def main():
             assert e["جوال الطوارئ"] == "+8801712345678"
             assert s["rep1"]["رقم الأيدي (ID) في التطبيق"] == "KM-778899"
             assert s["rep1"]["التطبيق الذي يعمل فيه"] == "كيتا ماركت"
-            assert s["rep1"]["نوع رخصة القيادة"] == "دراجة نارية", s["rep1"]
-            assert s["rep1"]["صورة العداد (رابط أو اسم الملف)"].startswith("https://drive.google.com/file/d/")
+            assert e["نوع رخصة القيادة"] == "دراجة نارية", e
+            assert e["صورة العداد (رابط أو اسم الملف)"].startswith("https://drive.google.com/file/d/")
             assert len(s["files"]) == 5, len(s["files"])
             for f in s["files"]:
                 img = Image.open(io.BytesIO(base64.b64decode(f["b64"])))
@@ -142,14 +142,17 @@ def main():
             })""")
             assert res2.startswith("refused:"), res2
 
-            # ---- staff member (Indian): English by nationality, no vehicle section at all
+            # ---- staff member (Indian): English by nationality; the vehicle part exists for everyone but stays folded away
             page.goto(f"{base}?t={staff}")
             page.wait_for_selector("#last4")
             assert page.eval_on_selector("html", "e => e.lang") == "en"
             page.fill("#last4", "1111")
             page.click("#btn_verify")
             page.wait_for_selector("#f_name_en")
-            assert page.locator("#f_vehicle_type").count() == 0 and page.locator("#f_photo_front").count() == 0
+            assert page.locator("#f_vehicle_type").count() == 1 and page.locator("#f_photo_front").is_hidden()
+            assert page.locator("h2.part").count() == 2, "employee part + vehicle part (no rep part for staff)"
+            page.select_option("#f_vehicle_type", "Company motorcycle")
+            assert page.locator("#f_photo_odometer").is_visible() and page.locator("#f_license_type").is_visible()
             page.click("#btn_submit")                              # consent not given -> errors, nothing breaks
             page.wait_for_selector(".error")
             assert "This field is required" in page.inner_text("#app")

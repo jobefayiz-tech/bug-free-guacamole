@@ -152,7 +152,7 @@ def edit(emp_no):
         is_rep = bool(request.form.get("is_rep"))
         fields = fields_for(is_rep) if is_rep else [f for f in editable if not f.rep_only]
         data, errors = parse_form(request.form, emp["data"], [f for f in fields if f.key not in ("consent", "location_consent")])
-        photos, photo_errors, photo_changed = store_photos(emp, request.files, PHOTO_KEYS if is_rep else [])
+        photos, photo_errors, photo_changed = store_photos(emp, request.files, PHOTO_KEYS)
         raw = {k: v[1] for k, v in errors.items()}
         errors = {k: v[0] for k, v in errors.items()}
         db.update_employee(emp_no, data=data, photos=photos, is_rep=is_rep, updated_at=db.now_iso())

@@ -110,9 +110,10 @@ test('setupSheets builds both sheets with the template headers and enough grid',
   const emp = env.ss.getSheetByName('الموظفون');
   const rep = env.ss.getSheetByName('المناديب');
   assert.ok(emp && rep && env.ss.getSheetByName('لوحة المتابعة'));
-  assert.ok(emp.maxRows >= 2001 && emp.maxCols >= 31 + 12);
+  const nHeads = 1 + CONFIG.fields.filter((f) => !f.repOnly).length + 12;
+  assert.ok(emp.maxRows >= 2001 && emp.maxCols >= nHeads);
   const headers = [];
-  for (let c = 1; c <= 43; c++) headers.push(norm(emp.cells['1:' + c].v));
+  for (let c = 1; c <= nHeads; c++) headers.push(norm(emp.cells['1:' + c].v));
   CONFIG.fields.filter((f) => !f.repOnly).forEach((f) => assert.ok(headers.includes(norm(f.xlsx)), f.xlsx));
   ['الرمز السري', 'الحالة', 'ملاحظة المراجعة', 'رابط الموظف', 'إرسال واتساب'].forEach((h) => assert.ok(headers.includes(h), h));
   CONFIG.fields.filter((f) => f.repOnly).forEach((f) => assert.ok(colOf(rep, f.xlsx) > 0));
@@ -407,12 +408,12 @@ test('rep: needs the five photos when there is a vehicle; photos stored in Drive
   const folder = env.rootFolder; // photos live under the root photo folder created in setup
   const all = Object.values(env.files).filter((f) => !f.trashed);
   assert.equal(all.length, 5);
-  const url = cell(env, 'المناديب', 2, 'صورة العداد (رابط أو اسم الملف)');
+  const url = cell(env, 'الموظفون', 2, 'صورة العداد (رابط أو اسم الملف)');   // photos are employee data now, not rep data
   assert.match(url, /^https:\/\/drive\.google\.com\/file\/d\//);
   r = env.call('apiSave', tok, ses, REP_FORM, 'submit');
   assert.equal(r.submitted, true, JSON.stringify(r.errors));
   assert.equal(cell(env, 'المناديب', 2, 'رقم الأيدي (ID) في التطبيق'), '445566');
-  assert.strictEqual(cell(env, 'المناديب', 2, 'رقم اللوحة'), 'ح ك م 4821');
+  assert.strictEqual(cell(env, 'الموظفون', 2, 'رقم اللوحة'), 'ح ك م 4821');
   assert.equal(cell(env, 'الموظفون', 2, 'حقول ناقصة'), '0');
   assert.ok(folder);
 });
@@ -436,11 +437,37 @@ test('photo upload: rejects non-JPEG, bad base64, oversize, wrong key, non-reps;
   assert.equal(env.call('apiPhoto', tok, ses, 'name_ar', JPEG_B64).error, 'bad_request');
   assert.equal(env.call('apiPhoto', tok, 'bad-session', 'photo_front', JPEG_B64).error, 'session');
   const e2 = login(env, 'E2', '2222');
-  assert.equal(env.call('apiPhoto', e2.tok, e2.ses, 'photo_front', JPEG_B64).error, 'bad_request');
+  assert.equal(env.call('apiPhoto', e2.tok, e2.ses, 'photo_front', JPEG_B64).ok, true);     // staff with a vehicle upload too
   env.call('apiPhoto', tok, ses, 'photo_front', JPEG_B64);
   env.call('apiPhoto', tok, ses, 'photo_front', JPEG_B64);
   const live = Object.values(env.files).filter((f) => !f.trashed && f.name === 'photo_front.jpg');
-  assert.equal(live.length, 1);
+  assert.equal(live.length, 2);   // one per employee (R1 uploaded twice: the older file was trashed; E2 uploaded once)
+});
+
+test('a non-rep employee can declare a vehicle, give the licence type and upload the five photos', () => {
+  const env = setupWith([['E5', {}]]);
+  const {tok, ses} = login(env, 'E5');
+  const base = Object.assign({}, FORM, {vehicle_type: 'دراجة نارية شخصية', license_type: 'دراجة نارية', license_no: '1020304050',
+    license_expiry: '2029-05-05', plate_no: 'ح ك م 4821', registration_expiry: '2027-05-05'});
+  let r = env.call('apiSave', tok, ses, base, 'submit');
+  assert.equal(r.submitted, false);
+  ['photo_front', 'photo_back', 'photo_right', 'photo_left', 'photo_odometer'].forEach((k) => assert.equal(r.errors[k], 'هذا الحقل مطلوب', k));
+  CONFIG.photoKeys.forEach((k) => assert.equal(env.call('apiPhoto', tok, ses, k, JPEG_B64).ok, true, k));
+  r = env.call('apiSave', tok, ses, base, 'submit');
+  assert.equal(r.submitted, true, JSON.stringify(r.errors));
+  assert.equal(cell(env, 'الموظفون', 2, 'نوع رخصة القيادة'), 'دراجة نارية');
+  assert.equal(cell(env, 'الموظفون', 2, 'نوع المركبة'), 'دراجة نارية شخصية');
+  assert.equal(env.ss.getSheetByName('المناديب').getLastRow(), 1, 'no rep row is created for a non-rep');
+  // without a vehicle nothing of this is required; and a non-rep may simply skip the vehicle question
+  assert.deepEqual(env.call('apiSave', tok, ses, Object.assign({}, base, {vehicle_type: 'بدون مركبة'}), 'submit').errors, {});
+});
+
+test('a rep must answer the vehicle question (the answer may be: no vehicle)', () => {
+  const env = setupWith([['R1', {}, REP]]);
+  const {tok, ses} = login(env, 'R1');
+  const r = env.call('apiSave', tok, ses, Object.assign({}, REP_FORM, {vehicle_type: ''}), 'submit');
+  assert.equal(r.submitted, false);
+  assert.equal(r.errors.vehicle_type, 'هذا الحقل مطلوب');
 });
 
 test('photos of two employees go to separate folders named after the (sanitized) employee number', () => {

@@ -4,7 +4,7 @@ Stored values are always the Arabic canonical text (so HR sees consistent data);
 only what the employee reads on screen is translated. Missing translations fall back
 to English, then to Arabic. NOTE: the Urdu/Bengali/Hindi text should be reviewed by a native speaker.
 """
-from .fields import BY_KEY, DATALISTS, OPTIONS, SECTIONS
+from .fields import BY_KEY, DATALISTS, GROUPS, OPTIONS, SECTIONS
 
 LANGS = {
     "ar": ("العربية", "rtl"),
@@ -32,6 +32,11 @@ UI = {
                        "تصدیق کے لیے اپنے شناختی کارڈ / اقامہ نمبر یا موبائل نمبر کے آخری 4 ہندسے لکھیں۔",
                        "আপনিই যে সঠিক ব্যক্তি তা নিশ্চিত করতে আপনার আইডি / ইকামা নম্বর অথবা মোবাইল নম্বরের শেষ ৪টি সংখ্যা লিখুন।",
                        "पुष्टि के लिए अपने आईडी / इक़ामा नंबर या मोबाइल नंबर के आख़िरी 4 अंक लिखें।")),
+    "vehicle_note": ("إن كانت لديك مركبة تستخدمها في العمل فاختر نوعها لتظهر خانات الرخصة والصور. وإن لم تكن لديك فاختر «بدون مركبة».",
+                     _t("If you use a vehicle for work, choose its type to show the licence and photo fields. If you have none, choose “No vehicle”.",
+                        "اگر آپ کام کے لیے گاڑی استعمال کرتے ہیں تو اس کی قسم منتخب کریں تاکہ لائسنس اور تصاویر کے خانے ظاہر ہوں۔ اگر نہیں ہے تو «کوئی گاڑی نہیں» منتخب کریں۔",
+                        "কাজে যানবাহন ব্যবহার করলে এর ধরন বেছে নিন, তাহলে লাইসেন্স ও ছবির ঘর দেখা যাবে। না থাকলে «কোনো যানবাহন নেই» বেছে নিন।",
+                        "यदि आप काम के लिए वाहन इस्तेमाल करते हैं तो उसका प्रकार चुनें, ताकि लाइसेंस और फोटो के खाने दिखें। न हो तो «कोई वाहन नहीं» चुनें।")),
     "last4": ("آخر 4 أرقام", _t("Last 4 digits", "آخری 4 ہندسے", "শেষ ৪টি সংখ্যা", "आख़िरी 4 अंक")),
     "continue": ("متابعة", _t("Continue", "جاری رکھیں", "এগিয়ে যান", "आगे बढ़ें")),
     "mismatch": ("الأرقام غير مطابقة", _t("Digits do not match", "ہندسے مماثل نہیں", "সংখ্যা মেলেনি", "अंक मेल नहीं खाते")),
@@ -110,6 +115,13 @@ SECTION_TITLES = {
     "app": _t("Work app", "کام کی ایپ", "কাজের অ্যাপ", "काम का ऐप"),
     "photos": _t("Vehicle & odometer photos", "گاڑی اور اوڈومیٹر کی تصاویر", "গাড়ি ও ওডোমিটারের ছবি", "वाहन और ओडोमीटर की फोटो"),
     "consent": _t("Consent", "رضامندی", "সম্মতি", "सहमति"),
+}
+
+GROUP_TITLES = {
+    "employee": _t("Employee details", "ملازم کی معلومات", "কর্মীর তথ্য", "कर्मचारी की जानकारी"),
+    "vehicle": _t("Vehicle & photos (if you have one)", "گاڑی اور تصاویر (اگر ہو)", "যানবাহন ও ছবি (থাকলে)", "वाहन और फोटो (यदि हो)"),
+    "rep": _t("Delivery representative details (reps only)", "ڈلیوری نمائندے کی معلومات (صرف نمائندوں کے لیے)",
+              "ডেলিভারি প্রতিনিধির তথ্য (শুধু প্রতিনিধিদের জন্য)", "डिलीवरी प्रतिनिधि की जानकारी (केवल प्रतिनिधियों के लिए)"),
 }
 
 FIELD_LABELS = {
@@ -295,6 +307,9 @@ class Tr:
     def opt(self, value):
         table = OPTION_LABELS.get(value)
         return self._pick(value, table) if table else value
+
+    def group(self, key):
+        return self._pick(dict(GROUPS)[key], GROUP_TITLES[key])
 
     def section(self, key):
         ar = dict(SECTIONS)[key]
