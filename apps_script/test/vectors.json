@@ -1983,6 +1983,18 @@
   },
   {
    "key": "vehicle_type",
+   "raw": "دراجة نارية للشركة",
+   "value": "دراجة نارية للشركة",
+   "error": null
+  },
+  {
+   "key": "vehicle_type",
+   "raw": "دراجة نارية شخصية",
+   "value": "دراجة نارية شخصية",
+   "error": null
+  },
+  {
+   "key": "vehicle_type",
    "raw": "بدون مركبة",
    "value": "بدون مركبة",
    "error": null
@@ -1995,6 +2007,60 @@
   },
   {
    "key": "vehicle_type",
+   "raw": "ذكر ",
+   "value": "ذكر",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "license_type",
+   "raw": "",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "license_type",
+   "raw": "  ",
+   "value": "",
+   "error": null
+  },
+  {
+   "key": "license_type",
+   "raw": "x",
+   "value": "x",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "license_type",
+   "raw": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "value": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "license_type",
+   "raw": "  spaced   out  ",
+   "value": "spaced out",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "license_type",
+   "raw": "نقل خفيف",
+   "value": "نقل خفيف",
+   "error": null
+  },
+  {
+   "key": "license_type",
+   "raw": "دراجة نارية",
+   "value": "دراجة نارية",
+   "error": null
+  },
+  {
+   "key": "license_type",
+   "raw": "not-an-option",
+   "value": "not-an-option",
+   "error": "اختر من القائمة"
+  },
+  {
+   "key": "license_type",
    "raw": "ذكر ",
    "value": "ذكر",
    "error": "اختر من القائمة"
@@ -2706,6 +2772,7 @@
     "rep_code",
     "region",
     "supervisor_emp_no",
+    "license_type",
     "license_no",
     "license_expiry",
     "plate_no",
@@ -2741,6 +2808,7 @@
     "emergency_name",
     "emergency_relation",
     "emergency_phone",
+    "license_type",
     "license_no",
     "license_expiry",
     "plate_no",
@@ -2887,6 +2955,7 @@
     "rep_code",
     "region",
     "supervisor_emp_no",
+    "license_type",
     "license_no",
     "license_expiry",
     "registration_expiry",
@@ -2923,6 +2992,7 @@
     "emergency_name",
     "emergency_relation",
     "emergency_phone",
+    "license_type",
     "license_no",
     "license_expiry",
     "registration_expiry",

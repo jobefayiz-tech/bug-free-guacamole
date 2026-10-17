@@ -246,7 +246,7 @@ def test_rep_needs_photos_when_has_vehicle(app, admin):
 def test_rep_full_submit_with_photos_and_privacy(app, admin):
     tok, c = rep_setup(admin, app)
     vals = employee_form_values(app_name="نينجا", app_id="998877", location_consent="نعم",
-                                vehicle_type="سيارة الشركة", plate_no="أ ب ج 1234", license_no="1020304050",
+                                vehicle_type="سيارة الشركة", license_type="نقل خفيف", plate_no="أ ب ج 1234", license_no="1020304050",
                                 license_expiry="2029-05-05", registration_expiry="2027-05-05")
     for k in ("front", "back", "right", "left", "odometer"):
         vals[f"photo_{k}"] = (io.BytesIO(png_bytes()), f"{k}.jpg")

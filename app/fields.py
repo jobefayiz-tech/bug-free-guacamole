@@ -21,7 +21,8 @@ OPTIONS = {
         "بنك البلاد", "بنك الجزيرة", "البنك السعودي الأول", "البنك العربي الوطني",
         "البنك السعودي الفرنسي", "البنك السعودي للاستثمار", "بنك stc", "أخرى",
     ],
-    "vehicle": ["سيارة الشركة", "سيارة شخصية", "بدون مركبة"],
+    "vehicle": ["سيارة الشركة", "سيارة شخصية", "دراجة نارية للشركة", "دراجة نارية شخصية", "بدون مركبة"],
+    "license_type": ["نقل خفيف", "دراجة نارية"],
     "yesno": ["نعم", "لا"],
     "app": ["كيتا فود", "كيتا ماركت", "نينجا", "تويو", "هنقرستيشن", "مرسول"],
 }
@@ -34,7 +35,7 @@ DATALISTS = {
     ],
 }
 
-VEHICLE_VALUES = ("سيارة الشركة", "سيارة شخصية")
+VEHICLE_VALUES = ("سيارة الشركة", "سيارة شخصية", "دراجة نارية للشركة", "دراجة نارية شخصية")
 
 SECTIONS = [
     ("personal", "البيانات الشخصية"),
@@ -113,6 +114,7 @@ FIELDS = [
     F("supervisor_emp_no", "الرقم الوظيفي للمشرف", "الرقم الوظيفي للمشرف المباشر", "rep", required=True, owner="hr", rep_only=True),
     # --- vehicle
     F("vehicle_type", "نوع المركبة", "نوع المركبة", "vehicle", "select", False, "vehicle", rep_only=True),
+    F("license_type", "نوع رخصة القيادة", "نوع رخصة القيادة", "vehicle", "select", False, "license_type", rep_only=True, vehicle=True),
     F("license_no", "رقم رخصة القيادة", "رقم رخصة القيادة", "vehicle", rep_only=True, vehicle=True, sensitive=True),
     F("license_expiry", "تاريخ انتهاء الرخصة", "تاريخ انتهاء الرخصة", "vehicle", "date", rep_only=True, vehicle=True),
     F("plate_no", "رقم اللوحة", "رقم اللوحة", "vehicle", rep_only=True, vehicle=True, hint="كما في الاستمارة"),

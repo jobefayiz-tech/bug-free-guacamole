@@ -350,7 +350,7 @@ test('after review: HR approval guard, return with note, employee re-edit goes b
 
 // ---------------------------------------------------------------- reps and photos
 const REP = {rep_code: 'R-1', region: 'الرياض', supervisor_emp_no: 'E9'};
-const REP_FORM = Object.assign({}, FORM, {app_name: 'نينجا', app_id: '445566', location_consent: 'نعم', vehicle_type: 'سيارة شخصية',
+const REP_FORM = Object.assign({}, FORM, {app_name: 'نينجا', app_id: '445566', location_consent: 'نعم', vehicle_type: 'سيارة شخصية', license_type: 'نقل خفيف',
   license_no: '1020304050', license_expiry: '2029-05-05', plate_no: 'ح ك م 4821', registration_expiry: '2027-05-05'});
 
 test('rep: needs the five photos when there is a vehicle; photos stored in Drive and linked in the sheet', () => {

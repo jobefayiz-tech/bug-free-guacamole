@@ -61,9 +61,20 @@ def test_missing_vehicle_rules():
     keys = missing(base, {}, True, owner="employee")
     assert "plate_no" not in keys and "photo_front" not in keys
     keys = missing({"vehicle_type": "سيارة الشركة"}, {}, True, owner="employee")
-    for k in ("plate_no", "license_no", "license_expiry", "registration_expiry", "photo_front", "photo_odometer"):
+    for k in ("plate_no", "license_type", "license_no", "license_expiry", "registration_expiry", "photo_front", "photo_odometer"):
         assert k in keys
     assert "app_id" not in missing({}, {}, False)  # rep-only fields never required for staff
+
+
+def test_motorcycle_riders_and_licence_type():
+    assert clean(BY_KEY["license_type"], "نقل خفيف") == ("نقل خفيف", None)
+    assert clean(BY_KEY["license_type"], "دراجة نارية") == ("دراجة نارية", None)
+    assert clean(BY_KEY["license_type"], "خاصة")[1]                       # only the listed licence types
+    for v in ("دراجة نارية للشركة", "دراجة نارية شخصية"):
+        assert clean(BY_KEY["vehicle_type"], v) == (v, None)
+        keys = missing({"vehicle_type": v}, {}, True, owner="employee")   # a motorcycle needs the same plate/licence/photos
+        for k in ("license_type", "license_no", "plate_no", "photo_front", "photo_odometer"):
+            assert k in keys
 
 
 def test_template_matches_fields():
