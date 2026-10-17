@@ -2300,6 +2300,7 @@ const SHEET_EMP = 'الموظفون';
 const SHEET_REP = 'المناديب';
 const SHEET_DASH = 'لوحة المتابعة';
 const SHEET_ALERTS = 'تنبيهات الانتهاء';
+const SHEET_SUP = 'روابط المشرفين';
 const EMP_NO_HEADER = 'الرقم الوظيفي';
 const ST = {UNOPENED: CONFIG.statuses.unopened, DRAFT: CONFIG.statuses.draft, SUBMITTED: CONFIG.statuses.submitted,
   RETURNED: CONFIG.statuses.returned, APPROVED: CONFIG.statuses.approved};
@@ -2506,6 +2507,8 @@ function newSession_(empNo) {
   return s;
 }
 
+function verifyOn_() { return props_().getProperty('VERIFY') !== 'off'; }
+
 function fail_(err) {
   console.error(err && err.stack ? err.stack : String(err));
   return {ok: false, error: 'server'};
@@ -2545,7 +2548,7 @@ function apiStart(token) {
   try {
     const emp = findByToken_(token);
     if (!emp) return {ok: false, error: 'bad_link'};
-    const needVerify = !!emp.data.id_number;
+    const needVerify = verifyOn_() && !!emp.data.id_number;
     const res = {ok: true, needVerify: needVerify, locked: isLocked_(emp.empNo),
       name: LG.displayName(emp.data, emp.empNo), nationality: emp.data.nationality || ''};
     if (!needVerify) res.session = newSession_(emp.empNo);
@@ -2557,6 +2560,7 @@ function apiVerify(token, last4) {
   try {
     const emp = findByToken_(token);
     if (!emp) return {ok: false, error: 'bad_link'};
+    if (!verifyOn_()) return {ok: true, session: newSession_(emp.empNo)};      // HR chose "the secret link alone is enough"
     if (isLocked_(emp.empNo)) return {ok: false, error: 'locked'};
     const idn = emp.data.id_number || '', mob = emp.data.mobile || '';
     const typed = LG.normalize(last4 === null || last4 === undefined ? '' : last4);
@@ -2692,7 +2696,9 @@ function onOpen() {
   ui.createMenu('بيانات الموظفين')
     .addItem('① تجهيز الجداول (مرة واحدة)', 'setupSheets')
     .addItem('② تجهيز الروابط وأزرار واتساب', 'prepareLinks')
+    .addItem('③ روابط للمشرفين (حسب المنطقة)', 'buildSupervisorLinks')
     .addItem('ضبط رابط النشر', 'setBaseUrl')
+    .addItem('التحقق من الرابط: أرقام أو بدون', 'setVerifyMode')
     .addSeparator()
     .addItem('تحديث الحقول الناقصة', 'recomputeAll')
     .addItem('تحديث تنبيهات الانتهاء', 'buildAlerts')
@@ -2945,6 +2951,61 @@ function prepareLinks() {
     wa.setFormulas(waCells);
     ss_().toast('روابط جديدة: ' + made + (dup ? ' | أرقام مكررة: ' + dup : ''), 'تم', 8);
   });
+}
+
+function setVerifyMode() {
+  const ui = adminUi_();
+  const r = ui.prompt('التحقق من الرابط',
+    'اكتب 1: يُطلب من الموظف آخر 4 أرقام من هويته أو جواله.\n' +
+    'اكتب 2: بدون أرقام، الرابط السري وحده يكفي (مناسب إن كانت الهويات والجوالات في القائمة غير موثوقة والروابط تُسلَّم عبر المشرفين).\n' +
+    'الوضع الحالي: ' + (verifyOn_() ? '1' : '2'), ui.ButtonSet.OK_CANCEL);
+  if (r.getSelectedButton() !== ui.Button.OK) return;
+  const v = LG.normalize(r.getResponseText());
+  if (v !== '1' && v !== '2') { ui.alert('اكتب 1 أو 2 فقط.'); return; }
+  props_().setProperty('VERIFY', v === '2' ? 'off' : 'on');
+  ui.alert(v === '2' ? 'تم. يفتح الموظف نموذجه من رابطه مباشرة، فلا ترسل الرابط إلا لصاحبه.' : 'تم. يُطلب من الموظف آخر 4 أرقام من هويته أو جواله.');
+}
+
+// One row per employee who already has a link, grouped by region and supervisor, with a ready message in the employee's
+// language and a WhatsApp button that has no phone number: the supervisor picks the right chat himself.
+function buildSupervisorLinks() {
+  const ui = adminUi_();
+  const t = table_(SHEET_EMP);
+  if (t.lastRow < 2) { ui.alert('لا توجد بيانات في ورقة «' + SHEET_EMP + '».'); return; }
+  const ri = repIndex_();
+  const rows = [];
+  t.sheet.getRange(2, 1, t.lastRow - 1, t.lastCol).getValues().forEach(function (r) {
+    const link = cellText_(r[sysCol_(t, 'link')]);
+    const empNo = cellText_(r[col_(t, EMP_NO_HEADER)]);
+    if (!empNo || !link) return;
+    const rec = record_(t, r, ri);
+    const lang = langFor_(rec.data, r[sysCol_(t, 'lang')]);
+    const name = LG.displayName(rec.data, empNo);
+    const msg = CONFIG.waMessage[lang].replace('{name}', name).replace('{link}', link);
+    rows.push({region: rec.data.region || '', sup: rec.data.supervisor_emp_no || rec.data.manager_emp_no || '', empNo: empNo,
+      name: name, link: link, msg: msg});
+  });
+  if (!rows.length) { ui.alert('لا توجد روابط بعد. شغّل أولًا «② تجهيز الروابط وأزرار واتساب».'); return; }
+  rows.sort(function (a, b) {
+    return a.region.localeCompare(b.region) || a.sup.localeCompare(b.sup) || a.empNo.localeCompare(b.empNo);
+  });
+  const ss = ss_();
+  let sh = ss.getSheetByName(SHEET_SUP);
+  if (!sh) sh = ss.insertSheet(SHEET_SUP);
+  sh.clear();
+  sh.setRightToLeft(true);
+  const head = ['المنطقة / المدينة', 'المشرف (رقم وظيفي)', 'الرقم الوظيفي', 'الاسم', 'الرابط', 'الرسالة الجاهزة', 'إرسال (اختر المحادثة)'];
+  ensureGrid_(sh, rows.length + 1, head.length);
+  sh.getRange(1, 1, rows.length + 1, 6).setNumberFormat('@').setValues([head.slice(0, 6)].concat(rows.map(function (x) {
+    return [x.region, x.sup, x.empNo, x.name, x.link, x.msg];
+  })));
+  sh.getRange(1, 7).setValue(head[6]);
+  sh.getRange(2, 7, rows.length, 1).setNumberFormat('General').setFormulas(rows.map(function (x) {
+    return ['=HYPERLINK("https://wa.me/?text=' + encodeURIComponent(x.msg).replace(/"/g, '%22') + '","إرسال واتساب")'];
+  }));
+  sh.getRange(1, 1, 1, head.length).setFontWeight('bold').setBackground('#1f3a5f').setFontColor('#ffffff');
+  sh.setFrozenRows(1);
+  ui.alert('تم تجهيز ورقة «' + SHEET_SUP + '» (' + rows.length + ' موظف). رتّبها حسب المنطقة أو المشرف وأرسل لكل مشرف قائمة موظفيه، أو اضغط «إرسال واتساب» واختر محادثة الموظف.');
 }
 
 function recomputeAll() {

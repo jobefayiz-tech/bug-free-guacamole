@@ -94,6 +94,7 @@ def main():
             page.select_option("#f_app_name", "كيتا ماركت")
             page.fill("#f_app_id", "KM-778899")
             page.select_option("#f_location_consent", "نعم")
+            page.select_option("#f_license_type", "دراجة نارية")
             page.fill("#f_license_no", "1020304050")
             page.fill("#f_license_expiry", "2029-05-05")
             page.fill("#f_plate_no", "ABC 1234")
@@ -120,6 +121,7 @@ def main():
             assert e["جوال الطوارئ"] == "+8801712345678"
             assert s["rep1"]["رقم الأيدي (ID) في التطبيق"] == "KM-778899"
             assert s["rep1"]["التطبيق الذي يعمل فيه"] == "كيتا ماركت"
+            assert s["rep1"]["نوع رخصة القيادة"] == "دراجة نارية", s["rep1"]
             assert s["rep1"]["صورة العداد (رابط أو اسم الملف)"].startswith("https://drive.google.com/file/d/")
             assert len(s["files"]) == 5, len(s["files"])
             for f in s["files"]:

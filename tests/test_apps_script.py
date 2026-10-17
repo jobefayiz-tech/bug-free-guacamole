@@ -48,10 +48,11 @@ def test_every_public_function_is_intentional():
     allowed = {"doGet", "onOpen", "onEdit",
                "apiStart", "apiVerify", "apiLoad", "apiSave", "apiPhoto",                       # employee page
                "setupSheets", "prepareLinks", "setBaseUrl", "recomputeAll", "buildAlerts",      # HR menu (guarded by getUi)
-               "regenLinkForRow", "backupNow"}
+               "regenLinkForRow", "backupNow", "setVerifyMode", "buildSupervisorLinks"}
     assert set(public) == allowed, set(public) ^ allowed
     # every HR-menu function must start by calling adminUi_() (throws outside the Sheet UI)
-    for name in ("setupSheets", "prepareLinks", "setBaseUrl", "recomputeAll", "buildAlerts", "regenLinkForRow", "backupNow"):
+    for name in ("setupSheets", "prepareLinks", "setBaseUrl", "recomputeAll", "buildAlerts", "regenLinkForRow", "backupNow",
+                 "setVerifyMode", "buildSupervisorLinks"):
         body = re.search(r"function %s\(\) \{\n(.*?)\n" % name, code).group(1)
         assert "adminUi_()" in body, name
 

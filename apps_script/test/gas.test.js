@@ -119,7 +119,7 @@ test('setupSheets builds both sheets with the template headers and enough grid',
   assert.equal(emp.rtl, true);
   assert.ok(env.menus.length === 0);   // menu is built by onOpen
   env.sandbox().onOpen();
-  assert.equal(env.menus[0].items.length, 7);
+  assert.equal(env.menus[0].items.length, 9);
   env.menus[0].items.forEach(([, fn]) => assert.equal(typeof env.sandbox()[fn], 'function', fn));
 });
 
@@ -207,7 +207,7 @@ test('setBaseUrl validates the URL', () => {
 test('admin functions refuse to run outside the Sheet UI (web page visitors)', () => {
   const env = setupWith([['E1', {}]]);
   env.mode = 'web';
-  ['setupSheets', 'prepareLinks', 'setBaseUrl', 'recomputeAll', 'buildAlerts', 'regenLinkForRow', 'backupNow', 'onOpen'].forEach((fn) => {
+  ['setupSheets', 'prepareLinks', 'setBaseUrl', 'setVerifyMode', 'buildSupervisorLinks', 'recomputeAll', 'buildAlerts', 'regenLinkForRow', 'backupNow', 'onOpen'].forEach((fn) => {
     assert.throws(() => env.sandbox()[fn](), /getUi/, fn);
   });
 });
@@ -239,6 +239,47 @@ test('apiVerify also accepts the last 4 digits of the mobile (the ID on file may
   assert.deepEqual(env.call('apiVerify', tok, '567'), {ok: false, error: 'mismatch'});     // too short
   const r = env.call('apiVerify', tok, '٥٦٧٨');                                           // 0512345678, Arabic-Indic digits
   assert.equal(r.ok, true); assert.match(r.session, /^[0-9a-f]{64}$/);
+});
+
+test('HR can switch the digits check off: the secret link alone opens the form', () => {
+  const env = setupWith([['E1', {}]]);
+  const tok = tokenOf(env, 'E1');
+  assert.equal(env.call('apiStart', tok).needVerify, true);
+  env.prompts.push('٢');
+  env.sandbox().setVerifyMode();
+  assert.equal(env.props.VERIFY, 'off');
+  const s = env.call('apiStart', tok);
+  assert.equal(s.needVerify, false); assert.match(s.session, /^[0-9a-f]{64}$/);
+  assert.equal(env.call('apiVerify', tok, '0000').ok, true);          // a stale verify page still gets in
+  assert.deepEqual(env.call('apiStart', 'x'.repeat(64)), {ok: false, error: 'bad_link'});   // but a wrong link never does
+  env.prompts.push('1');
+  env.sandbox().setVerifyMode();
+  assert.equal(env.call('apiStart', tok).needVerify, true);
+  env.prompts.push('7');
+  env.sandbox().setVerifyMode();
+  assert.match(env.alerts.pop(), /1 أو 2/);
+  assert.equal(env.props.VERIFY, 'on');
+});
+
+test('buildSupervisorLinks: one row per linked employee, grouped by region, message in the employee language', () => {
+  const env = setupWith([
+    ['E1', {nationality: 'بنغلاديشي', name_en: 'Rahim'}, {rep_code: 'R-1', region: 'جدة', supervisor_emp_no: 'S2'}],
+    ['E2', {nationality: 'مصري', name_ar: 'محمود'}, {rep_code: 'R-2', region: 'الرياض', supervisor_emp_no: 'S1'}],
+    ['E3', {nationality: 'مصري', name_ar: 'سعيد', manager_emp_no: 'M7'}],
+  ]);
+  env.sandbox().buildSupervisorLinks();
+  const sh = env.ss.getSheetByName('روابط المشرفين');
+  const col = (h) => colOf(sh, h);
+  const val = (r, h) => sh.cells[r + ':' + col(h)].v;
+  assert.deepEqual([2, 3, 4].map((r) => val(r, 'الرقم الوظيفي')), ['E3', 'E2', 'E1']);    // region '' first, then الرياض, then جدة
+  assert.equal(val(4, 'المشرف (رقم وظيفي)'), 'S2');
+  assert.equal(val(2, 'المشرف (رقم وظيفي)'), 'M7');                                          // not a rep: the direct manager
+  assert.ok(val(4, 'الرابط').endsWith(`?t=${tokenOf(env, 'E1')}&lang=bn`));
+  assert.ok(val(4, 'الرسالة الجاهزة').includes(val(4, 'الرابط')) && val(4, 'الرسالة الجاهزة').includes(val(4, 'الاسم')));
+  assert.ok(/[\u0980-\u09FF]/.test(val(4, 'الرسالة الجاهزة')), 'Bengali text for the Bengali employee');
+  const btn = sh.cells['4:' + col('إرسال (اختر المحادثة)')];
+  assert.match(btn.url, /^https:\/\/wa\.me\/\?text=/);                                    // no phone number: the supervisor picks the chat
+  assert.ok(decodeURIComponent(btn.url).includes(tokenOf(env, 'E1')));
 });
 
 test('a record with no ID on file is protected by the secret link alone', () => {
