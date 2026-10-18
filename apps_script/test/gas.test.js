@@ -274,6 +274,7 @@ test('buildSupervisorLinks: one row per linked employee, grouped by region, mess
   const val = (r, h) => sh.cells[r + ':' + col(h)].v;
   assert.deepEqual([2, 3, 4].map((r) => val(r, 'الرقم الوظيفي')), ['E3', 'E2', 'E1']);    // region '' first, then الرياض, then جدة
   assert.equal(val(4, 'المشرف (رقم وظيفي)'), 'S2');
+  assert.deepEqual([2, 3, 4].map((r) => val(r, 'النوع')), ['موظف', 'مندوب', 'مندوب']);       // which form each link opens
   assert.equal(val(2, 'المشرف (رقم وظيفي)'), 'M7');                                          // not a rep: the direct manager
   assert.ok(val(4, 'الرابط').endsWith(`?t=${tokenOf(env, 'E1')}&lang=bn`));
   assert.ok(val(4, 'الرسالة الجاهزة').includes(val(4, 'الرابط')) && val(4, 'الرسالة الجاهزة').includes(val(4, 'الاسم')));
@@ -281,6 +282,12 @@ test('buildSupervisorLinks: one row per linked employee, grouped by region, mess
   const btn = sh.cells['4:' + col('إرسال (اختر المحادثة)')];
   assert.match(btn.url, /^https:\/\/wa\.me\/\?text=/);                                    // no phone number: the supervisor picks the chat
   assert.ok(decodeURIComponent(btn.url).includes(tokenOf(env, 'E1')));
+});
+
+test('apiStart tells the page whether this link belongs to a rep or to an employee (two looks)', () => {
+  const env = setupWith([['R1', {}, REP], ['E2', {id_number: '1222222222', mobile: '0577777777'}]]);
+  assert.equal(env.call('apiStart', tokenOf(env, 'R1')).isRep, true);
+  assert.equal(env.call('apiStart', tokenOf(env, 'E2')).isRep, false);
 });
 
 test('a record with no ID on file is protected by the secret link alone', () => {

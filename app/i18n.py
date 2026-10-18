@@ -26,6 +26,9 @@ def _t(*vals):
 
 UI = {
     "title": ("بياناتي الوظيفية", _t("My employment details", "میری ملازمت کی معلومات", "আমার চাকরির তথ্য", "मेरी नौकरी की जानकारी")),
+    "title_rep": ("بيانات المندوب", _t("Delivery representative details", "ڈلیوری نمائندے کی معلومات", "ডেলিভারি প্রতিনিধির তথ্য", "डिलीवरी प्रतिनिधि की जानकारी")),
+    "kind_emp": ("نموذج الموظف", _t("Employee form", "ملازم کا فارم", "কর্মীর ফর্ম", "कर्मचारी फ़ॉर्म")),
+    "kind_rep": ("نموذج المندوب", _t("Representative form", "نمائندے کا فارم", "প্রতিনিধির ফর্ম", "प्रतिनिधि फ़ॉर्म")),
     "welcome": ("مرحبًا", _t("Welcome", "خوش آمدید", "স্বাগতম", "स्वागत है")),
     "verify_text": ("للتأكد أنك صاحب الرابط، اكتب آخر 4 أرقام من رقم هويتك أو إقامتك، أو من رقم جوالك.",
                     _t("To confirm it is you, enter the last 4 digits of your ID / Iqama number or of your mobile number.",

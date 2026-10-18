@@ -264,7 +264,7 @@ function apiStart(token) {
     const emp = findByToken_(token);
     if (!emp) return {ok: false, error: 'bad_link'};
     const needVerify = verifyOn_() && !!emp.data.id_number;
-    const res = {ok: true, needVerify: needVerify, locked: isLocked_(emp.empNo),
+    const res = {ok: true, needVerify: needVerify, locked: isLocked_(emp.empNo), isRep: emp.isRep,
       name: LG.displayName(emp.data, emp.empNo), nationality: emp.data.nationality || ''};
     if (!needVerify) res.session = newSession_(emp.empNo);
     return res;
@@ -702,7 +702,7 @@ function buildSupervisorLinks() {
     const name = LG.displayName(rec.data, empNo);
     const msg = CONFIG.waMessage[lang].replace('{name}', name).replace('{link}', link);
     rows.push({region: rec.data.region || '', sup: rec.data.supervisor_emp_no || rec.data.manager_emp_no || '', empNo: empNo,
-      name: name, link: link, msg: msg});
+      kind: rec.isRep ? 'مندوب' : 'موظف', name: name, link: link, msg: msg});
   });
   if (!rows.length) { ui.alert('لا توجد روابط بعد. شغّل أولًا «② تجهيز الروابط وأزرار واتساب».'); return; }
   rows.sort(function (a, b) {
@@ -713,13 +713,13 @@ function buildSupervisorLinks() {
   if (!sh) sh = ss.insertSheet(SHEET_SUP);
   sh.clear();
   sh.setRightToLeft(true);
-  const head = ['المنطقة / المدينة', 'المشرف (رقم وظيفي)', 'الرقم الوظيفي', 'الاسم', 'الرابط', 'الرسالة الجاهزة', 'إرسال (اختر المحادثة)'];
+  const head = ['المنطقة / المدينة', 'المشرف (رقم وظيفي)', 'الرقم الوظيفي', 'النوع', 'الاسم', 'الرابط', 'الرسالة الجاهزة', 'إرسال (اختر المحادثة)'];
   ensureGrid_(sh, rows.length + 1, head.length);
-  sh.getRange(1, 1, rows.length + 1, 6).setNumberFormat('@').setValues([head.slice(0, 6)].concat(rows.map(function (x) {
-    return [x.region, x.sup, x.empNo, x.name, x.link, x.msg];
+  sh.getRange(1, 1, rows.length + 1, 7).setNumberFormat('@').setValues([head.slice(0, 7)].concat(rows.map(function (x) {
+    return [x.region, x.sup, x.empNo, x.kind, x.name, x.link, x.msg];
   })));
-  sh.getRange(1, 7).setValue(head[6]);
-  sh.getRange(2, 7, rows.length, 1).setNumberFormat('General').setFormulas(rows.map(function (x) {
+  sh.getRange(1, 8).setValue(head[7]);
+  sh.getRange(2, 8, rows.length, 1).setNumberFormat('General').setFormulas(rows.map(function (x) {
     return ['=HYPERLINK("https://wa.me/?text=' + encodeURIComponent(x.msg).replace(/"/g, '%22') + '","إرسال واتساب")'];
   }));
   sh.getRange(1, 1, 1, head.length).setFontWeight('bold').setBackground('#1f3a5f').setFontColor('#ffffff');

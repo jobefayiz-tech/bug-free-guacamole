@@ -14,6 +14,9 @@ body{margin:0;background:var(--bg);color:var(--text);font-family:"Segoe UI",Taho
 .wrap{max-width:640px;margin:0 auto;padding:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:16px}
 .part{margin:26px 0 12px;padding:10px 14px;background:var(--navy);color:#fff;border-radius:8px;font-size:1.05rem}
+.kind{display:inline-block;margin-inline-start:10px;padding:1px 10px;border-radius:999px;background:rgba(255,255,255,.2);font-size:.8rem;font-weight:600;vertical-align:middle}
+body.rep{--navy:#0b6e4f;--blue:#14825f}
+body.rep .top{border-bottom:4px solid #f2b705}
 h1{font-size:1.35rem;margin:0 0 12px}
 h3{margin:0 0 12px}
 label{display:block;font-weight:600;margin-bottom:4px}
@@ -50,7 +53,7 @@ dl.kv dd{margin:0;word-break:break-word}
 </style>
 </head>
 <body>
-<div class="top" id="title"></div>
+<div class="top"><span id="title"></span><span class="kind hidden" id="kind"></span></div>
 <div class="wrap">
   <nav class="langs" id="langs"></nav>
   <div id="app"></div>
@@ -116,8 +119,13 @@ var BOOT = <?!= boot ?>;
   function renderChrome() {
     document.documentElement.lang = lang;
     document.documentElement.dir = LANGS[lang][1];
-    document.getElementById('title').textContent = t('title');
-    document.title = t('title');
+    var known = state.emp || state.info, isRep = !!(known && known.isRep);
+    document.body.className = known ? (isRep ? 'rep' : 'emp') : '';
+    document.getElementById('title').textContent = t(isRep ? 'title_rep' : 'title');
+    var kind = document.getElementById('kind');
+    kind.textContent = known ? t(isRep ? 'kind_rep' : 'kind_emp') : '';
+    kind.className = known ? 'kind' : 'kind hidden';
+    document.title = t(isRep ? 'title_rep' : 'title');
     var nav = document.getElementById('langs');
     nav.innerHTML = '';
     Object.keys(LANGS).forEach(function (code) {

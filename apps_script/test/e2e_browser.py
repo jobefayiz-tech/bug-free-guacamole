@@ -63,6 +63,8 @@ def main():
             page.goto(f"{base}?t={rep}&lang=bn")
             page.wait_for_selector("#last4")
             assert page.eval_on_selector("html", "e => [e.lang, e.dir]") == ["bn", "ltr"]
+            assert page.eval_on_selector("body", "b => b.className") == "rep", "the rep link opens the representative look"
+            assert "প্রতিনিধি" in page.inner_text(".top"), page.inner_text(".top")
             page.screenshot(path=f"{SHOTS}/g1-verify-bn.png")
             page.fill("#last4", "0000")
             page.click("#btn_verify")
@@ -149,6 +151,7 @@ def main():
             page.fill("#last4", "1111")
             page.click("#btn_verify")
             page.wait_for_selector("#f_name_en")
+            assert page.eval_on_selector("body", "b => b.className") == "emp" and "Employee form" in page.inner_text(".top")
             assert page.locator("#f_vehicle_type").count() == 1 and page.locator("#f_photo_front").is_hidden()
             assert page.locator("h2.part").count() == 2, "employee part + vehicle part (no rep part for staff)"
             page.select_option("#f_vehicle_type", "Company motorcycle")

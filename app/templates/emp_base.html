@@ -7,8 +7,9 @@
 <title>{{ tr.t('title') }}</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
-<header class="top"><span class="brand">{{ tr.t('title') }}</span></header>
+{% set is_rep = emp is defined and emp and emp.is_rep %}
+<body class="{{ 'rep' if is_rep else '' }}">
+<header class="top"><span class="brand">{{ tr.t('title_rep' if is_rep else 'title') }}</span>{% if emp is defined and emp %}<span class="kind">{{ tr.t('kind_rep' if is_rep else 'kind_emp') }}</span>{% endif %}</header>
 <main class="wrap narrow">
   <nav class="langs" aria-label="{{ tr.t('language') }}">
     {% for code, (name, _d) in langs.items() %}

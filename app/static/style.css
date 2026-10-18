@@ -45,6 +45,9 @@ input:focus,select:focus,textarea:focus{outline:2px solid var(--blue);border-col
 .flash{padding:10px 14px;border-radius:8px;margin-bottom:12px;background:#e8f1fb;border:1px solid #b9d3f0}
 .flash.ok{background:#e6f5ec;border-color:#a8d8bb}
 .flash.err{background:#fdecea;border-color:#f1b5ae}
+.kind{display:inline-block;margin-inline-start:10px;padding:1px 10px;border-radius:999px;background:rgba(255,255,255,.2);font-size:.8rem;font-weight:600}
+body.rep{--navy:#0b6e4f;--blue:#14825f}
+body.rep .top{border-bottom:4px solid #f2b705}
 .part{margin:26px 0 12px;padding:10px 14px;background:var(--navy);color:#fff;border-radius:8px;font-size:1.05rem}
 .note{background:#fff8e6;border:1px solid #f0d99a;border-radius:8px;padding:10px 14px;margin-bottom:14px}
 table{width:100%;border-collapse:collapse;background:var(--card)}
