@@ -55,6 +55,7 @@ GROUPS = [
     ("employee", "بيانات الموظف"),
     ("vehicle", "المركبة والصور (إن وجدت)"),
     ("rep", "بيانات المندوب (للمناديب فقط)"),
+    ("identity", "الهوية والإقامة"),        # the first part of the representative form
 ]
 SECTION_GROUP = {"personal": "employee", "contact": "employee", "emergency": "employee", "job": "employee", "bank": "employee",
                  "vehicle": "vehicle", "photos": "vehicle", "rep": "rep", "app": "rep", "consent": ""}
@@ -163,8 +164,20 @@ def display_name(data, fallback=""):
     return data.get("name_ar") or data.get("name_en") or fallback
 
 
-def fields_for(emp_is_rep):
-    return [f for f in FIELDS if emp_is_rep or not f.rep_only]
+# a representative is asked only for the short representative form: identity & residence, vehicle and photos, the work app.
+# The rest of the employee file (bank, emergency contact, address, birth date ...) belongs to the employee form.
+REP_FORM_KEYS = {"name_ar", "name_en", "nationality", "id_type", "id_number", "id_expiry", "iqama_profession", "mobile", "consent"}
+REP_FORM_KEYS |= {f.key for f in FIELDS if f.section in ("vehicle", "photos")}
+
+
+def fields_for(emp_is_rep, full=False):
+    """Fields that apply to a person. full=True is what HR sees and edits (a rep also has the whole employee file);
+    otherwise it is what the person is asked for, and a rep gets the short representative form."""
+    if not emp_is_rep:
+        return [f for f in FIELDS if not f.rep_only]
+    if full:
+        return list(FIELDS)
+    return [f for f in FIELDS if f.rep_only or f.key in REP_FORM_KEYS]
 
 
 def has_vehicle(data):

@@ -81,13 +81,16 @@ def main():
             assert page.locator(".veh").first.is_hidden(), "vehicle fields hidden until a vehicle is chosen"
             page.select_option("#f_vehicle_type", "سيارة شخصية")
             assert page.locator(".veh").first.is_visible()
-            page.screenshot(path=f"{SHOTS}/g2-form-bn.png")
+            page.screenshot(path=f"{SHOTS}/g2-form-bn.png", full_page=True)
 
             # ---- switch language keeps what was typed
-            page.fill("#f_city", "Jeddah")
+            # the rep form is the short one: no city, emergency contact, bank, birth date ... (those are the employee form)
+            for k in ("city", "emergency_phone", "bank_name", "birth_date", "gender"):
+                assert page.locator(f"#f_{k}").count() == 0, k
+            page.fill("#f_iqama_profession", "Driver")
             page.click("text=اردو")
             assert page.eval_on_selector("html", "e => [e.lang, e.dir]") == ["ur", "rtl"]
-            assert page.input_value("#f_city") == "Jeddah"
+            assert page.input_value("#f_iqama_profession") == "Driver"
             page.screenshot(path=f"{SHOTS}/g3-form-ur.png")
             page.click("text=English")
 
@@ -102,7 +105,6 @@ def main():
             page.fill("#f_plate_no", "ABC 1234")
             page.fill("#f_registration_expiry", "2027-05-05")
             page.fill("#f_iqama_profession", "Delivery driver")
-            page.fill("#f_emergency_phone", "+880 1712-345678")
             sizes = {}
             for i, k in enumerate(["front", "back", "right", "left", "odometer"]):
                 path = photo(os.path.join(SHOTS, f"_p{k}.jpg"), color=(20 * i + 40, 80, 150))
@@ -119,8 +121,7 @@ def main():
             e = s["emp1"]
             assert e["الحالة"] == "بانتظار المراجعة", e["الحالة"]
             assert e["رقم الجوال (05xxxxxxxx)"] == "0511111111", e["رقم الجوال (05xxxxxxxx)"]
-            assert e["المدينة"] == "Jeddah"
-            assert e["جوال الطوارئ"] == "+8801712345678"
+            assert e["المهنة في الإقامة (للمقيمين)"] == "Delivery driver", e
             assert s["rep1"]["رقم الأيدي (ID) في التطبيق"] == "KM-778899"
             assert s["rep1"]["التطبيق الذي يعمل فيه"] == "كيتا ماركت"
             assert e["نوع رخصة القيادة"] == "دراجة نارية", e

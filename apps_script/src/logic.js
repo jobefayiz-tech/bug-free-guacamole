@@ -105,8 +105,9 @@ function makeLogic_(CONFIG) {
     return !!f.required;
   }
 
+  // what the person is asked for: a rep gets the short representative form, anyone else the employee form
   function fieldsFor(isRep) {
-    return FIELDS.filter(function (f) { return isRep || !f.repOnly; });
+    return FIELDS.filter(function (f) { return isRep ? f.repForm : !f.repOnly; });
   }
 
   // keys of required fields still empty; photos is an object {key: truthy}

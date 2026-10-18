@@ -8,11 +8,11 @@ from .fields import CONSENT_KEYS, FIELDS, SECTIONS, clean, fields_for
 from .images import process_upload
 
 
-def sections(is_rep, owner=None):
+def sections(is_rep, owner=None, full=False):
     """[(section_key, title, [Field...])] for the fields that apply, optionally one owner only."""
     out = []
     for key, title in SECTIONS:
-        fs = [f for f in fields_for(is_rep) if f.section == key and (owner is None or f.owner == owner)]
+        fs = [f for f in fields_for(is_rep, full) if f.section == key and (owner is None or f.owner == owner)]
         if fs:
             out.append((key, title, fs))
     return out

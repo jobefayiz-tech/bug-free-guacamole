@@ -138,7 +138,7 @@ def employee(emp_no):
         "SELECT * FROM audit WHERE emp_no=? ORDER BY id DESC LIMIT 25", (emp_no,)).fetchall()
     todo = missing(emp["data"], emp["photos"], emp["is_rep"])
     return render_template(
-        "employee_detail.html", emp=emp, sections=sections(emp["is_rep"]), reveal=reveal, mask=mask,
+        "employee_detail.html", emp=emp, sections=sections(emp["is_rep"], full=True), reveal=reveal, mask=mask,
         todo=todo, todo_labels=[BY_KEY[k].label for k in todo], history=rows, status=status_label(emp))
 
 
@@ -148,9 +148,9 @@ def edit(emp_no):
     emp = db.get_employee(emp_no) or abort(404)
     errors, photo_errors, raw = {}, {}, {}
     if request.method == "POST":
-        editable = [f for f in fields_for(emp["is_rep"]) if f.key not in ("consent", "location_consent")]
+        editable = [f for f in fields_for(emp["is_rep"], full=True) if f.key not in ("consent", "location_consent")]
         is_rep = bool(request.form.get("is_rep"))
-        fields = fields_for(is_rep) if is_rep else [f for f in editable if not f.rep_only]
+        fields = fields_for(is_rep, full=True) if is_rep else [f for f in editable if not f.rep_only]
         data, errors = parse_form(request.form, emp["data"], [f for f in fields if f.key not in ("consent", "location_consent")])
         photos, photo_errors, photo_changed = store_photos(emp, request.files, PHOTO_KEYS)
         raw = {k: v[1] for k, v in errors.items()}
@@ -167,7 +167,7 @@ def edit(emp_no):
         emp = db.get_employee(emp_no)
     values = {**emp["data"], **raw}
     return render_template("employee_edit.html", emp=emp, values=values, errors=errors,
-                           photo_errors=photo_errors, sections=sections(True))
+                           photo_errors=photo_errors, sections=sections(True, full=True))
 
 
 @bp.route("/admin/employees/<emp_no>/review", methods=["POST"])

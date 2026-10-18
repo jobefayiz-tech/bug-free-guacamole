@@ -13,7 +13,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "اختياري",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "name_en",
@@ -28,7 +29,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "كما في الإقامة أو الجواز",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "nationality",
@@ -43,7 +45,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": "nationality"
+   "datalist": "nationality",
+   "repForm": true
   },
   {
    "key": "gender",
@@ -58,7 +61,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "birth_date",
@@ -73,7 +77,8 @@
    "sensitive": true,
    "vehicle": false,
    "hint": "ميلادي: سنة-شهر-يوم",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "marital",
@@ -88,7 +93,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "id_type",
@@ -103,7 +109,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "id_number",
@@ -118,7 +125,8 @@
    "sensitive": true,
    "vehicle": false,
    "hint": "10 أرقام",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "id_expiry",
@@ -133,7 +141,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "ميلادي: سنة-شهر-يوم",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "iqama_profession",
@@ -148,7 +157,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "كما هي مكتوبة في الإقامة (بالعربية أو الإنجليزية)",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "passport_no",
@@ -163,7 +173,8 @@
    "sensitive": true,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "passport_expiry",
@@ -178,7 +189,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "education",
@@ -193,7 +205,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "mobile",
@@ -208,7 +221,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "مثال: 0512345678",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "email",
@@ -223,7 +237,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "city",
@@ -238,7 +253,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "national_address",
@@ -253,7 +269,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "emergency_name",
@@ -268,7 +285,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "emergency_relation",
@@ -283,7 +301,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "emergency_phone",
@@ -298,7 +317,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "إن كان خارج السعودية فاكتب رمز الدولة، مثل +91",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "job_title",
@@ -313,7 +333,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "department",
@@ -328,7 +349,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "work_location",
@@ -343,7 +365,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "manager_emp_no",
@@ -358,7 +381,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "start_date",
@@ -373,7 +397,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "contract_type",
@@ -388,7 +413,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "employment_status",
@@ -403,7 +429,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "bank_name",
@@ -418,7 +445,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "iban",
@@ -433,7 +461,8 @@
    "sensitive": true,
    "vehicle": false,
    "hint": "24 خانة تبدأ بـ SA",
-   "datalist": ""
+   "datalist": "",
+   "repForm": false
   },
   {
    "key": "rep_code",
@@ -448,7 +477,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "region",
@@ -463,7 +493,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "route",
@@ -478,7 +509,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "supervisor_emp_no",
@@ -493,7 +525,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "vehicle_type",
@@ -508,7 +541,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "license_type",
@@ -523,7 +557,8 @@
    "sensitive": false,
    "vehicle": true,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "license_no",
@@ -538,7 +573,8 @@
    "sensitive": true,
    "vehicle": true,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "license_expiry",
@@ -553,7 +589,8 @@
    "sensitive": false,
    "vehicle": true,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "plate_no",
@@ -568,7 +605,8 @@
    "sensitive": false,
    "vehicle": true,
    "hint": "كما في الاستمارة",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "registration_expiry",
@@ -583,7 +621,8 @@
    "sensitive": false,
    "vehicle": true,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "device_no",
@@ -598,7 +637,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "app_name",
@@ -613,7 +653,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "app_id",
@@ -628,7 +669,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "photo_front",
@@ -643,7 +685,8 @@
    "sensitive": false,
    "vehicle": true,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "photo_back",
@@ -658,7 +701,8 @@
    "sensitive": false,
    "vehicle": true,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "photo_right",
@@ -673,7 +717,8 @@
    "sensitive": false,
    "vehicle": true,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "photo_left",
@@ -688,7 +733,8 @@
    "sensitive": false,
    "vehicle": true,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "photo_odometer",
@@ -703,7 +749,8 @@
    "sensitive": false,
    "vehicle": true,
    "hint": "صورة لوحة العدادات تُظهر قراءة المسافة",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "location_consent",
@@ -718,7 +765,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   },
   {
    "key": "consent",
@@ -733,7 +781,8 @@
    "sensitive": false,
    "vehicle": false,
    "hint": "",
-   "datalist": ""
+   "datalist": "",
+   "repForm": true
   }
  ],
  "options": {
@@ -903,6 +952,13 @@
    "ur": "گاڑی اور تصاویر (اگر ہو)",
    "bn": "যানবাহন ও ছবি (থাকলে)",
    "hi": "वाहन और फोटो (यदि हो)"
+  },
+  "identity": {
+   "ar": "الهوية والإقامة",
+   "en": "ID & residence",
+   "ur": "شناخت اور اقامہ",
+   "bn": "পরিচয় ও ইকামা",
+   "hi": "पहचान और इक़ामा"
   },
   "rep": {
    "ar": "بيانات المندوب (للمناديب فقط)",

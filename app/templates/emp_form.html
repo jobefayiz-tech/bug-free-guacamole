@@ -21,6 +21,7 @@
   {% set mine = fs|selectattr('owner', 'equalto', 'employee')|list %}
   {% set hr = fs|selectattr('owner', 'equalto', 'hr')|list %}
   {% set grp = SECTION_GROUP.get(key, '') %}
+  {% if grp == 'employee' and emp.is_rep %}{% set grp = 'identity' %}{% endif %}
   {% if grp and grp != seen.group %}
   <h2 class="part">{{ tr.group(grp) }}</h2>
   {% if grp == 'vehicle' %}<div class="note">{{ tr.t('vehicle_note') }}</div>{% endif %}

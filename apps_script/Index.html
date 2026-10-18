@@ -169,8 +169,9 @@ function makeLogic_(CONFIG) {
     return !!f.required;
   }
 
+  // what the person is asked for: a rep gets the short representative form, anyone else the employee form
   function fieldsFor(isRep) {
-    return FIELDS.filter(function (f) { return isRep || !f.repOnly; });
+    return FIELDS.filter(function (f) { return isRep ? f.repForm : !f.repOnly; });
   }
 
   // keys of required fields still empty; photos is an object {key: truthy}
@@ -393,6 +394,7 @@ if (typeof module !== 'undefined') { module.exports = {makeLogic_: makeLogic_}; 
       var mine = fs.filter(function (f) { return f.owner === 'employee'; });
       var hr = fs.filter(function (f) { return f.owner === 'hr'; });
       var grp = CONFIG.sectionGroup[sec[0]] || '';
+      if (grp === 'employee' && e.isRep) grp = 'identity';
       if ((mine.length || hr.length) && grp && grp !== lastGroup) {
         form.appendChild(el('h2', {class: 'part', text: groupTitle(grp)}));
         if (grp === 'vehicle') form.appendChild(el('div', {class: 'note', text: t('vehicle_note')}));

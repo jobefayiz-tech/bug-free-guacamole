@@ -36,6 +36,7 @@ def config():
         "key": f.key, "label": f.label, "xlsx": f.xlsx, "section": f.section, "kind": f.kind, "required": f.required,
         "options": f.options, "owner": f.owner, "repOnly": f.rep_only, "sensitive": f.sensitive,
         "vehicle": f.vehicle, "hint": f.hint, "datalist": f.datalist,
+        "repForm": f.rep_only or f.key in F.REP_FORM_KEYS,
     } for f in F.FIELDS]
     hints = {}
     for f in F.FIELDS:

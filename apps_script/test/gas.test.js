@@ -469,6 +469,25 @@ test('a non-rep employee can declare a vehicle, give the licence type and upload
   assert.deepEqual(env.call('apiSave', tok, ses, Object.assign({}, base, {vehicle_type: 'بدون مركبة'}), 'submit').errors, {});
 });
 
+test('the representative form is the short one: only identity, vehicle, photos and the app are asked and saved', () => {
+  const env = setupWith([['R1', {}, REP], ['E2', {id_number: '1222222222', mobile: '0577777777'}]]);
+  const r1 = login(env, 'R1');
+  const rep = env.call('apiLoad', r1.tok, r1.ses);
+  const asked = (isRep) => CONFIG.fields.filter((f) => (isRep ? f.repForm : !f.repOnly)).map((f) => f.key);
+  ['city', 'emergency_name', 'emergency_phone', 'bank_name', 'iban', 'birth_date', 'gender', 'education', 'email', 'passport_no'].forEach((k) => {
+    assert.ok(!asked(true).includes(k), k + ' is not in the rep form');
+    assert.ok(asked(false).includes(k), k + ' is in the employee form');
+  });
+  ['id_number', 'id_expiry', 'iqama_profession', 'vehicle_type', 'license_type', 'plate_no', 'photo_odometer', 'app_name', 'app_id'].forEach((k) => assert.ok(asked(true).includes(k), k));
+  // employee-only fields are neither required of a rep nor writable by one
+  ['city', 'gender', 'emergency_name', 'birth_date'].forEach((k) => assert.ok(!rep.todo.includes(k), k));
+  const {tok, ses} = r1;
+  const r = env.call('apiSave', tok, ses, Object.assign({}, REP_FORM, {city: 'SHOULD-NOT-BE-SAVED', gender: 'أنثى'}), 'draft');
+  assert.equal(r.ok, true);
+  assert.notEqual(cell(env, 'الموظفون', 2, 'المدينة'), 'SHOULD-NOT-BE-SAVED');
+  assert.notEqual(cell(env, 'الموظفون', 2, 'الجنس'), 'أنثى');
+});
+
 test('a rep must answer the vehicle question (the answer may be: no vehicle)', () => {
   const env = setupWith([['R1', {}, REP]]);
   const {tok, ses} = login(env, 'R1');

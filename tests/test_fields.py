@@ -77,6 +77,19 @@ def test_motorcycle_riders_and_licence_type():
             assert k in keys
 
 
+def test_representative_form_is_the_short_one():
+    from app.fields import fields_for
+    rep = {f.key for f in fields_for(True)}
+    staff = {f.key for f in fields_for(False)}
+    full = {f.key for f in fields_for(True, full=True)}
+    for k in ("id_number", "id_expiry", "iqama_profession", "vehicle_type", "plate_no", "photo_odometer", "app_name", "app_id"):
+        assert k in rep, k
+    for k in ("city", "emergency_name", "emergency_phone", "bank_name", "iban", "birth_date", "gender", "email", "passport_no"):
+        assert k not in rep and k in staff and k in full, k       # employee file only; HR still sees all of it for a rep
+    assert "app_name" not in staff                                   # rep-only fields never reach staff
+    assert "city" not in missing({}, {}, True)                       # and a rep is never asked for them
+
+
 def test_template_matches_fields():
     """tools/make_template.py and app/fields.py must describe the same columns and lists."""
     ns = {"__file__": os.path.join(ROOT, "tools", "make_template.py")}
