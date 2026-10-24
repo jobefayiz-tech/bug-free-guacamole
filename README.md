@@ -6,7 +6,7 @@
 
 ### المتطلبات
 1. **Python 3.8+** من https://www.python.org (على ويندوز فعّل خيار *Add Python to PATH* عند التثبيت).
-2. **ffmpeg**، بإحدى الطريقتين:
+2. **ffmpeg**. إن لم يكن مثبّتًا فالنافذة تسألك عند أول ضغط: *هل تريد تثبيته تلقائيًا؟* اضغط نعم (تحميل نحو 30MB). أو ثبّته بنفسك بإحدى الطريقتين:
    - `pip install imageio-ffmpeg` (الأسهل: يجلب ffmpeg تلقائيًا)
    - أو تثبيته يدويًا: `brew install ffmpeg` (ماك) / `sudo apt install ffmpeg` (لينكس) / `winget install ffmpeg` (ويندوز)
 

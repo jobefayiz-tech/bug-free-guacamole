@@ -11,6 +11,7 @@ duration and the size you ask for, so the output lands just under the limit.
 ffmpeg is taken from PATH, or from `pip install imageio-ffmpeg` if missing.
 """
 import argparse
+import importlib
 import os
 import re
 import shutil
@@ -33,6 +34,10 @@ class CompressError(Exception):
     pass
 
 
+class FfmpegMissing(CompressError):
+    pass
+
+
 def find_ffmpeg():
     exe = shutil.which("ffmpeg")
     if exe:
@@ -41,10 +46,21 @@ def find_ffmpeg():
         import imageio_ffmpeg
         return imageio_ffmpeg.get_ffmpeg_exe()
     except ImportError:
-        raise CompressError(
+        raise FfmpegMissing(
             "ffmpeg not found. Install it from https://ffmpeg.org "
             "or run: pip install imageio-ffmpeg"
         )
+
+
+def install_ffmpeg():
+    """pip-install a bundled ffmpeg (imageio-ffmpeg) into the running Python."""
+    r = subprocess.run(
+        [sys.executable, "-m", "pip", "install", "imageio-ffmpeg"],
+        capture_output=True, text=True, errors="replace",
+    )
+    if r.returncode:
+        raise CompressError("could not install imageio-ffmpeg:\n" + r.stderr[-500:])
+    importlib.invalidate_caches()
 
 
 def probe(ffmpeg, path):
@@ -177,6 +193,7 @@ def run_gui():
     root.resizable(False, False)
     path_var, size_var, status_var = tk.StringVar(), tk.StringVar(value="30"), tk.StringVar()
     events = queue.Queue()
+    job = []   # (source, target MB) of the running job, kept to retry after installing ffmpeg
 
     def browse():
         p = filedialog.askopenfilename(
@@ -186,15 +203,25 @@ def run_gui():
         if p:
             path_var.set(p)
 
-    def work(src, mb):
+    def work(src, mb, retried=False):
         try:
             dst, size = compress(src, target_mb=mb,
                                  on_progress=lambda f: events.put(("progress", f)))
             events.put(("done", f"تم / Done: {dst}  ({size / MB:.1f} MB)"))
+        except FfmpegMissing as e:
+            events.put(("error" if retried else "no_ffmpeg", str(e)))
         except CompressError as e:
             events.put(("error", str(e)))
         except Exception as e:  # keep the window alive on unexpected failures
             events.put(("error", f"{type(e).__name__}: {e}"))
+
+    def install_and_retry():
+        try:
+            install_ffmpeg()
+        except CompressError as e:
+            return events.put(("error", str(e)))
+        events.put(("status", "جاري الضغط... / Compressing..."))
+        work(*job, retried=True)
 
     def start():
         src = path_var.get().strip()
@@ -207,6 +234,7 @@ def run_gui():
         button.config(state="disabled")
         bar["value"] = 0
         status_var.set("جاري الضغط... / Compressing...")
+        job[:] = [src, mb]
         threading.Thread(target=work, args=(src, mb), daemon=True).start()
 
     def poll():
@@ -215,6 +243,17 @@ def run_gui():
                 kind, value = events.get_nowait()
                 if kind == "progress":
                     bar["value"] = value * 100
+                    continue
+                if kind == "status":
+                    status_var.set(value)
+                    continue
+                if kind == "no_ffmpeg" and messagebox.askyesno(
+                    "ffmpeg",
+                    "برنامج ffmpeg غير مثبّت. هل تريد تثبيته تلقائيًا؟ (حوالي 30MB، يحتاج إنترنت)\n"
+                    "ffmpeg is missing. Install it automatically? (about 30 MB download)",
+                ):
+                    status_var.set("جاري تثبيت ffmpeg... / Installing ffmpeg...")
+                    threading.Thread(target=install_and_retry, daemon=True).start()
                     continue
                 button.config(state="normal")
                 if kind == "done":
