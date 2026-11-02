@@ -54,7 +54,7 @@ def test_klines_paging(monkeypatch):
 def test_paper_trader_persists_and_respects_minimum(tmp_path):
     frames = {s: synthetic(600, seed=i) for i, s in enumerate(["BTCUSDT", "ETHUSDT"])}
     kw = dict(state=str(tmp_path / "s.json"), journal=str(tmp_path / "j.csv"),
-              fetch=lambda sym, itv, n: frames[sym])
+              fetch=lambda sym, itv, n: frames[sym], max_age_days=None, trades_csv=str(tmp_path / "t.csv"))
     t = PaperTrader(["BTCUSDT", "ETHUSDT"], cash=20.0, **kw)
     r = t.step()
     assert r["equity"] > 0 and len(r["table"]) == 2
@@ -63,7 +63,8 @@ def test_paper_trader_persists_and_respects_minimum(tmp_path):
     assert t2.s["cash"] == pytest.approx(saved["cash"])
     assert (tmp_path / "j.csv").exists()
     tiny = PaperTrader(["BTCUSDT"], cash=2.0, state=str(tmp_path / "t.json"),
-                       journal=str(tmp_path / "tj.csv"), fetch=lambda s, i, n: frames[s])
+                       journal=str(tmp_path / "tj.csv"), fetch=lambda s, i, n: frames[s],
+                       max_age_days=None, trades_csv=str(tmp_path / "tt.csv"))
     assert not tiny.step()["positions"]                         # 2 USDT can never meet the 5 USDT minimum
 
 
@@ -104,3 +105,33 @@ def test_rank_modes():
     dfs = {s: synthetic(2500, seed=i) for i, s in enumerate(["BTCUSDT", "A", "B"])}
     for rk in ("conviction", "per_risk"):
         assert run_backtest(dfs, cash=1000.0, rank=rk)["final_cash"] > 0
+
+
+def test_paper_trader_data_kill_switch_and_daily_loss(tmp_path):
+    frames = {s: synthetic(600, seed=i) for i, s in enumerate(["BTCUSDT", "ETHUSDT"])}
+    base = dict(state=str(tmp_path / "s.json"), journal=str(tmp_path / "j.csv"),
+                trades_csv=str(tmp_path / "t.csv"), max_age_days=None)
+
+    def broken(sym, itv, n):                       # BTC feed down
+        if sym == "BTCUSDT":
+            raise RuntimeError("network down")
+        return frames[sym]
+    r = PaperTrader(["ETHUSDT"], cash=1000.0, fetch=broken, **base).step()
+    assert any("KILL SWITCH" in e for e in r["events"]) and r["halted"] and not r["positions"]
+    # stale data is rejected when the freshness check is on
+    r = PaperTrader(["ETHUSDT"], cash=1000.0, fetch=lambda s, i, n: frames[s],
+                    **{**base, "state": str(tmp_path / "s2.json"), "max_age_days": 2}).step()
+    assert any("stale" in e for e in r["events"]) and r["halted"]
+    # a bad day blocks new entries
+    t = PaperTrader(["ETHUSDT"], cash=1000.0, fetch=lambda s, i, n: frames[s],
+                    **{**base, "state": str(tmp_path / "s3.json")})
+    day = str(frames["BTCUSDT"].index[-1].date())
+    t.s["day"], t.s["day_start"] = day, 1100.0     # started the day at 1100, now 1000 (-9%)
+    r = t.step()
+    assert r["halted"] and any("lost more than" in e for e in r["events"])
+
+
+def test_trade_stats_present():
+    dfs = {s: synthetic(2500, seed=i) for i, s in enumerate(["BTCUSDT", "A"])}
+    ts = run_backtest(dfs, cash=1000.0)["trade_stats"]
+    assert set(ts) >= {"avg_win", "avg_loss", "payoff_ratio", "profit_factor", "expectancy_pct", "biggest_loss"}

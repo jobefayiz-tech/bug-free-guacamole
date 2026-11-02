@@ -102,6 +102,15 @@ def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=
     bench = F[bench_s]["close"].loc[ix].pct_change().fillna(0)
     equal = pd.concat([F[s]["close"].loc[ix].pct_change().fillna(0) for s in syms], axis=1).mean(axis=1)
     pnl = np.array([t[1] for t in trades])
+    notional = np.array([t[2] for t in trades])
+    wins, losses = pnl[pnl > 0], pnl[pnl <= 0]
+    trade_stats = {
+        "avg_win": float(wins.mean()) if len(wins) else 0.0,
+        "avg_loss": float(losses.mean()) if len(losses) else 0.0,
+        "payoff_ratio": float(wins.mean() / abs(losses.mean())) if len(wins) and len(losses) and losses.mean() != 0 else 0.0,
+        "profit_factor": float(wins.sum() / abs(losses.sum())) if len(losses) and losses.sum() != 0 else 0.0,
+        "expectancy_pct": float(np.mean(pnl / np.maximum(notional, 1e-9))) if len(pnl) else 0.0,
+        "biggest_loss": float(pnl.min()) if len(pnl) else 0.0}
     yearly = {int(y): {"team": float((1 + strat[g.index]).prod() - 1),
                        bench_s: float((1 + bench[g.index]).prod() - 1)}
               for y, g in strat.groupby(ix.year)}
@@ -110,5 +119,5 @@ def run_backtest(dfs, market="BTCUSDT", cash=20.0, fee=0.001, slip=0.0005, risk=
             f"{bench_s} buy&hold": stats(bench), "equal-weight buy&hold": stats(equal),
             "trades": len(pnl), "win_rate": float((pnl > 0).mean()) if len(pnl) else 0.0,
             "avg_exposure": float(np.mean(exposure)), "max_open": max_open, "orders_too_small": small,
-            "vetoes": vetoes, "yearly": yearly, "bench": bench_s,
+            "vetoes": vetoes, "trade_stats": trade_stats, "yearly": yearly, "bench": bench_s,
             "pnl_by_symbol": {s: round(float(sum(t[1] for t in trades if t[0] == s)), 4) for s in syms}}

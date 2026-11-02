@@ -97,6 +97,9 @@ def main():
                 print(f"{k:26s}{pct(v['total_return'])}{pct(v['cagr'])}{v['sharpe']:>8.2f}{pct(v['max_drawdown'])}")
             print(f"trades {r['trades']} | win rate {r['win_rate']:.0%} | avg exposure {r['avg_exposure']:.0%} "
                   f"| orders too small for Binance minimum: {r['orders_too_small']}")
+            ts = r["trade_stats"]
+            print(f"per trade: avg win {ts['avg_win']:+.2f} | avg loss {ts['avg_loss']:+.2f} | payoff ratio {ts['payoff_ratio']:.2f} "
+                  f"| profit factor {ts['profit_factor']:.2f} | expectancy {ts['expectancy_pct']:+.2%} per trade | worst trade {ts['biggest_loss']:+.2f}")
             if cash == 1000.0:
                 print("ranking when slots are limited (max 5 open):")
                 for rk in ("conviction", "per_risk"):
